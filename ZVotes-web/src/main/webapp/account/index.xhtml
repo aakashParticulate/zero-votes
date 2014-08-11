@@ -5,9 +5,9 @@
 				xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 				xmlns:f="http://xmlns.jcp.org/jsf/core"
                                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <ui:param name="title" value="#{msg.Welcome}"/>
-    <ui:param name="navIndex" value="active"/>
+    <ui:param name="title" value="#{msg.Account}"/>
+    <ui:param name="navAccount" value="active"/>
     <ui:define name="content">
-        Hello from Facelets
+        Hello #{loginBean.user.username}!
     </ui:define>
 </ui:composition>
