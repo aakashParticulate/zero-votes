@@ -12,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content=""/>
         <meta name="author" content="Zero Group - JavaEE Course 2014"/>
-        <title><h:outputText value="ZeroVotes! - #{title}"/></title>
+        <title><h:outputText value="#{msg.ZeroVotes} - #{title}"/></title>
         <h:outputStylesheet library="css" name="zvotes.min.css"></h:outputStylesheet>
         <link href="#{resource['ico:favicon.ico']}" rel="shortcut icon"/>
         <link href="#{resource['ico:favicon-152.png']}" rel="apple-touch-icon-precomposed" sizes="152x152"/>
@@ -22,7 +22,6 @@
         <link href="#{resource['ico:favicon-72.png']}" rel="apple-touch-icon-precomposed" sizes="72x72"/>
         <link href="#{resource['ico:favicon-57.png']}" rel="apple-touch-icon-precomposed" sizes="57x57"/>
         <ui:insert name="additional-headers"/>
-        <f:view locale="de"/>
     </h:head>
 
     <h:body>
