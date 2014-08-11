@@ -75,12 +75,10 @@
                     <div class="pull-left">&copy; Zero Group, 2014</div>
                     <div class="pull-right">
                         <h:form>
-                            <div class="form-group">
-                                <h:selectOneMenu value="#{language.localeCode}" onchange="submit()" styleClass="form-control"
-                                        valueChangeListener="#{language.countryLocaleCodeChanged}">
-                                        <f:selectItems value="#{language.countriesInMap}" /> 
-                                </h:selectOneMenu>
-                            </div>
+                            <h:selectOneMenu value="#{language.localeCode}" onchange="submit()" styleClass="form-control"
+                                    valueChangeListener="#{language.countryLocaleCodeChanged}">
+                                    <f:selectItems value="#{language.countriesInMap}" /> 
+                            </h:selectOneMenu>
                         </h:form>
                     </div>
                 </div>
