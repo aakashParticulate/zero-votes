@@ -50,6 +50,7 @@ public class Poll implements Serializable {
     @OrderBy("username ASC")
     @ElementCollection
     private Set<Organizer> organizers;
+    
     @OneToMany(mappedBy="poll", cascade=CascadeType.REMOVE)
     @OrderBy("title ASC")
     @ElementCollection
