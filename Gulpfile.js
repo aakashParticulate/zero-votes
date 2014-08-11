@@ -32,7 +32,7 @@ var paths = {
     static_fonts: [
         './_resources/vendors/font-awesome/fonts/*'
     ],
-    build: './ZVotes-web/src/main/webapp/'
+    build: './ZVotes-web/src/main/resources/'
 };
 
 var bannerScripts = [
@@ -60,7 +60,7 @@ gulp.task('scripts', function() {
         .pipe(concat('zvotes.min.js'))
         .pipe(uglify())
         .pipe(header(bannerScripts, {pkg: pkg, currentYear: currentYear}))
-        .pipe(gulp.dest(paths.build));
+        .pipe(gulp.dest(paths.build + 'js/'));
 });
 
 gulp.task('styles', function() {
@@ -70,7 +70,7 @@ gulp.task('styles', function() {
         .pipe(minifyCss({keepSpecialComments: 0}))
         .pipe(header(bannerStyles, {pkg: pkg, currentYear: currentYear}))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(paths.build));
+        .pipe(gulp.dest(paths.build + 'css/'));
 });
 
 gulp.task('staticsGeneral', function() {
