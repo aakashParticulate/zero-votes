@@ -26,13 +26,10 @@ var paths = {
     statics: [
         './_resources/statics/**/*'
     ],
-    static_favicon: [
-        './_resources/statics/favicon.ico'
-    ],
     static_fonts: [
         './_resources/vendors/font-awesome/fonts/*'
     ],
-    build: './ZVotes-web/src/main/resources/'
+    build: './ZVotes-web/src/main/webapp/resources/'
 };
 
 var bannerScripts = [
@@ -88,7 +85,7 @@ gulp.task('staticsFonts', function() {
         .pipe(gulp.dest(paths.build + 'fonts/'))
 });
 
-gulp.task('statics', ['staticsGeneral', 'staticsFavicon', 'staticsFonts']);
+gulp.task('statics', ['staticsGeneral', 'staticsFonts']);
 
 gulp.task('clean', function() {
     return gulp.src(paths.build, {read: false})
