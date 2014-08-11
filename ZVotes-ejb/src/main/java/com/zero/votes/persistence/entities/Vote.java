@@ -20,11 +20,14 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Vote implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @ManyToOne
     private Item item;
+    
     @ManyToOne
     private ItemOption itemOption;
     private boolean abstention;

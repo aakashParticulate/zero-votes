@@ -24,15 +24,18 @@ import javax.persistence.OrderBy;
 @Entity
 public class ItemOption implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String shortName;
     private String description;
+    
     @OneToMany(mappedBy="itemOption")
     @OrderBy("id ASC")
     @ElementCollection
     private Set<Vote> votes;
+    
     @ManyToOne
     @OrderBy("id ASC")
     @ElementCollection

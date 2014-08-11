@@ -25,15 +25,19 @@ import javax.persistence.OrderBy;
 @Entity
 public class Participant implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String email;
     private boolean hasVoted;
+    
     @ManyToOne
     private Poll poll;
+    
     @OneToOne
     private Token token;
+    
     @ManyToMany(mappedBy="participants")
     @OrderBy("name ASC")
     @ElementCollection

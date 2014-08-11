@@ -25,20 +25,25 @@ import javax.persistence.OrderBy;
 @Entity
 public class Organizer implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @Column(unique=true)
     private String username;
     private String forename;
     private String surname;
+    
     @Column(unique=true)
     private String email;
     private String encryptedPassword;
+    
     @ManyToMany(mappedBy="organizers")
     @OrderBy("title ASC")
     @ElementCollection
     private Set<Poll> polls;
+    
     @OneToMany(mappedBy="participantLists")
     @ElementCollection
     private Set<ParticipantList> participantLists;

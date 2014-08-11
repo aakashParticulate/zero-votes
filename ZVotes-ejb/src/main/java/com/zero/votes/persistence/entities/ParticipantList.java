@@ -28,14 +28,18 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"name", "organizer"})})
 public class ParticipantList implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @Column(name="name")
     private String name;
+    
     @ManyToMany(mappedBy="participantLists")
     @ElementCollection
     private Set<Participant> participants;
+    
     @JoinColumn(name="organizer")
     @ManyToOne
     private Organizer organizer;

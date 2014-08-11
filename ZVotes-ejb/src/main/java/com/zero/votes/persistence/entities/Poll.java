@@ -29,18 +29,23 @@ import javax.persistence.TemporalType;
 @Entity
 public class Poll implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @Column(unique=true)
     private String title;
     private String description;
     private PollState pollState;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar startDate;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar endDate;
     private boolean participationTracking;
+    
     @ManyToMany(mappedBy="polls")
     @OrderBy("username ASC")
     @ElementCollection
@@ -49,10 +54,12 @@ public class Poll implements Serializable {
     @OrderBy("title ASC")
     @ElementCollection
     private Set<Item> items;
+    
     @OneToMany(mappedBy="poll", cascade=CascadeType.REMOVE)
     @OrderBy("email ASC")
     @ElementCollection
     private Set<Participant> participants;
+    
     @OneToMany(mappedBy="poll", cascade=CascadeType.REMOVE)
     @OrderBy("id ASC")
     @ElementCollection
