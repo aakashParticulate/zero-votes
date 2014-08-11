@@ -72,7 +72,15 @@
             </div>
             <div class="ci-dark-grey">
                 <div class="container">
-                    <p class="text-muted">&copy; Zero Group, 2014</p>
+                    <div class="pull-left"><p>&copy; Zero Group, 2014</p></div>
+                    <div class="pull-right">
+                        <h:form><p>
+                            <h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+                                    valueChangeListener="#{language.countryLocaleCodeChanged}">
+                                    <f:selectItems value="#{language.countriesInMap}" /> 
+                            </h:selectOneMenu></p>
+                        </h:form>
+                    </div>
                 </div>
             </div>
         </div>
