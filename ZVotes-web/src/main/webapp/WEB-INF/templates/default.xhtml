@@ -38,9 +38,14 @@
                     </h:link>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="#{navAccount}"><h:link value="#{msg.Account}" outcome="/account/index.xhtml"></h:link></li>
-                    </ul>
+                    <h:form>
+                        <ul class="nav navbar-nav">
+                            <li class="#{navAccount}"><h:link value="#{msg.Account}" outcome="/account/index.xhtml"></h:link></li>
+                            <c:if test="#{loginBean.loggedIn}">
+                                <li><h:commandLink action="#{loginBean.doLogout}" value="#{msg.Logout}"/></li>
+                            </c:if>
+                        </ul>
+                    </h:form>
                 </div>
             </div>
         </nav>
@@ -52,6 +57,9 @@
                     </div>
                 </div>
             </div>
+        <div class="hidden">
+            <h:messages globalOnly="true" errorClass="notification-error" infoClass="notification-info" />
+        </div>
         </div>
         <div id="footer">
             <div class="ci-dark-grey">

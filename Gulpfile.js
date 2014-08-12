@@ -18,6 +18,7 @@ var paths = {
         './_resources/vendors/jquery/dist/jquery.js',
         './_resources/vendors/bootstrap/js/transition.js',
         './_resources/vendors/bootstrap/js/collapse.js',
+        './_resources/vendors/toastr/toastr.js',
         './_resources/scripts/main.js'
     ],
     styles: [
