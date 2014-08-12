@@ -20,7 +20,7 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     
     UrlsPy(String url) {
         this.url = url;
-        this.url_prefix = "/faces/";
+        this.url_prefix = "/";
     }
     
     public String getUrl() {

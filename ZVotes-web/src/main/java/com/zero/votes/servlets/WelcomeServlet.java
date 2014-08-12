@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class WelcomeServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    RequestDispatcher request_dispatcher = req.getRequestDispatcher("faces/index.xhtml");
+    RequestDispatcher request_dispatcher = req.getRequestDispatcher("/index.xhtml");
     request_dispatcher.forward(req, resp);
   }
 }
