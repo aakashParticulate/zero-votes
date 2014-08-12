@@ -15,13 +15,13 @@
         <meta name="author" content="Zero Group - JavaEE Course 2014"/>
         <title><h:outputText value="#{msg.ZeroVotes} - #{title}"/></title>
         <h:outputStylesheet library="css" name="zvotes.min.css"></h:outputStylesheet>
-        <link href="#{resource['ico:favicon.ico']}" rel="shortcut icon"/>
-        <link href="#{resource['ico:favicon-152.png']}" rel="apple-touch-icon-precomposed" sizes="152x152"/>
-        <link href="#{resource['ico:favicon-144.png']}" rel="apple-touch-icon-precomposed" sizes="144x144"/>
-        <link href="#{resource['ico:favicon-120.png']}" rel="apple-touch-icon-precomposed" sizes="120x120"/>
-        <link href="#{resource['ico:favicon-114.png']}" rel="apple-touch-icon-precomposed" sizes="114x114"/>
-        <link href="#{resource['ico:favicon-72.png']}" rel="apple-touch-icon-precomposed" sizes="72x72"/>
-        <link href="#{resource['ico:favicon-57.png']}" rel="apple-touch-icon-precomposed" sizes="57x57"/>
+        <link href="#{request.contextPath}/resources/favicon.ico?ln=ico" rel="shortcut icon"/>
+        <link href="#{request.contextPath}/resources/favicon-152.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="152x152"/>
+        <link href="#{request.contextPath}/resources/favicon-144.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="144x144"/>
+        <link href="#{request.contextPath}/resources/favicon-120.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="120x120"/>
+        <link href="#{request.contextPath}/resources/favicon-114.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="114x114"/>
+        <link href="#{request.contextPath}/resources/favicon-72.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="72x72"/>
+        <link href="#{request.contextPath}/resources/favicon-57.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="57x57"/>
         <ui:insert name="additional-headers"/>
     </h:head>
 

@@ -23,7 +23,7 @@ public class RedirectToHttpsFilter implements Filter {
                 String uri = req.getRequestURI();
 		if (!req.isSecure() && (uri.endsWith(".xhtml") || uri.endsWith(".html"))) {
 			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.sendRedirect("https://" + req.getServerName() + ":8181" + uri);
+			resp.sendRedirect("https://" + req.getServerName() + ":8181/ZVotes-web/");
 		} else {
 			chain.doFilter(request, response);
 		}
