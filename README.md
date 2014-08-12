@@ -191,7 +191,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 
     15.1 We are convinced that the storage of encrypted passwords is generally unsafe because if the secret key gets leaked - all passwords can be decrypted so we choose to hash all passes (with a secret hash)
     
-    15.2
+    15.2 We are using the RedirectToHttpsFilter on /*. To include the welcome-file we are using a WelcomeServlet to redirect von / to the actual welcome file.
     
     15.3
 

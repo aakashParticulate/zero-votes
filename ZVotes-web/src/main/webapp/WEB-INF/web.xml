@@ -5,12 +5,16 @@
         <param-value>Development</param-value>
     </context-param>
     <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>com.zero.votes.filters.LoginFilter</filter-class>
+        <filter-name>RedirectToHttpsFilter</filter-name>
+        <filter-class>com.zero.votes.filters.RedirectToHttpsFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
-        <url-pattern>/faces/account/*</url-pattern>
+        <filter-name>RedirectToHttpsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -25,6 +29,14 @@
         <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>welcome</welcome-file>
     </welcome-file-list>
+    <servlet>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <servlet-class>com.zero.votes.servlets.WelcomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WelcomeServlet</servlet-name>
+        <url-pattern>/welcome</url-pattern>
+    </servlet-mapping>
 </web-app>
