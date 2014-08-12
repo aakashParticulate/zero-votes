@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    toastr.options = {
+        "closeButton": true
+    };
+
 	$('.notification-fatal').each(function() {
 		toastr.error($(this).html());
 	});
