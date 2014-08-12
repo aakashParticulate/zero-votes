@@ -18,7 +18,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 ### Glassfish
 
 * Open http://localhost:4848/
-* Konfigurationen -> server-config -> Sicherheit -> Realms
+* Goto: Konfigurationen --> server-config --> Sicherheit --> Realms
 * Create new one with:
     * name: `uniko-ldap-realm`
     * class-name: `com.sun.enterprise.security.auth.realm.ldap.LDAPRealm`
