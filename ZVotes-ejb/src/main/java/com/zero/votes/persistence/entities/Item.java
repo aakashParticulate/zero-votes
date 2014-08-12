@@ -41,7 +41,7 @@ public class Item implements Serializable {
     @ElementCollection
     private Set<Vote> votes;
     
-    @OneToMany(mappedBy="option")
+    @OneToMany(mappedBy="item")
     @OrderBy("shortName ASC")
     @ElementCollection
     private Set<ItemOption> options;

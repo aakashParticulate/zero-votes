@@ -39,7 +39,7 @@ public class ItemOption implements Serializable {
     @ManyToOne
     @OrderBy("id ASC")
     @ElementCollection
-    private Set<Item> items;
+    private Item item;
 
     public Long getId() {
         return id;
@@ -73,12 +73,12 @@ public class ItemOption implements Serializable {
         this.votes = votes;
     }
 
-    public Set<Item> getItems() {
-        return items;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItems(Set<Item> items) {
-        this.items = items;
+    public void setItem(Item item) {
+        this.item = item;
     }
     
     
