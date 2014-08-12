@@ -1,7 +1,7 @@
 package com.zero.votes.persistence.entities;
 
-
 import javax.xml.ws.WebFault;
+
 
 @WebFault
 public class ValidationFault extends Exception {

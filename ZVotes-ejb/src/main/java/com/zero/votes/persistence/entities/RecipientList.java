@@ -11,13 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"name", "organizer"})})
-public class ParticipantList implements Serializable {
+public class RecipientList implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -27,9 +28,10 @@ public class ParticipantList implements Serializable {
     @Column(name="name")
     private String name;
     
-    @ManyToMany(mappedBy="participantLists")
+    @ManyToMany(mappedBy="recipientLists")
     @ElementCollection
-    private Set<Participant> participants;
+    @OrderBy("email ASC")
+    private Set<Recipient> recipients;
     
     @JoinColumn(name="organizer")
     @ManyToOne
@@ -51,12 +53,12 @@ public class ParticipantList implements Serializable {
         this.name = name;
     }
 
-    public Set<Participant> getParticipants() {
-        return participants;
+    public Set<Recipient> getRecipients() {
+        return recipients;
     }
 
-    public void setParticipants(Set<Participant> participants) {
-        this.participants = participants;
+    public void setRecipients(Set<Recipient> recipients) {
+        this.recipients = recipients;
     }
 
     public Organizer getOrganizer() {

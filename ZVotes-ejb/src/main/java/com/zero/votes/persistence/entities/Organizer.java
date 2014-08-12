@@ -37,7 +37,7 @@ public class Organizer implements Serializable {
     
     @OneToMany(mappedBy="participantLists")
     @ElementCollection
-    private Set<ParticipantList> participantLists;
+    private Set<RecipientList> participantLists;
     private boolean admin;
 
     public Long getId() {
@@ -96,11 +96,11 @@ public class Organizer implements Serializable {
         this.polls = polls;
     }
 
-    public Set<ParticipantList> getParticipantLists() {
+    public Set<RecipientList> getParticipantLists() {
         return participantLists;
     }
 
-    public void setParticipantLists(Set<ParticipantList> participantLists) {
+    public void setParticipantLists(Set<RecipientList> participantLists) {
         this.participantLists = participantLists;
     }
 
