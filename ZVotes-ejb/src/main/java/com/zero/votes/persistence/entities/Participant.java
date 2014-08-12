@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
@@ -18,10 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
-/**
- *
- * @author iekadou
- */
+
 @Entity
 public class Participant implements Serializable {
     private static final long serialVersionUID = 1L;
