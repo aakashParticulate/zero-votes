@@ -197,11 +197,11 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 
 16. Internationalization
 
-    16.1
+    16.1 ZVotes-web/src/main/java/com/zero/votes/beans/LanguageBean, Languages are represented in a ResourceBundle in ZVotes-web/src/main/resources/com/zero/votes/Locale_LANGUAGE_CODE in Template activated via: <f:view locale="#{language.localeCode}"/>, plus entries in WEB-INF/faces-config.xml, Internationalized Strings available via #{msg.STRINGNAME}
     
-    16.2
+    16.2 Available in Footer via LanuageBean and Drop-Down to Select.
     
-    16.3
+    16.3 FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
     
     16.4 The language switch is realised with a form select in the footer on the right side which autosubmits itself on selection change.
 

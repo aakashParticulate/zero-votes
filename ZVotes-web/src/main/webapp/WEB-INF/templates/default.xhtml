@@ -68,8 +68,8 @@
                     <div class="pull-right">
                         <h:form>
                             <h:selectOneMenu value="#{language.localeCode}" onchange="submit()" styleClass="form-control"
-                                    valueChangeListener="#{language.countryLocaleCodeChanged}">
-                                    <f:selectItems value="#{language.countriesInMap}" /> 
+                                    valueChangeListener="#{language.localeChanged}">
+                                    <f:selectItems value="#{language.availableLocales}" /> 
                             </h:selectOneMenu>
                         </h:form>
                     </div>
