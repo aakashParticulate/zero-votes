@@ -189,7 +189,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 
 15. Security, encrypted communication
 
-    15.1 We are convinced that the storage of encrypted passwords is generally unsave because if the secret key gets leaked - all passwords can be decrypted so we choose to hash all passes (with a secret hash)
+    15.1 We are convinced that the storage of encrypted passwords is generally unsafe because if the secret key gets leaked - all passwords can be decrypted so we choose to hash all passes (with a secret hash)
     
     15.2
     

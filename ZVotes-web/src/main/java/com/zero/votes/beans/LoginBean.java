@@ -6,12 +6,13 @@
 
 package com.zero.votes.beans;
 
-import java.io.Serializable;
-import java.util.ResourceBundle; 
+import com.zero.votes.utils.Message;
+import java.io.Serializable; 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
  
  
 @ManagedBean
@@ -37,11 +38,7 @@ public class LoginBean implements Serializable {
             }
         }
         
-        FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
-        FacesMessage msg = new FacesMessage(bundle.getString("LoginFailed"));
-        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-        context.addMessage(null, msg);
+        Message.addInternationalizedMessage(FacesMessage.SEVERITY_ERROR, "LoginFailed");
          
         return UrlsPy.LOGIN.getUrl();
          
@@ -51,11 +48,11 @@ public class LoginBean implements Serializable {
         loggedIn = false;
         
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
-        FacesMessage msg = new FacesMessage(bundle.getString("LogoutSuccessful"));
-        msg.setSeverity(FacesMessage.SEVERITY_INFO);
-        context.addMessage(null, msg);
-         
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        session.invalidate();
+        
+        Message.addInternationalizedMessage(FacesMessage.SEVERITY_INFO, "LogoutSuccessful");
+        
         return UrlsPy.LOGIN.getUrl();
     }
 

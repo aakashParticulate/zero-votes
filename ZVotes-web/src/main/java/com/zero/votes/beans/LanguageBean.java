@@ -44,11 +44,9 @@ public class LanguageBean implements Serializable {
     public Locale getCurrentLocale() {
         if (this.currentLocale == null) {
             this.currentLocale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(this.currentLocale);
         }
         if (this.currentLocale == null) {
             this.currentLocale = Locale.GERMAN;
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.GERMAN);
         }
         return this.currentLocale;
     }
