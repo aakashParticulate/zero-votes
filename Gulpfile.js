@@ -19,6 +19,7 @@ var paths = {
         './_resources/vendors/bootstrap/js/transition.js',
         './_resources/vendors/bootstrap/js/collapse.js',
         './_resources/vendors/toastr/toastr.js',
+        './_resources/vendors/highcharts/highcharts.js.js',
         './_resources/scripts/main.js'
     ],
     styles: [
@@ -38,6 +39,8 @@ var bannerScripts = [
     ' * <%= pkg.name %> v<%= pkg.version %> | Copyright (c) <%= currentYear %> <%= pkg.author %> | <%= pkg.homepage %>',
     ' * jQuery JavaScript Library v2.1.1 | Copyright (c) 2005, 2014 jQuery Foundation, Inc. and other contributors | MIT license | http://jquery.com',
     ' * Bootstrap v3.2.0 | Copyright (c) 2011-2014 Twitter, Inc. | MIT license | http://getbootstrap.com',
+    ' * Toastr v2.0.3 | Copyright (c) 2012-2014 John Papa and Hans Fjällemark | MIT license | https://github.com/CodeSeven/toastr',
+    ' * Highcharts v4.0.3 | Copyright (c) 2009-2014 Torstein Honsi | http://www.highcharts.com/license | http://www.highcharts.com',
     ' */',
     ''
 ].join('\n');
@@ -46,8 +49,9 @@ var bannerStyles = [
     '/*!',
     ' * <%= pkg.name %> v<%= pkg.version %> | Copyright (c) 2012-<%= currentYear %> <%= pkg.author %> | <%= pkg.homepage %>',
     ' * normalize.css v3.0.1 | Copyright (c) Nicolas Gallagher and Jonathan Neal | MIT License | http://git.io/normalize',
-    ' * Font Awesome v4.1.0 | by @davegandy | Font: SIL OFL 1.1, CSS: MIT License | http://fontawesome.io',
     ' * Bootstrap v3.2.0 | Copyright (c) 2011-2014 Twitter, Inc. | MIT license | http://getbootstrap.com',
+    ' * Font Awesome v4.1.0 | by @davegandy | Font: SIL OFL 1.1, CSS: MIT License | http://fontawesome.io',
+    ' * Toastr v2.0.3 | Copyright (c) 2012-2014 John Papa and Hans Fjällemark | MIT license | https://github.com/CodeSeven/toastr',
     ' */',
     ''
 ].join('\n');
