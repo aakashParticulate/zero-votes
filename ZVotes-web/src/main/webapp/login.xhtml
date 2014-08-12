@@ -11,23 +11,25 @@
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
                 <h3>#{msg.Login}</h3>
-                <h:form id="login-form" styleClass="form-horizontal">
+                <form id="login-form" class="form-horizontal" action="j_security_check" method="post" name="loginForm">
                     <div class="form-group row">
-                        <label for="username" class="col-sm-4 control-label"><h:outputText value="#{msg.Username}:"/></label>
-                        <div class="col-sm-8"><h:inputText class="form-control" value="#{loginBean.username}" id="username"/></div>
+                        <h:outputLabel for="j_username" class="col-sm-4 control-label" value="#{msg.Username}:"></h:outputLabel>
+                        <div class="col-sm-8">
+                            <input class="form-control" placeholder="(Uni-Kennung)" autofocus="true" type="text" id="j_username" name="j_username" autocomplete="off"></input>
+                        </div>
                     </div>
                     <div class="form-group row">
-                        <label for="password" class="col-sm-4 control-label"><h:outputText value="#{msg.Password}:"/></label>
+                        <h:outputLabel for="j_password" class="col-sm-4 control-label" value="#{msg.Password}:"></h:outputLabel>
                         <div class="col-sm-8">
-                            <h:inputSecret class="form-control" value="#{loginBean.password}" id="password"/>
+                            <input class="form-control" type="password" placeholder="(Uni-Passwort)" id="j_password" name="j_password" autocomplete="off"></input>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-offset-4 col-sm-8">
-                            <h:commandButton id="button" value="#{msg.Login}" styleClass="btn btn-primary" action="#{loginBean.doLogin}"/>
+                            <button class="btn btn-success" type="submit"><i class="icon-ok icon-white"></i> Login</button>
                         </div>
                     </div>
-                </h:form>
+                </form>
             </div>
         </div>
     </ui:define>
