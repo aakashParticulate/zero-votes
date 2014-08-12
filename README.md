@@ -15,6 +15,23 @@ CREATE DATABASE zvotes_db_name;
 GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     ```
 
+### Glassfish
+
+* Open http://localhost:4848/
+* Konfigurationen -> server-config -> Sicherheit -> Realms
+* Create new one with:
+    * name: `uniko-ldap-realm`
+    * class-name: `com.sun.enterprise.security.auth.realm.ldap.LDAPRealm`
+    * JAAS-Kontext: `ldapRealm`
+    * Verzeichnis: `ldaps://ldap.uni-koblenz.de`
+    * Basis-DN: `dc=uni-koblenz-landau,dc=de`
+    * Gruppen zuweisen: `VALIDUSER`
+* Add some additional Attributes:
+    * search-filter: `(uid=%s)`
+    * group-search-filter: `(member=%d)`
+    * group-base-dn: `dc=uni-koblenz-landau,dc=de`
+
+
 ## Fulfilled Specifications
 
 1. __Polls__
