@@ -17,7 +17,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 
 ## Fulfilled Specifications
 
-1. Polls
+1. __Polls__
 
     1.1
     
@@ -31,7 +31,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     1.6
 
-2. Poll states
+2. __Poll states__
 
     2.1
     
@@ -39,7 +39,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     2.3
 
-3. Organizers
+3. __Organizers__
 
     3.1
     
@@ -55,7 +55,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     3.5
 
-4. Administrators
+4. __Administrators__
 
     4.1
     
@@ -65,7 +65,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     4.4
 
-5. Participants
+5. __Participants__
 
     5.1
     
@@ -79,7 +79,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     5.6
 
-6. Participant lists
+6. __Participant lists__
 
     6.1
     
@@ -91,7 +91,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
         
         6.3.2
 
-7. Tokens
+7. __Tokens__
 
     7.1
     
@@ -99,7 +99,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     7.3
 
-8. Anonymity
+8. __Anonymity__
 
     8.1
     
@@ -107,13 +107,13 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     8.3
 
-9. Participation tracking
+9. __Participation tracking__
 
     9.1
     
     9.2
 
-10. Submitting a vote
+10. __Submitting a vote__
 
     10.1
     
@@ -135,13 +135,13 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     10.10
 
-11. Abstain from voting
+11. __Abstain from voting__
 
     11.1
     
     11.2
 
-12. Types of items
+12. __Types of items__
 
     12.1
     
@@ -159,7 +159,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     12.8
 
-13. Results
+13. __Results__
 
     13.1
     
@@ -173,7 +173,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     13.6
 
-14. User interface
+14. __User interface__
 
     14.1
     
@@ -187,7 +187,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     14.6
 
-15. Security, encrypted communication
+15. __Security, encrypted communication__
 
     15.1 We are convinced that the storage of encrypted passwords is generally unsafe because if the secret key gets leaked - all passwords can be decrypted so we choose to hash all passes (with a secret hash)
     
@@ -195,7 +195,7 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     15.3
 
-16. Internationalization
+16. __Internationalization__
 
     16.1 ZVotes-web/src/main/java/com/zero/votes/beans/LanguageBean, Languages are represented in a ResourceBundle in ZVotes-web/src/main/resources/com/zero/votes/Locale_LANGUAGE_CODE in Template activated via: <f:view locale="#{language.localeCode}"/>, plus entries in WEB-INF/faces-config.xml, Internationalized Strings available via #{msg.STRINGNAME}
     
@@ -205,6 +205,6 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     
     16.4 The language switch is realised with a form select in the footer on the right side which autosubmits itself on selection change.
 
-17. Browser support
+17. __Browser support__
 
     17.1
