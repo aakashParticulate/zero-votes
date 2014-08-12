@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -32,7 +33,40 @@ public class Recipient implements Serializable {
     
     @ManyToMany(mappedBy="recipients")
     @ElementCollection
+    @OrderBy("name ASC")
     private Set<RecipientList> recipientLists;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Organizer getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
+    }
+
+    public Set<RecipientList> getRecipientLists() {
+        return recipientLists;
+    }
+
+    public void setRecipientLists(Set<RecipientList> recipientLists) {
+        this.recipientLists = recipientLists;
+    }
     
     
 }
