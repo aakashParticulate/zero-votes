@@ -28,8 +28,6 @@ public class ItemOption implements Serializable {
     private Set<Vote> votes;
     
     @ManyToOne
-    @OrderBy("id ASC")
-    @ElementCollection
     private Item item;
 
     public Long getId() {
