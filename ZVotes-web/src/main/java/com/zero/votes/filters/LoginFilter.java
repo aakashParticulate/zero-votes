@@ -18,12 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
  
 import com.zero.votes.beans.LoginBean;
+import com.zero.votes.beans.UrlsPy;
 
 
 public class LoginFilter implements Filter {
  
-    
-    private final String login_url = "/faces/login.xhtml";
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // Get the loginBean from session attribute
         LoginBean loginBean = (LoginBean)((HttpServletRequest)request).getSession().getAttribute("loginBean");
@@ -32,7 +31,7 @@ public class LoginFilter implements Filter {
         // For other requests loginBean is present but we need to check if user has logged in successfully
         if (loginBean == null || !loginBean.isLoggedIn()) {
             String contextPath = ((HttpServletRequest)request).getContextPath();
-            ((HttpServletResponse)response).sendRedirect(contextPath + login_url);
+            ((HttpServletResponse)response).sendRedirect(contextPath + UrlsPy.LOGIN.getUrl());
         }
          
         chain.doFilter(request, response);

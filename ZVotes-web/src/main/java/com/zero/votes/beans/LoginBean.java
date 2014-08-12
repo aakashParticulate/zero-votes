@@ -24,8 +24,6 @@ public class LoginBean implements Serializable {
     
     private String username;
     private String password;
-    private final String login_url = "/faces/login.xhtml";
-    private final String account_url = "/faces/account/index.xhtml";
     private boolean loggedIn;
  
     public String doLogin() {
@@ -35,7 +33,7 @@ public class LoginBean implements Serializable {
              
             if (dbUsername.equals(username) && dbPassword.equals(password)) {
                 loggedIn = true;
-                return account_url;
+                return UrlsPy.ACCOUNT.getUrl(true);
             }
         }
         
@@ -45,7 +43,7 @@ public class LoginBean implements Serializable {
         msg.setSeverity(FacesMessage.SEVERITY_ERROR);
         context.addMessage(null, msg);
          
-        return login_url;
+        return UrlsPy.LOGIN.getUrl();
          
     }
 
@@ -58,7 +56,7 @@ public class LoginBean implements Serializable {
         msg.setSeverity(FacesMessage.SEVERITY_INFO);
         context.addMessage(null, msg);
          
-        return login_url;
+        return UrlsPy.LOGIN.getUrl();
     }
  
 
