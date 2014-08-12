@@ -34,8 +34,7 @@ public class LoginFilter implements Filter {
             ((HttpServletResponse)response).sendRedirect(contextPath + UrlsPy.LOGIN.getUrl());
         }
          
-        chain.doFilter(request, response);
-             
+        chain.doFilter(request, response);  
     }
  
     public void init(FilterConfig config) throws ServletException {

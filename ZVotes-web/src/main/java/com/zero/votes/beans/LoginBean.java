@@ -58,7 +58,6 @@ public class LoginBean implements Serializable {
          
         return UrlsPy.LOGIN.getUrl();
     }
- 
 
     public String getUsername() {
         return username;
