@@ -62,7 +62,7 @@
     <security-constraint>
         <display-name>Valid Users Access</display-name>
         <web-resource-collection>
-            <web-resource-name>Teams Application Pages</web-resource-name>
+            <web-resource-name>Zero Votes Account Area</web-resource-name>
             <description/>
             <url-pattern>/account/*</url-pattern>
         </web-resource-collection>
