@@ -7,7 +7,6 @@ import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
-import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -100,10 +99,10 @@ public class PollController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PollUpdated"));
+            ZVotesUtils.addInternationalizedInfoMessage("PollUpdated");
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
@@ -133,9 +132,9 @@ public class PollController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PollDeleted"));
+            ZVotesUtils.addInternationalizedInfoMessage("PollDeleted");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
         }
     }
 
