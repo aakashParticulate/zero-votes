@@ -85,6 +85,10 @@ public class Poll implements Serializable {
         }
     }
 
+    public Calendar getEndDate() {
+        return this.endDate;
+    }
+
     public void setEndDate(Calendar endDate) {
         if (!this.isPollFinished()) {
             this.endDate = endDate;

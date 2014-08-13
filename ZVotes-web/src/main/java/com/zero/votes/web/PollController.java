@@ -83,7 +83,7 @@ public class PollController implements Serializable {
         try {
             getFacade().create(current);
             ZVotesUtils.addInternationalizedInfoMessage("PollCreated");
-            return prepareCreate();
+            return prepareList();
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;

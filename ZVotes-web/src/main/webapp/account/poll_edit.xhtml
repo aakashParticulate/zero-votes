@@ -5,11 +5,11 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <ui:param name="title" value="#{msg.CreatePoll}"/>
+    <ui:param name="title" value="#{msg.EditPoll}"/>
     <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">
         <h1 class="page-header">
-            <h:outputText value="#{msg.CreatePoll}"></h:outputText>
+            <h:outputText value="#{msg.EditPoll}"></h:outputText>
         </h1>
         <h:form styleClass="form-horizontal" role="form">
             <div class="form-group">
@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <h:commandLink action="#{pollController.create}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
+                    <h:commandLink action="#{pollController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
                     <h:outputText value="&#160;" />
                     <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.PollShowAll}</h:commandLink>
                 </div>
