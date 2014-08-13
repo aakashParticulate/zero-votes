@@ -1,6 +1,8 @@
 package com.zero.votes.persistence.entities;
 
+import com.zero.votes.ldap.LdapUser;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -39,6 +41,11 @@ public class Organizer implements Serializable {
     @ElementCollection
     private Set<RecipientList> participantLists;
     private boolean admin;
+
+    public Organizer() {
+            polls = new HashSet<>();
+            participantLists = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -112,6 +119,14 @@ public class Organizer implements Serializable {
         this.admin = admin;
     }
     
-    
+    public LdapUser createLdapUser() {
+            LdapUser to = new LdapUser();
+            to.setId(getId());
+            to.setName(getUsername());
+            to.setFirstName(getForename());
+            to.setLastName(getSurname());
+            to.setEmail(getEmail());
+            return to;
+    }
 
 }

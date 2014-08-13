@@ -29,4 +29,8 @@ public class OrganizerFacade extends AbstractFacade<Organizer> {
         super(Organizer.class);
     }
     
+    public Organizer findByUsername(String name) {
+            return findBy("username", name);
+    }
+    
 }

@@ -8,6 +8,11 @@ package com.zero.votes.persistence;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -26,8 +31,10 @@ public abstract class AbstractFacade<T> {
         getEntityManager().persist(entity);
     }
 
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
+    public T edit(T entity) {
+        T result = getEntityManager().merge(entity);
+        getEntityManager().flush();
+        return result;
     }
 
     public void remove(T entity) {
@@ -61,4 +68,17 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
     
+
+    protected T findBy(String fieldName, String value) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> rt = cq.from(entityClass);
+        cq.select(rt).where(cb.equal(rt.get(fieldName), value));
+        TypedQuery<T> q = getEntityManager().createQuery(cq);
+        try {
+                return q.getSingleResult();
+        } catch (NoResultException e) {
+                return null;
+        }
+    }
 }
