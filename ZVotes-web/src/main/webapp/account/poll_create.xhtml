@@ -27,10 +27,10 @@
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
                     <h:commandLink action="#{pollController.create}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.CreatePollSaveLink}</h:commandLink>
+                    <h:outputText value="&#160;" />
+                    <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.CreatePollShowAllLink}</h:commandLink>
                 </div>
             </div>
-            <br />
-            <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.CreatePollShowAllLink}</h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>
