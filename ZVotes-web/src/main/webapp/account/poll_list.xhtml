@@ -5,11 +5,12 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <ui:define name="title">
-        <h:outputText value="#{msg.ListPollTitle}"></h:outputText>
-    </ui:define>
+    <ui:param name="title" value="#{msg.ListPollTitle}"/>
     <ui:param name="navPolls" value="active"/>
-    <ui:define name="backend_content">
+    <ui:define name="backend_content">        
+        <h1 class="page-header">
+            <h:outputText value="#{msg.ListPollTitle}"></h:outputText>
+        </h1>
         <h:form styleClass="form-horizontal">
             <h:outputText escape="false" value="#{msg.ListPollEmpty}" rendered="#{pollController.items.rowCount == 0}"/>
             <h:panelGroup rendered="#{pollController.items.rowCount > 0}">
