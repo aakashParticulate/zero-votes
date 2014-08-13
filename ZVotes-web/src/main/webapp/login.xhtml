@@ -17,7 +17,10 @@
                     <div class="form-group">
                         <h:outputLabel for="j_username" class="col-sm-4 control-label" value="#{msg.Username}:"></h:outputLabel>
                         <div class="col-sm-8">
-                            <input class="form-control" placeholder="(Uni-Kennung)" autofocus="true" type="text" id="j_username" name="j_username" autocomplete="off"></input>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="(Uni-Kennung)" autofocus="true" type="text" id="j_username" name="j_username" autocomplete="off"></input>
+                                <span class="input-group-addon"><h:outputText value="@uni-koblenz.de" /></span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
