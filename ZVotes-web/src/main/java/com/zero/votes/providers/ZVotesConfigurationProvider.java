@@ -10,6 +10,7 @@ import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.Path;
 import org.ocpsoft.rewrite.servlet.config.Query;
 import org.ocpsoft.rewrite.servlet.config.Substitute;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
 
 @RewriteConfiguration
@@ -29,6 +30,9 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
             .addRule()
             .when(Direction.isOutbound().and(Path.matches("/javax.faces.resource/{file}")).and(Query.matches("ln={type}")))
             .perform(Substitute.with("/resources/{file}?ln={type}"))
+            .addRule(Join.path("/").to("/index.xhtml"))
+            .addRule(Join.path("/login/").to("/login.xhtml"))
+            .addRule(Join.path("/account/").to("/account/index.xhtml"))
         ;
     }
 }
