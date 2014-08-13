@@ -76,7 +76,7 @@ public class PollController implements Serializable {
     public String prepareCreate() {
         current = new Poll();
         selectedItemIndex = -1;
-        return "Create";
+        return "poll_create.xhtml";
     }
 
     public String create() {
