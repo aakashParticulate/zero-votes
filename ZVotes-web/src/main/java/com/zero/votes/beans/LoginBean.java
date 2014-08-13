@@ -27,23 +27,6 @@ public class LoginBean implements Serializable {
     private String password;
     private boolean loggedIn;
  
-    public String doLogin() {
-        for (String user: users) {
-            String dbUsername = user.split(":")[0];
-            String dbPassword = user.split(":")[1];
-             
-            if (dbUsername.equals(username) && dbPassword.equals(password)) {
-                loggedIn = true;
-                return UrlsPy.ACCOUNT.getUrl(true);
-            }
-        }
-        
-        Message.addInternationalizedMessage(FacesMessage.SEVERITY_ERROR, "LoginFailed");
-         
-        return UrlsPy.LOGIN.getUrl();
-         
-    }
-
     public String doLogout() {
         loggedIn = false;
         
@@ -54,30 +37,6 @@ public class LoginBean implements Serializable {
         Message.addInternationalizedMessage(FacesMessage.SEVERITY_INFO, "LogoutSuccessful");
         
         return UrlsPy.LOGIN.getUrl();
-    }
-
-    public String getUsername() {
-        return username;
-    }
- 
-    public void setUsername(String username) {
-        this.username = username;
-    }
- 
-    public String getPassword() {
-        return password;
-    }
- 
-    public void setPassword(String password) {
-        this.password = password;
-    }
- 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
- 
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
     }
 
 }
