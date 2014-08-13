@@ -20,15 +20,8 @@ import javax.servlet.http.HttpSession;
 public class LoginBean implements Serializable {
  
     private static final long serialVersionUID = 4864684684864L;
- 
-    private static final String[] users = {"test:test","lol:123"};
-    
-    private String username;
-    private String password;
-    private boolean loggedIn;
- 
+     
     public String doLogout() {
-        loggedIn = false;
         
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -36,7 +29,7 @@ public class LoginBean implements Serializable {
         
         Message.addInternationalizedMessage(FacesMessage.SEVERITY_INFO, "LogoutSuccessful");
         
-        return UrlsPy.LOGIN.getUrl();
+        return UrlsPy.LOGIN.getUrl(true);
     }
 
 }
