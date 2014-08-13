@@ -9,8 +9,10 @@
     <ui:param name="navIndex" value="active"/>
     <ui:define name="content">
         <div class="row">
+            <div class="col-xs-12 text-center">
+                <h1 class="page-header">#{msg.Login}</h1>
+            </div>
             <div class="col-sm-6 col-sm-offset-3">
-                <h3>#{msg.Login}</h3>
                 <form id="login-form" class="form-horizontal" action="j_security_check" method="post" name="loginForm" role="form">
                     <div class="form-group">
                         <h:outputLabel for="j_username" class="col-sm-4 control-label" value="#{msg.Username}:"></h:outputLabel>
