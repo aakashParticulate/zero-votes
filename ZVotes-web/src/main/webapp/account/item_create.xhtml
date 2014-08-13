@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/backend.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">
+        <h:outputText value="#{bundle.CreateItemTitle}"></h:outputText>
+    </ui:define>
+    <ui:define name="backend_content">
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{msg.CreateItemLabel_title}" for="title" />
+                <h:inputText id="title" value="#{itemController.selected.title}" title="#{msg.CreateItemTitle_title}" />
+                <h:outputLabel value="#{msg.CreateItemLabel_type}" for="type" />
+                <h:inputText id="type" value="#{itemController.selected.type}" title="#{msg.CreateItemTitle_type}" />
+                <h:outputLabel value="#{msg.CreateItemLabel_m}" for="m" />
+                <h:inputText id="m" value="#{itemController.selected.m}" title="#{msg.CreateItemTitle_m}" />
+                <h:outputLabel value="#{msg.CreateItemLabel_poll}" for="poll" />
+                <h:selectOneMenu id="poll" value="#{itemController.selected.poll}" title="#{msg.CreateItemTitle_poll}" >
+                    <f:selectItems value="#{pollController.itemsAvailableSelectOne}"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <br />
+            <h:commandLink action="#{itemController.create}" styleClass="btn btn-primary" value="#{msg.CreateItemSaveLink}" />
+            <br />
+            <br />
+            <h:commandLink action="#{itemController.prepareList}" styleClass="btn btn-default" value="#{msg.CreateItemShowAllLink}" immediate="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
