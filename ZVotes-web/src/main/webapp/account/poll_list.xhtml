@@ -27,6 +27,16 @@
                         </f:facet>
                         <h:outputText value="#{item.title}"/>
                     </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.AvailableActions}"/>
+                        </f:facet>
+                        <h:commandLink action="#{pollController.prepareView}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
+                        <h:outputText value=" " />
+                        <h:commandLink action="#{pollController.prepareEdit}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
+                        <h:outputText value=" " />
+                        <h:commandLink action="#{pollController.destroy}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+                    </h:column>
                 </h:dataTable>
             </h:panelGroup>
             <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.PollCreateLink}</h:commandLink>

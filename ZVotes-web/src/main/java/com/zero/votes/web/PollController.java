@@ -113,7 +113,7 @@ public class PollController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return UrlsPy.POLL_LIST.getUrl(true);
     }
 
     public String destroyAndView() {
@@ -125,7 +125,7 @@ public class PollController implements Serializable {
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return UrlsPy.POLL_LIST.getUrl(true);
         }
     }
 
@@ -171,13 +171,13 @@ public class PollController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return UrlsPy.POLL_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return UrlsPy.POLL_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
