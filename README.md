@@ -60,11 +60,11 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 
     3.1
     
-    3.2
+    3.2 done
     
-        3.2.1
+        3.2.1 done
         
-        3.2.2
+        3.2.2 We used ldap.
     
     3.3
     
