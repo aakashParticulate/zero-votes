@@ -51,6 +51,7 @@
                                 </li>
                             </c:when>
                             <c:otherwise>
+                                <li><h:form><h:commandLink action="#{loginBean.doLogout}"><span class="fa fa-sign-out"></span> #{msg.Logout}</h:commandLink></h:form></li>
                                 <li><h:link outcome="/login.xhtml"><span class="fa fa-sign-in"></span> #{msg.Login}</h:link></li>
                             </c:otherwise>
                         </c:choose>
