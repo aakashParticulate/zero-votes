@@ -11,5 +11,9 @@
 		<base-name>com.zero.votes.Locale</base-name>
 		<var>msg</var>
 	   </resource-bundle>
+	   <resource-bundle>
+		<base-name>com.zero.votes.Icons</base-name>
+		<var>icons</var>
+	   </resource-bundle>
      </application>
 </faces-config>
