@@ -8,6 +8,6 @@
     <ui:param name="title" value="#{msg.Account}"/>
     <ui:param name="navAccount" value="active"/>
     <ui:define name="content">
-        Hello #{loginBean.username}!
+        Hello #{facesContext.externalContext.remoteUser}!
     </ui:define>
 </ui:composition>
