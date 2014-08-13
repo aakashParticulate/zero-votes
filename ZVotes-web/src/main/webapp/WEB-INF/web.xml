@@ -4,10 +4,6 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-    <context-param>
-        <param-name>root</param-name>
-        <param-value>/</param-value>
-    </context-param>
     <filter>
         <filter-name>RedirectToHttpsFilter</filter-name>
         <filter-class>com.zero.votes.filters.RedirectToHttpsFilter</filter-class>
