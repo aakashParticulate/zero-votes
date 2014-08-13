@@ -1,4 +1,4 @@
-package com.zero.votes.utils;
+package com.zero.votes.web.util;
 
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;

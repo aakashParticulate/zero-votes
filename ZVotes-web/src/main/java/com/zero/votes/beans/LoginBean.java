@@ -6,7 +6,7 @@
 
 package com.zero.votes.beans;
 
-import com.zero.votes.utils.Message;
+import com.zero.votes.web.util.Message;
 import java.io.Serializable; 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
