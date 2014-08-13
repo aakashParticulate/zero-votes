@@ -14,6 +14,7 @@ import org.ocpsoft.rewrite.servlet.config.Substitute;
 
 @RewriteConfiguration
 public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
+    
    @Override
    public int priority() {
      return 10;
@@ -24,9 +25,9 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
         return ConfigurationBuilder.begin()
             .addRule()
             .when(Direction.isInbound().and(Path.matches("/resources/{file}")).and(Query.matches("ln={type}")))
-            .perform(Forward.to("/faces/javax.faces.resource/{file}?ln={type}"))
+            .perform(Forward.to("/javax.faces.resource/{file}?ln={type}"))
             .addRule()
-            .when(Direction.isOutbound().and(Path.matches("/faces/javax.faces.resource/{file}")).and(Query.matches("ln={type}")))
+            .when(Direction.isOutbound().and(Path.matches("/javax.faces.resource/{file}")).and(Query.matches("ln={type}")))
             .perform(Substitute.with("/resources/{file}?ln={type}"))
         ;
     }
