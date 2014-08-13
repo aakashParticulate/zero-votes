@@ -1,14 +1,14 @@
 package com.zero.votes.web;
 
+import com.zero.votes.beans.UrlsPy;
+import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
-import com.zero.votes.persistence.PollFacade;
-
+import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,6 +17,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
 @Named("pollController")
 @SessionScoped
@@ -64,7 +65,7 @@ public class PollController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "poll_list.xhtml";
+        return UrlsPy.POLL_LIST.getUrl(true);
     }
 
     public String prepareView() {
@@ -76,16 +77,16 @@ public class PollController implements Serializable {
     public String prepareCreate() {
         current = new Poll();
         selectedItemIndex = -1;
-        return "poll_create.xhtml";
+        return UrlsPy.POLL_CREATE.getUrl(true);
     }
 
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PollCreated"));
+            ZVotesUtils.addInternationalizedInfoMessage("PollCreated");
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }

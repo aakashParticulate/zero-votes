@@ -12,9 +12,9 @@
             <h:outputText value="#{msg.ListPollTitle}"></h:outputText>
         </h1>
         <h:form styleClass="form-horizontal">
-            <h:outputText escape="false" value="#{msg.ListPollEmpty}" rendered="#{pollController.items.rowCount == 0}"/>
+            <p><h:outputText escape="false" value="#{msg.ListPollEmpty}" rendered="#{pollController.items.rowCount == 0}"/></p>
             <h:panelGroup rendered="#{pollController.items.rowCount > 0}">
-                <h:dataTable value="#{pollController.items}" var="item" rules="all" class="table table-striped table-bordered table-responsive">
+                <h:dataTable value="#{pollController.items}" var="item" class="table table-striped table-bordered table-responsive">
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="#{msg.ListPollTitle_id}"/>
@@ -29,7 +29,7 @@
                     </h:column>
                 </h:dataTable>
             </h:panelGroup>
-            <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary" value="#{msg.PollCreateLink}"/>
+            <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.PollCreateLink}</h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>
