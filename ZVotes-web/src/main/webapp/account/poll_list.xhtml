@@ -5,11 +5,32 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    <ui:param name="title" value="#{msg.Account}"/>
     <ui:define name="title">
         <h:outputText value="#{msg.ListPollTitle}"></h:outputText>
     </ui:define>
+    <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">
-        <span>poll list</span>
+        <h:form styleClass="form-horizontal">
+            <h:outputText escape="false" value="#{msg.ListPollEmpty}" rendered="#{pollController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{itemController.items.rowCount > 0}">
+                <h:dataTable value="#{itemController.items}" var="item" rules="all" class="table table-striped table-responsive">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPollTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPollTitle_title}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.title}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:form>
+        <h:outputLink value="/account/polls/create/" styleClass="btn btn-primary">
+            <h:outputText value="#{msg.PollCreateLink}"></h:outputText>
+        </h:outputLink>
     </ui:define>
 </ui:composition>

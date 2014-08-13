@@ -14,10 +14,10 @@
                         <h3 class="panel-title"><img src="#{gravatarBean.getImageUrl('stephan@minddust.com')}" height="20px" class="img-rounded"/> #{facesContext.externalContext.remoteUser}</h3>
                     </div>
                     <div class="list-group">
-                        <a href="/account/" class="list-group-item">
+                        <a href="/account/" class="list-group-item #{navDashboard}">
                             <span class="fa fa-home"></span> #{msg.Dashboard}
                         </a>
-                        <a href="/account/polls/" class="list-group-item">
+                        <a href="/account/polls/" class="list-group-item #{navPolls}">
                             <span class="fa fa-bar-chart-o"></span> #{msg.Polls}
                         </a>
                     </div>

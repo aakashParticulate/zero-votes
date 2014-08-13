@@ -64,7 +64,7 @@ public class PollController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "poll_list.xhtml";
     }
 
     public String prepareView() {
