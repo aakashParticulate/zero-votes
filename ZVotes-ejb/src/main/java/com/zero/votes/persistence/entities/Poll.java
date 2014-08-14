@@ -6,12 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -41,22 +39,18 @@ public class Poll implements Serializable {
     
     @ManyToMany
     @OrderBy("username ASC")
-    @ElementCollection
     private Set<Organizer> organizers;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @OrderBy("title ASC")
-    @ElementCollection
     private Set<Item> items;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @OrderBy("email ASC")
-    @ElementCollection
     private Set<Participant> participants;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @OrderBy("id ASC")
-    @ElementCollection
     private Set<Token> tokens;
 
     public Poll() {

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,37 +13,35 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+
 @Entity
 public class Organizer implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(unique = true)
+    
+    @Column(unique=true)
     private String username;
     private String forename;
     private String surname;
-
-    @Column(unique = true)
+    
+    @Column(unique=true)
     private String email;
     private String encryptedPassword;
-
-    @ManyToMany(mappedBy = "organizers")
+    
+    @ManyToMany(mappedBy="organizers")
     @OrderBy("title ASC")
-    @ElementCollection
     private Set<Poll> polls;
-
-    @OneToMany(mappedBy = "participantLists")
-    @ElementCollection
-    private Set<RecipientList> participantLists;
+    
+    @OneToMany(mappedBy="organizer")
+    private Set<RecipientList> recipientLists;
     private boolean admin;
 
     public Organizer() {
-        polls = new HashSet<>();
-        participantLists = new HashSet<>();
+            polls = new HashSet<>();
+            recipientLists = new HashSet<>();
     }
 
     public Long getId() {
@@ -103,12 +100,12 @@ public class Organizer implements Serializable {
         this.polls = polls;
     }
 
-    public Set<RecipientList> getParticipantLists() {
-        return participantLists;
+    public Set<RecipientList> getRecipientLists() {
+        return recipientLists;
     }
 
-    public void setParticipantLists(Set<RecipientList> participantLists) {
-        this.participantLists = participantLists;
+    public void setRecipientLists(Set<RecipientList> recipientLists) {
+        this.recipientLists = recipientLists;
     }
 
     public boolean isAdmin() {
@@ -118,15 +115,15 @@ public class Organizer implements Serializable {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-
+    
     public LdapUser createLdapUser() {
-        LdapUser to = new LdapUser();
-        to.setId(getId());
-        to.setName(getUsername());
-        to.setFirstName(getForename());
-        to.setLastName(getSurname());
-        to.setEmail(getEmail());
-        return to;
+            LdapUser to = new LdapUser();
+            to.setId(getId());
+            to.setName(getUsername());
+            to.setFirstName(getForename());
+            to.setLastName(getSurname());
+            to.setEmail(getEmail());
+            return to;
     }
 
 }

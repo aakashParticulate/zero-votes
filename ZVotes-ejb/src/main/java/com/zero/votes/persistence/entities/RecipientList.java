@@ -3,7 +3,6 @@ package com.zero.votes.persistence.entities;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +29,6 @@ public class RecipientList implements Serializable {
     private String name;
     
     @ManyToMany
-    @ElementCollection
     @OrderBy("email ASC")
     private Set<Recipient> recipients;
 

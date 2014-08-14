@@ -3,7 +3,6 @@ package com.zero.votes.persistence.entities;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,25 +14,23 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"email", "organizer"})})
-public class Recipient implements Serializable {
 
+@Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"email", "organizer"})})
+public class Recipient implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(name = "email")
+    
+    @Column(name="email")
     private String email;
-
-    @JoinColumn(name = "organizer")
+          
+    @JoinColumn(name="organizer")
     @ManyToOne
     private Organizer organizer;
-
-    @ManyToMany(mappedBy = "recipients")
-    @ElementCollection
+    
+    @ManyToMany(mappedBy="recipients")
     @OrderBy("name ASC")
     private Set<RecipientList> recipientLists;
 
@@ -68,5 +65,6 @@ public class Recipient implements Serializable {
     public void setRecipientLists(Set<RecipientList> recipientLists) {
         this.recipientLists = recipientLists;
     }
-
+    
+    
 }

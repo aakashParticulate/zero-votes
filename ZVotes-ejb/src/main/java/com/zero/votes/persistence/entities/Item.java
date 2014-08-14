@@ -29,12 +29,10 @@ public class Item implements Serializable {
 
     @OneToMany(mappedBy = "item")
     @OrderBy("id ASC")
-    @ElementCollection
     private Set<Vote> votes;
 
     @OneToMany(mappedBy = "item")
     @OrderBy("shortName ASC")
-    @ElementCollection
     private Set<ItemOption> options;
 
     public Long getId() {
