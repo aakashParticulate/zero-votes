@@ -13,35 +13,35 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
-
 @Entity
 public class Organizer implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String username;
     private String forename;
     private String surname;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String email;
     private String encryptedPassword;
-    
-    @ManyToMany(mappedBy="organizers")
+
+    @ManyToMany(mappedBy = "organizers")
     @OrderBy("title ASC")
     private Set<Poll> polls;
-    
-    @OneToMany(mappedBy="organizer")
+
+    @OneToMany(mappedBy = "organizer")
     private Set<RecipientList> recipientLists;
     private boolean admin;
 
     public Organizer() {
-            polls = new HashSet<>();
-            recipientLists = new HashSet<>();
+        polls = new HashSet<>();
+        recipientLists = new HashSet<>();
     }
 
     public Long getId() {
@@ -115,15 +115,15 @@ public class Organizer implements Serializable {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-    
+
     public LdapUser createLdapUser() {
-            LdapUser to = new LdapUser();
-            to.setId(getId());
-            to.setName(getUsername());
-            to.setFirstName(getForename());
-            to.setLastName(getSurname());
-            to.setEmail(getEmail());
-            return to;
+        LdapUser to = new LdapUser();
+        to.setId(getId());
+        to.setName(getUsername());
+        to.setFirstName(getForename());
+        to.setLastName(getSurname());
+        to.setEmail(getEmail());
+        return to;
     }
 
 }
