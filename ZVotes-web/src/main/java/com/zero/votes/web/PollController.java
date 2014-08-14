@@ -48,6 +48,13 @@ public class PollController implements Serializable {
     private PollFacade getFacade() {
         return ejbFacade;
     }
+    
+    public void refresh() {
+        Poll updated_current = getFacade().find(current.getId());
+        if (updated_current != null) {
+            current = updated_current;
+        }
+    }
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
@@ -74,6 +81,7 @@ public class PollController implements Serializable {
 
     public String prepareView() {
         current = (Poll) getItems().getRowData();
+        refresh();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
@@ -107,12 +115,14 @@ public class PollController implements Serializable {
 
     public String prepareEdit() {
         current = (Poll) getItems().getRowData();
+        refresh();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return UrlsPy.POLL_EDIT.getUrl(true);
     }
 
     public String prepareEdit(Poll poll) {
         current = poll;
+        refresh();
         selectedItemIndex = -1;
         return UrlsPy.POLL_EDIT.getUrl(true);
     }
@@ -175,10 +185,7 @@ public class PollController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+        return getPagination().createPageDataModel();
     }
 
     private void recreateModel() {

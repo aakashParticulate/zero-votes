@@ -19,30 +19,36 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         getEntityManager().persist(entity);
     }
 
     public T edit(T entity) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         T result = getEntityManager().merge(entity);
         getEntityManager().flush();
         return result;
     }
 
     public void remove(T entity) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
     public T find(Object id) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         return getEntityManager().find(entityClass, id);
     }
 
     public List<T> findAll() {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     public List<T> findRange(int[] range) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
@@ -52,6 +58,7 @@ public abstract class AbstractFacade<T> {
     }
 
     public int count() {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
@@ -60,6 +67,7 @@ public abstract class AbstractFacade<T> {
     }
 
     protected T findBy(String fieldName, String value) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);

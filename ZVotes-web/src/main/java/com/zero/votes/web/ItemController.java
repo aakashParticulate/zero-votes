@@ -162,10 +162,7 @@ public class ItemController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+        return getPagination().createPageDataModel();
     }
 
     private void recreateModel() {
