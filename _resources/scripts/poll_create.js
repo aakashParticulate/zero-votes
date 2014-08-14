@@ -34,4 +34,12 @@ $(document).ready(function() {
     $endDate.on("dp.change",function (e) {
         $startDate.data("DateTimePicker").setMaxDate(e.date);
     });
+
+    $datetimepicker.each(function() {
+        var picker = $(this).data('DateTimePicker');
+
+        if (picker) {
+            picker.element.on('click', $.proxy(picker.show, this));
+        }
+    });
 });
