@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,14 +31,14 @@ public class Organizer implements Serializable {
     @Column(unique = true)
     private String email;
     private String encryptedPassword;
+    private boolean admin;
 
-    @ManyToMany(mappedBy = "organizers")
+    @ManyToMany(mappedBy = "organizers", fetch = FetchType.EAGER)
     @OrderBy("title ASC")
     private Set<Poll> polls;
 
-    @OneToMany(mappedBy = "organizer")
+    @OneToMany(mappedBy = "organizer", fetch = FetchType.EAGER)
     private Set<RecipientList> recipientLists;
-    private boolean admin;
 
     public Organizer() {
         polls = new HashSet<>();

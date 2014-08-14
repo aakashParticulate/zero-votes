@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +23,10 @@ public class Token implements Serializable {
     @Column(unique = true)
     private final String tokenString;
 
-    @OneToOne(mappedBy = "token")
+    @OneToOne(mappedBy = "token", fetch = FetchType.EAGER)
     private Participant participant;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Poll poll;
 
     public Token() {

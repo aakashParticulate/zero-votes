@@ -2,6 +2,7 @@ package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,10 +20,10 @@ public class Participant implements Serializable {
     private String email;
     private boolean hasVoted;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Poll poll;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Token token;
 
     public boolean hasVoted() {

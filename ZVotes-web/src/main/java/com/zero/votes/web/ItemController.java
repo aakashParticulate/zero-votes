@@ -1,14 +1,14 @@
 package com.zero.votes.web;
 
+import com.zero.votes.persistence.ItemFacade;
 import com.zero.votes.persistence.entities.Item;
+import com.zero.votes.persistence.entities.ItemType;
+import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
-import com.zero.votes.persistence.ItemFacade;
 import com.zero.votes.web.util.ZVotesUtils;
-
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,6 +17,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
 @Named("itemController")
 @SessionScoped
@@ -64,7 +65,7 @@ public class ItemController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "item_list.xhtml";
     }
 
     public String prepareView() {
@@ -76,7 +77,14 @@ public class ItemController implements Serializable {
     public String prepareCreate() {
         current = new Item();
         selectedItemIndex = -1;
-        return "Create";
+        return "item_create.xhtml";
+    }
+    
+    public String prepareCreateForPoll(Poll poll) {
+        current = new Item();
+        current.setPoll(poll);
+        selectedItemIndex = -1;
+        return "item_create.xhtml";
     }
 
     public String create() {
@@ -93,7 +101,7 @@ public class ItemController implements Serializable {
     public String prepareEdit() {
         current = (Item) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return "item_edit.xhtml";
     }
 
     public String update() {
@@ -190,6 +198,10 @@ public class ItemController implements Serializable {
 
     public Item getItem(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+    
+    public ItemType[] getAvailableItemTypes() {
+        return ItemType.values();
     }
 
     @FacesConverter(forClass = Item.class)

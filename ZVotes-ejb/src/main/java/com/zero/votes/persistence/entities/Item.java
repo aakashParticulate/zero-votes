@@ -2,8 +2,8 @@ package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +31,7 @@ public class Item implements Serializable {
     @OrderBy("id ASC")
     private Set<Vote> votes;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
     @OrderBy("shortName ASC")
     private Set<ItemOption> options;
 

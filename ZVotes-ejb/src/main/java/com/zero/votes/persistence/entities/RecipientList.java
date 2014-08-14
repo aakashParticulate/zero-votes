@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,7 +34,7 @@ public class RecipientList implements Serializable {
     private Set<Recipient> recipients;
 
     @JoinColumn(name = "organizer")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organizer organizer;
 
     public Long getId() {

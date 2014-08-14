@@ -1,14 +1,17 @@
 package com.zero.votes.web;
 
 import com.zero.votes.beans.UrlsPy;
+import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.entities.RecipientList;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.persistence.RecipientListFacade;
+import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.web.util.ZVotesUtils;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -77,6 +80,13 @@ public class RecipientListController implements Serializable {
 
     public String prepareCreate() {
         current = new RecipientList();
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        Organizer current_organizer = userBean.getOrganizer();
+
+        current.setOrganizer(current_organizer);
+        
         selectedItemIndex = -1;
         return UrlsPy.RECIPIENTLIST_CREATE.getUrl(true);
     }

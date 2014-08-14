@@ -84,8 +84,9 @@ public class PollController implements Serializable {
         // Add this Organizer to Poll
         FacesContext context = FacesContext.getCurrentInstance();
         UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
-        Set<Organizer> organizers = current.getOrganizers();
         Organizer current_organizer = userBean.getOrganizer();
+        
+        Set<Organizer> organizers = current.getOrganizers();
         organizers.add(current_organizer);
         current.setOrganizers(organizers);
         

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,10 +29,10 @@ public class Recipient implements Serializable {
     private String email;
 
     @JoinColumn(name = "organizer")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organizer organizer;
 
-    @ManyToMany(mappedBy = "recipients")
+    @ManyToMany(mappedBy = "recipients", fetch = FetchType.EAGER)
     @OrderBy("name ASC")
     private Set<RecipientList> recipientLists;
 
