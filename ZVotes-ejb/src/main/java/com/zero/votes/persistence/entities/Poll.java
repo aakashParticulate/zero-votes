@@ -2,6 +2,7 @@ package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -59,6 +60,10 @@ public class Poll implements Serializable {
 
     public Poll() {
         this.pollState = PollState.PREPARED;
+        this.organizers = new HashSet<Organizer>();
+        this.items = new HashSet<Item>();
+        this.participants = new HashSet<Participant>();
+        this.tokens = new HashSet<Token>();
     }
     
     public Long getId() {
