@@ -2,6 +2,7 @@ package com.zero.votes.beans;
 
 import com.zero.votes.ldap.LdapLogic;
 import com.zero.votes.ldap.LdapUser;
+import com.zero.votes.persistence.entities.Organizer;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.ejb.EJB;
@@ -19,6 +20,7 @@ public class UserBean implements Serializable {
     @EJB
     private LdapLogic ldapLogic;
     private LdapUser user;
+    private Organizer organizer;
 
     public LdapUser getUser() {
         if (user == null) {
@@ -30,6 +32,18 @@ public class UserBean implements Serializable {
             }
         }
         return user;
+    }
+
+    public Organizer getOrganizer() {
+        if (organizer == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            Principal p = ec.getUserPrincipal();
+            if (p != null) {
+                String principalName = p.getName();
+                organizer = ldapLogic.getOrganizer(principalName);
+            }
+        }
+        return organizer;
     }
 
 }

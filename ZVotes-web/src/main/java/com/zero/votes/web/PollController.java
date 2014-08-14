@@ -1,12 +1,15 @@
 package com.zero.votes.web;
 
 import com.zero.votes.beans.UrlsPy;
+import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.PollFacade;
+import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -75,6 +78,14 @@ public class PollController implements Serializable {
 
     public String prepareCreate() {
         current = new Poll();
+        
+        // Add this Organizer to Poll
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{beanName}", UserBean.class);
+        Set<Organizer> organizers = current.getOrganizers();
+        organizers.add(userBean.getOrganizer());
+        current.setOrganizers(organizers);
+        
         selectedItemIndex = -1;
         return UrlsPy.POLL_CREATE.getUrl(true);
     }

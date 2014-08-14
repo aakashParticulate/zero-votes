@@ -19,10 +19,10 @@ public class LdapLogic {
 	}
 
 	public LdapUser getUser(String uid) {
-            return getUserEntity(uid).createLdapUser();
+            return getOrganizer(uid).createLdapUser();
 	}
 
-	private Organizer getUserEntity(String uid) {
+	public Organizer getOrganizer(String uid) {
             LdapUser ldapUser = lookupUser(uid);
             if (ldapUser == null) {
                     return null;
