@@ -6,9 +6,7 @@
 
 package com.zero.votes.beans;
 
-import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable; 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -27,9 +25,7 @@ public class LoginBean implements Serializable {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
         
-        ZVotesUtils.addInternationalizedMessage(FacesMessage.SEVERITY_INFO, "LogoutSuccessful");
-        
-        return UrlsPy.LOGIN.getUrl(true);
+        return UrlsPy.LOGOUT.getUrl(true);
     }
 
 }

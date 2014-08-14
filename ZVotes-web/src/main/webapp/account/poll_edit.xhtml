@@ -8,6 +8,9 @@
     <ui:param name="title" value="#{msg.EditPoll}"/>
     <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">
+        <div class="hidden">
+            <h:messages errorClass="notification-error" infoClass="notification-info" />
+        </div>
         <h1 class="page-header">
             <h:outputText value="#{msg.EditPoll}"></h:outputText>
         </h1>

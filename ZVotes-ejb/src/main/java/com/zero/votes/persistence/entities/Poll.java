@@ -57,6 +57,10 @@ public class Poll implements Serializable {
     @ElementCollection
     private Set<Token> tokens;
 
+    public Poll() {
+        this.pollState = PollState.PREPARED;
+    }
+    
     public Long getId() {
             return id;
     }

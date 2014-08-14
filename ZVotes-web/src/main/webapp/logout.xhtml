@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://xmlns.jcp.org/jsf/html"
+				xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+				xmlns:f="http://xmlns.jcp.org/jsf/core"
+                                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:param name="title" value="#{msg.Welcome}"/>
+    <ui:param name="navIndex" value="active"/>
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <h1 class="page-header">#{msg.LoggedOut}</h1>
+            </div>
+            <div class="col-sm-6 col-sm-offset-3">
+                #{msg.LogoutText}
+            </div>
+        </div>
+        <div class="hidden">
+            <ul>
+                <li class="notification-info">#{msg.LogoutSuccessful}</li>
+            </ul>
+        </div>
+    </ui:define>
+</ui:composition>

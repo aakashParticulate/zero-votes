@@ -6,8 +6,10 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     LOGIN("login.xhtml"),
     ACCOUNT("account/index.xhtml"),
     POLL_CREATE("account/poll_create.xhtml"),
-    POLL_LIST("account/poll_list.xhtml");
-
+    POLL_LIST("account/poll_list.xhtml"),
+    POLL_EDIT("account/poll_edit.xhtml"),
+    LOGOUT("logout.xhtml");
+    
     private final String url;
     private final String url_prefix;
 

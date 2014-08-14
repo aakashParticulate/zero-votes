@@ -93,7 +93,7 @@ public class PollController implements Serializable {
     public String prepareEdit() {
         current = (Poll) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return UrlsPy.POLL_EDIT.getUrl(true);
     }
 
     public String update() {
