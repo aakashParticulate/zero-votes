@@ -20,8 +20,11 @@ var paths = {
         './_resources/vendors/bootstrap/js/collapse.js',
         './_resources/vendors/bootstrap/js/dropdown.js',
         './_resources/vendors/toastr/toastr.js',
-        './_resources/vendors/highcharts/highcharts.js.js',
-        './_resources/scripts/main.js'
+        './_resources/vendors/highcharts/highcharts.js',
+        './_resources/vendors/moment/min/moment-with-locales.js',
+        './_resources/vendors/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
+        './_resources/scripts/main.js',
+        './_resources/scripts/poll_create.js'
     ],
     styles: [
         './_resources/styles/zvotes.less'

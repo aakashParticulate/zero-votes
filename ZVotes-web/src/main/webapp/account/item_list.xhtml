@@ -20,7 +20,7 @@
                 <h:dataTable value="#{itemController.items}" var="item" rules="all" class="table table-condensed table-striped table-bordered">
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="#{msg.ListItemTitle_id}"/>
+                            <h:outputText value="#{msg.Title}"/>
                         </f:facet>
                         <h:outputText value="#{item.id}"/>
                     </h:column>
@@ -60,7 +60,7 @@
                 </h:dataTable>
             </h:panelGroup>
             <br />
-            <h:commandLink action="#{itemController.prepareCreate}" styleClass="btn btn-primary" value="#{msg.ItemCreateLink}"/>
+            <h:commandLink action="#{itemController.prepareCreate}" styleClass="btn btn-primary" value="#{msg.CreateItem}"/>
             <br />
         </h:form>
     </ui:define>
