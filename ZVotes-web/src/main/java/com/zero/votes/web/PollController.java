@@ -111,6 +111,12 @@ public class PollController implements Serializable {
         return UrlsPy.POLL_EDIT.getUrl(true);
     }
 
+    public String prepareEdit(Poll poll) {
+        current = poll;
+        selectedItemIndex = -1;
+        return UrlsPy.POLL_EDIT.getUrl(true);
+    }
+
     public String update() {
         try {
             getFacade().edit(current);

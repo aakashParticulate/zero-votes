@@ -30,7 +30,7 @@
                 <div class="col-sm-offset-3 col-sm-9">
                     <h:commandLink action="#{itemController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{itemController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.ItemShowAll}</h:commandLink>
+                    <h:commandLink action="#{pollController.prepareEdit(itemController.selected.poll)}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.ItemShowAll}</h:commandLink>
                 </div>
             </div>
         </h:form>

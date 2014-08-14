@@ -87,7 +87,7 @@ public class ItemController implements Serializable {
         return "item_create.xhtml";
     }
 
-    public String create() {
+    public String create(Poll poll) {
         try {
             getFacade().create(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemCreated");
