@@ -1,9 +1,11 @@
 package com.zero.votes.web;
 
+import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.RecipientList;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.persistence.RecipientListFacade;
+import com.zero.votes.web.util.ZVotesUtils;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -64,7 +66,7 @@ public class RecipientListController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
     public String prepareView() {
@@ -76,16 +78,16 @@ public class RecipientListController implements Serializable {
     public String prepareCreate() {
         current = new RecipientList();
         selectedItemIndex = -1;
-        return "Create";
+        return UrlsPy.RECIPIENTLIST_CREATE.getUrl(true);
     }
 
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipientListCreated"));
+            ZVotesUtils.addInternationalizedInfoMessage("RecipientListCreated");
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
@@ -93,16 +95,16 @@ public class RecipientListController implements Serializable {
     public String prepareEdit() {
         current = (RecipientList) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        return UrlsPy.RECIPIENTLIST_EDIT.getUrl(true);
     }
 
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipientListUpdated"));
+            ZVotesUtils.addInternationalizedInfoMessage("RecipientListUpdated");
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
@@ -113,7 +115,7 @@ public class RecipientListController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
     public String destroyAndView() {
@@ -125,16 +127,16 @@ public class RecipientListController implements Serializable {
         } else {
             // all items were removed - go back to list
             recreateModel();
-            return "List";
+            return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
         }
     }
 
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipientListDeleted"));
+            ZVotesUtils.addInternationalizedInfoMessage("RecipientListDeleted");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
         }
     }
 
@@ -171,13 +173,13 @@ public class RecipientListController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
