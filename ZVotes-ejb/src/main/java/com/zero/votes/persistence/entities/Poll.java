@@ -1,7 +1,7 @@
 package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -32,13 +33,13 @@ public class Poll implements Serializable {
     private PollState pollState;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar startDate;
+    private Date startDate;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar endDate;
+    private Date endDate;
     private boolean participationTracking;
     
-    @ManyToMany(mappedBy="polls")
+    @ManyToMany
     @OrderBy("username ASC")
     @ElementCollection
     private Set<Organizer> organizers;
@@ -94,11 +95,11 @@ public class Poll implements Serializable {
         }
     }
 
-    public Calendar getEndDate() {
+    public Date getEndDate() {
         return this.endDate;
     }
 
-    public void setEndDate(Calendar endDate) {
+    public void setEndDate(Date endDate) {
         if (!this.isPollFinished()) {
             this.endDate = endDate;
         }
@@ -120,11 +121,11 @@ public class Poll implements Serializable {
         this.description = description;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 

@@ -28,7 +28,7 @@ public class RecipientList implements Serializable {
     @Column(name="name")
     private String name;
     
-    @ManyToMany(mappedBy="recipientLists")
+    @ManyToMany
     @ElementCollection
     @OrderBy("email ASC")
     private Set<Recipient> recipients;
