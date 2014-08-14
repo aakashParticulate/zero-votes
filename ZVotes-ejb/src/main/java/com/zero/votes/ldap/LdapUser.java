@@ -3,43 +3,44 @@ package com.zero.votes.ldap;
 import java.util.Objects;
 
 public class LdapUser implements Comparable<LdapUser> {
+
     private static final long serialVersionUID = -1627443224706231661L;
     private Long id;
     private String name;
     private String firstName;
     private String lastName;
     private String email;
-        
+
     public Long getId() {
-            return id;
+        return id;
     }
 
     public void setId(Long id) {
-            this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-            return name;
+        return name;
     }
 
     public void setName(String name) {
-            this.name = name;
+        this.name = name;
     }
 
     public String getFirstName() {
-            return firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-            this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-            return lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-            this.lastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -72,16 +73,16 @@ public class LdapUser implements Comparable<LdapUser> {
     @Override
     public int compareTo(LdapUser ldapUser) {
         if (getClass() != ldapUser.getClass()) {
-                throw new IllegalArgumentException(
-                                "Can't compare " + getClass().getSimpleName() +
-                                " to " + ldapUser.getClass().getSimpleName());
+            throw new IllegalArgumentException(
+                    "Can't compare " + getClass().getSimpleName()
+                    + " to " + ldapUser.getClass().getSimpleName());
         }
         if (equals(ldapUser)) {
-                return 0;
+            return 0;
         }
         int r = getName().compareTo(ldapUser.getName());
         if (r == 0) {
-                r = getId().compareTo(ldapUser.getId());
+            r = getId().compareTo(ldapUser.getId());
         }
         return r;
     }

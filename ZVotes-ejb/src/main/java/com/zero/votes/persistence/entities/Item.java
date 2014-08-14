@@ -11,28 +11,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
-
 @Entity
 public class Item implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String title;
     private ItemType type;
     private int m;
-    
+
     @ManyToOne
     private Poll poll;
-    
-    @OneToMany(mappedBy="item")
+
+    @OneToMany(mappedBy = "item")
     @OrderBy("id ASC")
     @ElementCollection
     private Set<Vote> votes;
-    
-    @OneToMany(mappedBy="item")
+
+    @OneToMany(mappedBy = "item")
     @OrderBy("shortName ASC")
     @ElementCollection
     private Set<ItemOption> options;
@@ -92,5 +92,5 @@ public class Item implements Serializable {
     public void setOptions(Set<ItemOption> options) {
         this.options = options;
     }
-    
+
 }

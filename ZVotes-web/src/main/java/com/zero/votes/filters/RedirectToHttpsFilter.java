@@ -12,24 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RedirectToHttpsFilter implements Filter {
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-	}
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+    }
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-                String uri = req.getRequestURI();
-		if (!req.isSecure() && (uri.endsWith(".xhtml") || uri.endsWith(".html"))) {
-			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.sendRedirect("https://" + req.getServerName() + ":8181/" + request.getServletContext().getContextPath());
-		} else {
-			chain.doFilter(request, response);
-		}
-	}
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        String uri = req.getRequestURI();
+        if (!req.isSecure() && (uri.endsWith(".xhtml") || uri.endsWith(".html"))) {
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.sendRedirect("https://" + req.getServerName() + ":8181/" + request.getServletContext().getContextPath());
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
 
-	@Override
-	public void destroy() {
-	}
+    @Override
+    public void destroy() {
+    }
 }

@@ -4,24 +4,25 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
- 
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
- 
-@ManagedBean(name="language")
+
+@ManagedBean(name = "language")
 @SessionScoped
 public class LanguageBean implements Serializable {
- 
+
     private static final long serialVersionUID = 1L;
 
     private Locale currentLocale;
     private String localeCode;
 
-    private static Map<String,Locale> availableLocales;
+    private static Map<String, Locale> availableLocales;
+
     static {
-        availableLocales = new LinkedHashMap<String,Locale>();
+        availableLocales = new LinkedHashMap<String, Locale>();
         availableLocales.put("Deutsch", Locale.GERMAN);
         availableLocales.put("English", Locale.ENGLISH);
     }
@@ -61,9 +62,9 @@ public class LanguageBean implements Serializable {
 
         for (Map.Entry<String, Locale> entry : this.availableLocales.entrySet()) {
 
-           if (entry.getValue().toString().equals(newLocaleValue)) {
-                FacesContext.getCurrentInstance().getViewRoot().setLocale((Locale)entry.getValue());
-          }
-       }
+            if (entry.getValue().toString().equals(newLocaleValue)) {
+                FacesContext.getCurrentInstance().getViewRoot().setLocale((Locale) entry.getValue());
+            }
+        }
     }
 }

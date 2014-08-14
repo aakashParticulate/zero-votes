@@ -18,20 +18,20 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 public class Poll implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String title;
     private String description;
     private PollState pollState;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
     
@@ -43,18 +43,18 @@ public class Poll implements Serializable {
     @OrderBy("username ASC")
     @ElementCollection
     private Set<Organizer> organizers;
-    
-    @OneToMany(mappedBy="poll", cascade=CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @OrderBy("title ASC")
     @ElementCollection
     private Set<Item> items;
-    
-    @OneToMany(mappedBy="poll", cascade=CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @OrderBy("email ASC")
     @ElementCollection
     private Set<Participant> participants;
-    
-    @OneToMany(mappedBy="poll", cascade=CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
     @OrderBy("id ASC")
     @ElementCollection
     private Set<Token> tokens;
@@ -66,20 +66,20 @@ public class Poll implements Serializable {
         this.participants = new HashSet<Participant>();
         this.tokens = new HashSet<Token>();
     }
-    
+
     public Long getId() {
-            return id;
+        return id;
     }
-    
+
     public void setPollState(PollState pollState) {
         this.pollState = pollState;
     }
-    
+
     public boolean isPollFinished() {
-        switch(this.pollState) {
-            case FINISHED: 
+        switch (this.pollState) {
+            case FINISHED:
                 return true;
-            case VOTING: 
+            case VOTING:
                 boolean result = true;
                 for (Participant p : this.participants) {
                     if (p.hasVoted()) {
@@ -168,6 +168,5 @@ public class Poll implements Serializable {
     public void setTokens(Set<Token> tokens) {
         this.tokens = tokens;
     }
-    
-    
+
 }

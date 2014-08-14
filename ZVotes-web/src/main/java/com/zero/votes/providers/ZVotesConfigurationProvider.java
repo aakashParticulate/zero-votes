@@ -12,32 +12,30 @@ import org.ocpsoft.rewrite.servlet.config.Query;
 import org.ocpsoft.rewrite.servlet.config.Substitute;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
-
 @RewriteConfiguration
 public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
-    
-   @Override
-   public int priority() {
-     return 10;
-   }
 
-   @Override
-   public Configuration getConfiguration(final ServletContext context) {
+    @Override
+    public int priority() {
+        return 10;
+    }
+
+    @Override
+    public Configuration getConfiguration(final ServletContext context) {
         return ConfigurationBuilder.begin()
-            .addRule()
-            .when(Direction.isInbound().and(Path.matches("/resources/{file}")).and(Query.matches("ln={type}")))
-            .perform(Forward.to("/javax.faces.resource/{file}?ln={type}"))
-            .addRule()
-            .when(Direction.isOutbound().and(Path.matches("/javax.faces.resource/{file}")).and(Query.matches("ln={type}")))
-            .perform(Substitute.with("/resources/{file}?ln={type}"))
-            .addRule(Join.path("/").to("/index.xhtml"))
-            .addRule(Join.path("/login/").to("/login.xhtml"))
-            .addRule(Join.path("/account/").to("/account/index.xhtml"))
-            .addRule(Join.path("/account/polls/create/").to("/account/poll_create.xhtml"))
-            .addRule(Join.path("/account/polls/").to("/account/poll_list.xhtml"))
-            .addRule(Join.path("/account/polls/create/").to("/account/poll_create.xhtml"))
-            .addRule(Join.path("/account/recipient-lists/").to("/account/recipientlist_list.xhtml"))
-            .addRule(Join.path("/account/recipient-lists/create/").to("/account/recipientlist_create.xhtml"))
-        ;
+                .addRule()
+                .when(Direction.isInbound().and(Path.matches("/resources/{file}")).and(Query.matches("ln={type}")))
+                .perform(Forward.to("/javax.faces.resource/{file}?ln={type}"))
+                .addRule()
+                .when(Direction.isOutbound().and(Path.matches("/javax.faces.resource/{file}")).and(Query.matches("ln={type}")))
+                .perform(Substitute.with("/resources/{file}?ln={type}"))
+                .addRule(Join.path("/").to("/index.xhtml"))
+                .addRule(Join.path("/login/").to("/login.xhtml"))
+                .addRule(Join.path("/account/").to("/account/index.xhtml"))
+                .addRule(Join.path("/account/polls/create/").to("/account/poll_create.xhtml"))
+                .addRule(Join.path("/account/polls/").to("/account/poll_list.xhtml"))
+                .addRule(Join.path("/account/polls/create/").to("/account/poll_create.xhtml"))
+                .addRule(Join.path("/account/recipient-lists/").to("/account/recipientlist_list.xhtml"))
+                .addRule(Join.path("/account/recipient-lists/create/").to("/account/recipientlist_create.xhtml"));
     }
 }

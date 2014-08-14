@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-
 @ManagedBean
 @ApplicationScoped
 public class GravatarBean {
@@ -28,11 +27,11 @@ public class GravatarBean {
         }
         return null;
     }
-    
+
     public String getImageUrl(String email) {
         return getImageUrl(email, "40");
     }
-    
+
     public String getImageUrl(String email, String size) {
         return "https://www.gravatar.com/avatar/" + md5Hex(email) + ".jpg?s=" + size + "&d=mm&r=g";
     }

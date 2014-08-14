@@ -10,21 +10,21 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-
 @Entity
 public class Token implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private final String tokenString;
-    
-    @OneToOne(mappedBy="token")
+
+    @OneToOne(mappedBy = "token")
     private Participant participant;
-    
+
     @ManyToOne
     private Poll poll;
 
@@ -39,7 +39,7 @@ public class Token implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getTokenString() {
         return this.tokenString;
     }
@@ -59,5 +59,5 @@ public class Token implements Serializable {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
-    
+
 }

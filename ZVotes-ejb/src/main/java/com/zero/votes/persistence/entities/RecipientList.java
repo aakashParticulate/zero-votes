@@ -15,25 +15,26 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"name", "organizer"})})
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"name", "organizer"})})
 public class RecipientList implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column(name="name")
+
+    @Column(name = "name")
     private String name;
     
     @ManyToMany
     @ElementCollection
     @OrderBy("email ASC")
     private Set<Recipient> recipients;
-    
-    @JoinColumn(name="organizer")
+
+    @JoinColumn(name = "organizer")
     @ManyToOne
     private Organizer organizer;
 

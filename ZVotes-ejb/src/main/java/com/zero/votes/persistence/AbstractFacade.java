@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.zero.votes.persistence;
 
 import java.util.List;
@@ -14,11 +8,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-/**
- *
- * @author iekadou
- */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -67,7 +58,6 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
 
     protected T findBy(String fieldName, String value) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -76,9 +66,9 @@ public abstract class AbstractFacade<T> {
         cq.select(rt).where(cb.equal(rt.get(fieldName), value));
         TypedQuery<T> q = getEntityManager().createQuery(cq);
         try {
-                return q.getSingleResult();
+            return q.getSingleResult();
         } catch (NoResultException e) {
-                return null;
+            return null;
         }
     }
 }

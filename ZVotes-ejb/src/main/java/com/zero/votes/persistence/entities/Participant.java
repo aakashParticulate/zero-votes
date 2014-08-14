@@ -8,20 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-
 @Entity
 public class Participant implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String email;
     private boolean hasVoted;
-    
+
     @ManyToOne
     private Poll poll;
-    
+
     @OneToOne
     private Token token;
 
@@ -64,5 +64,5 @@ public class Participant implements Serializable {
     public void setToken(Token token) {
         this.token = token;
     }
-    
+
 }
