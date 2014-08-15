@@ -1,14 +1,19 @@
 package com.zero.votes.web.util;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import javax.faces.model.DataModel;
 
 public abstract class PaginationHelper {
 
     private int pageSize;
     private int page;
+    private int offset;
 
     public PaginationHelper(int pageSize) {
         this.pageSize = pageSize;
+        this.offset = 2;
     }
 
     public abstract int getItemsCount();
@@ -53,6 +58,26 @@ public abstract class PaginationHelper {
 
     public int getPageSize() {
         return pageSize;
+    }
+
+    public int getNumPages() {
+        return (int) Math.ceil(getItemsCount() / (double) pageSize);
+    }
+
+    public List<Integer> getPaginationEntries() {
+        HashSet<Integer> entries = new HashSet<>();
+
+        entries.add(1);
+
+        for (int i = page - offset; i <= page + offset; i++) {
+            if (i > 1 && i < getNumPages()) {
+                entries.add(i);
+            }
+        }
+
+        entries.add(getNumPages());
+
+        return new ArrayList<>(entries);
     }
 
 }

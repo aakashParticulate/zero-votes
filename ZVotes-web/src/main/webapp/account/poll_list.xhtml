@@ -41,6 +41,38 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
+            
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <ul class="pagination">
+                        <c:choose>
+                            <c:when test="#{pollController.pagination.hasPreviousPage}">
+                                <li><h:commandLink action="#{pollController.previous}" styleClass="fa fa-angle-left" /></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="disabled"><a href="#" class="fa fa-angle-left"></a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <ui:repeat value="#{pollController.pagination.getPaginationEntries()}" var="page" >
+                            <li><a href="#">#{page}</a></li>
+                        </ui:repeat>
+                        <c:choose>
+                            <c:when test="#{pollController.pagination.hasNextPage}">
+                                <li><h:commandLink action="#{pollController.next}" styleClass="fa fa-angle-right" /></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="disabled"><a href="#" class="fa fa-angle-right"></a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </div>
+            </div>
+
+          
+
+                    
+            
+            <br /><br />
             <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreatePoll}</h:commandLink>
         </h:form>
     </ui:define>
