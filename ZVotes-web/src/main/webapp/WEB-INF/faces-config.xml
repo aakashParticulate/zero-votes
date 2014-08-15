@@ -16,4 +16,7 @@
 		<var>icons</var>
 	   </resource-bundle>
      </application>
+     <lifecycle>
+         <phase-listener>com.zero.votes.listeners.MultiPageMessagesSupport</phase-listener>
+     </lifecycle>
 </faces-config>

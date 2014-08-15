@@ -17,6 +17,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("itemController")
@@ -27,6 +28,8 @@ public class ItemController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.ItemFacade ejbFacade;
+    @Inject
+    private com.zero.votes.web.PollController pollController;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -63,9 +66,9 @@ public class ItemController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
+    public String prepareList(Poll poll) {
         recreateModel();
-        return "item_list.xhtml";
+        return pollController.prepareEdit(poll);
     }
 
     public String prepareView() {
@@ -77,7 +80,7 @@ public class ItemController implements Serializable {
     public String prepareCreate() {
         current = new Item();
         selectedItemIndex = -1;
-        return "item_create.xhtml";
+        return pollController.prepareEdit(current.getPoll());
     }
     
     public String prepareCreateForPoll(Poll poll) {
@@ -91,7 +94,7 @@ public class ItemController implements Serializable {
         try {
             getFacade().create(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemCreated");
-            return prepareList();
+            return prepareList(poll);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -108,7 +111,7 @@ public class ItemController implements Serializable {
         try {
             getFacade().edit(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemUpdated");
-            return "View";
+            return pollController.prepareEdit(current.getPoll());
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -117,11 +120,12 @@ public class ItemController implements Serializable {
 
     public String destroy() {
         current = (Item) getItems().getRowData();
+        Poll poll = current.getPoll();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
+        return pollController.prepareEdit(poll);
     }
 
     public String destroyAndView() {
