@@ -6,12 +6,15 @@ import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Poll;
+import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -21,6 +24,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 @Named("pollController")
@@ -32,7 +36,6 @@ public class PollController implements Serializable {
     @EJB
     private com.zero.votes.persistence.PollFacade ejbFacade;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
 
     public PollController() {
     }
@@ -40,7 +43,6 @@ public class PollController implements Serializable {
     public Poll getSelected() {
         if (current == null) {
             current = new Poll();
-            selectedItemIndex = -1;
         }
         return current;
     }
@@ -48,7 +50,7 @@ public class PollController implements Serializable {
     private PollFacade getFacade() {
         return ejbFacade;
     }
-    
+
     public void refresh() {
         Poll updated_current = getFacade().find(current.getId());
         if (updated_current != null) {
@@ -79,26 +81,22 @@ public class PollController implements Serializable {
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
-    public String prepareView() {
-        current = (Poll) getItems().getRowData();
-        refresh();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+    public String prepareView(Poll poll) {
+        return "TODO";
     }
 
     public String prepareCreate() {
         current = new Poll();
-        
+
         // Add this Organizer to Poll
         FacesContext context = FacesContext.getCurrentInstance();
         UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         Organizer current_organizer = userBean.getOrganizer();
-        
+
         Set<Organizer> organizers = current.getOrganizers();
         organizers.add(current_organizer);
         current.setOrganizers(organizers);
-        
-        selectedItemIndex = -1;
+
         return UrlsPy.POLL_CREATE.getUrl(true);
     }
 
@@ -113,17 +111,9 @@ public class PollController implements Serializable {
         }
     }
 
-    public String prepareEdit() {
-        current = (Poll) getItems().getRowData();
-        refresh();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return UrlsPy.POLL_EDIT.getUrl(true);
-    }
-
     public String prepareEdit(Poll poll) {
         current = poll;
         refresh();
-        selectedItemIndex = -1;
         return UrlsPy.POLL_EDIT.getUrl(true);
     }
 
@@ -131,7 +121,7 @@ public class PollController implements Serializable {
         try {
             getFacade().edit(current);
             ZVotesUtils.addInternationalizedInfoMessage("PollUpdated");
-            return "View";
+            return UrlsPy.POLL_LIST.getUrl(true);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -140,24 +130,10 @@ public class PollController implements Serializable {
 
     public String destroy() {
         current = (Poll) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return UrlsPy.POLL_LIST.getUrl(true);
-        }
     }
 
     private void performDestroy() {
@@ -166,21 +142,6 @@ public class PollController implements Serializable {
             ZVotesUtils.addInternationalizedInfoMessage("PollDeleted");
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-        }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -218,6 +179,27 @@ public class PollController implements Serializable {
 
     public Poll getPoll(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+
+    public void validateStartDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        Date startDate = (Date) value;
+        if ((!this.current.getPollState().equals(PollState.PREPARED)) && (!startDate.equals(this.current.getStartDate()))) {
+            ZVotesUtils.throwValidatorException("PollAlreadyStarted");
+        }
+    }
+
+    public void validateTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        String title = (String) value;
+        List<Poll> polls_with_title = getFacade().findMultipleBy("title", value);
+        int amt_polls_with_title = 0;
+        for (Poll poll: polls_with_title) {
+            if (!Objects.equals(poll.getId(), current.getId())) {
+                amt_polls_with_title++;
+            }
+        }
+        if (amt_polls_with_title >= 1) {
+            ZVotesUtils.throwValidatorException("TitleAlreadyUsed");
+        }
     }
 
     @FacesConverter(forClass = Poll.class)

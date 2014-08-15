@@ -1,14 +1,14 @@
 package com.zero.votes.web;
 
+import com.zero.votes.beans.UrlsPy;
+import com.zero.votes.persistence.ItemOptionFacade;
+import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
-import com.zero.votes.persistence.ItemOptionFacade;
-
+import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
-import java.util.ResourceBundle;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,6 +17,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 @Named("itemOptionController")
 @SessionScoped
@@ -26,8 +28,9 @@ public class ItemOptionController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.ItemOptionFacade ejbFacade;
+    @Inject
+    private com.zero.votes.web.ItemController itemController;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
 
     public ItemOptionController() {
     }
@@ -35,13 +38,19 @@ public class ItemOptionController implements Serializable {
     public ItemOption getSelected() {
         if (current == null) {
             current = new ItemOption();
-            selectedItemIndex = -1;
         }
         return current;
     }
 
     private ItemOptionFacade getFacade() {
         return ejbFacade;
+    }
+
+    public void refresh() {
+        ItemOption updated_current = getFacade().find(current.getId());
+        if (updated_current != null) {
+            current = updated_current;
+        }
     }
 
     public PaginationHelper getPagination() {
@@ -62,94 +71,64 @@ public class ItemOptionController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
+    public String prepareList(Item item) {
         recreateModel();
-        return "List";
+        return itemController.prepareEdit(item);
     }
 
-    public String prepareView() {
-        current = (ItemOption) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+    public String prepareView(ItemOption itemOption) {
+        return "TODO";
     }
 
-    public String prepareCreate() {
+    public String prepareCreate(Item item) {
         current = new ItemOption();
-        selectedItemIndex = -1;
-        return "Create";
+        current.setItem(item);
+        return UrlsPy.ITEM_OPTION_CREATE.getUrl(true);
     }
 
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ItemOptionCreated"));
-            return prepareCreate();
+            ZVotesUtils.addInternationalizedInfoMessage("ItemOptionCreated");
+            return prepareList(current.getItem());
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
-    public String prepareEdit() {
-        current = (ItemOption) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+    public String prepareEdit(ItemOption itemOption) {
+        current = itemOption;
+        refresh();
+        return UrlsPy.ITEM_OPTION_EDIT.getUrl(true);
     }
 
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ItemOptionUpdated"));
-            return "View";
+            ZVotesUtils.addInternationalizedInfoMessage("ItemOptionUpdated");
+            return prepareList(current.getItem());
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
-    public String destroy() {
-        current = (ItemOption) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String destroy(ItemOption itemOption) {
+        Item item = itemOption.getItem();
+        current = itemOption;
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
+        return prepareList(item);
     }
 
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ItemOptionDeleted"));
+            ZVotesUtils.addInternationalizedInfoMessage("ItemOptionDeleted");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-        }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
         }
     }
 

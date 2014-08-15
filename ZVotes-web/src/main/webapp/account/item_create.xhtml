@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <h:commandLink action="#{itemController.create(itemController.selected.poll)}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
+                    <h:commandLink action="#{itemController.create()}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
                     <h:outputText value=" " />
                     <h:commandLink action="#{pollController.prepareEdit(itemController.selected.poll)}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.ItemShowAll}</h:commandLink>
                 </div>

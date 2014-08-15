@@ -66,7 +66,7 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    protected T findBy(String fieldName, String value) {
+    public T findBy(String fieldName, Object value) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -75,6 +75,20 @@ public abstract class AbstractFacade<T> {
         TypedQuery<T> q = getEntityManager().createQuery(cq);
         try {
             return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public List<T> findMultipleBy(String fieldName, Object value) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> rt = cq.from(entityClass);
+        cq.select(rt).where(cb.equal(rt.get(fieldName), value));
+        TypedQuery<T> q = getEntityManager().createQuery(cq);
+        try {
+            return q.getResultList();
         } catch (NoResultException e) {
             return null;
         }

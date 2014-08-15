@@ -34,5 +34,34 @@
                 </div>
             </div>
         </h:form>
+        <h2 class="page-header">
+            <h:outputText value="#{msg.ItemOptions}"></h:outputText>
+        </h2>
+        <h:form styleClass="form-horizontal">
+            <p><h:outputText escape="false" value="#{msg.ListEmpty}" rendered="#{itemController.selected.options.size() == 0}"/></p>
+            <h:panelGroup rendered="#{itemController.selected.options.size() > 0}">
+                <div class="table-responsive">
+                    <h:dataTable value="#{itemController.selected.options}" var="item" class="table table-striped table-bordered">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.ShortName}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.shortName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg.AvailableActions}"/>
+                            </f:facet>
+                            <h:commandLink action="#{itemOptionController.prepareView(item)}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
+                            <h:outputText value=" " />
+                            <h:commandLink action="#{itemOptionController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
+                            <h:outputText value=" " />
+                            <h:commandLink action="#{itemOptionController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </h:panelGroup>
+            <h:commandLink action="#{itemOptionController.prepareCreate(itemController.selected)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItemOption}</h:commandLink>
+        </h:form>
     </ui:define>
 </ui:composition>

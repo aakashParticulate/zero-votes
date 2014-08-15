@@ -1,13 +1,16 @@
 package com.zero.votes.web;
 
+import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.ItemFacade;
 import com.zero.votes.persistence.entities.Item;
+import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.ItemType;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -28,10 +31,11 @@ public class ItemController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.ItemFacade ejbFacade;
+    @EJB
+    private com.zero.votes.persistence.ItemOptionFacade ejbOptionFacade;
     @Inject
     private com.zero.votes.web.PollController pollController;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
 
     public ItemController() {
     }
@@ -39,13 +43,19 @@ public class ItemController implements Serializable {
     public Item getSelected() {
         if (current == null) {
             current = new Item();
-            selectedItemIndex = -1;
         }
         return current;
     }
 
     private ItemFacade getFacade() {
         return ejbFacade;
+    }
+
+    public void refresh() {
+        Item updated_current = getFacade().find(current.getId());
+        if (updated_current != null) {
+            current = updated_current;
+        }
     }
 
     public PaginationHelper getPagination() {
@@ -70,75 +80,54 @@ public class ItemController implements Serializable {
         recreateModel();
         return pollController.prepareEdit(poll);
     }
-
-    public String prepareView() {
-        current = (Item) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
-    }
-
-    public String prepareCreate() {
-        current = new Item();
-        selectedItemIndex = -1;
-        return pollController.prepareEdit(current.getPoll());
-    }
     
-    public String prepareCreateForPoll(Poll poll) {
+    public String prepareCreate(Poll poll) {
         current = new Item();
         current.setPoll(poll);
-        selectedItemIndex = -1;
-        return "item_create.xhtml";
+        return UrlsPy.ITEM_CREATE.getUrl(true);
     }
 
-    public String create(Poll poll) {
+    public String create() {
         try {
             getFacade().create(current);
+            optionTest(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemCreated");
-            return prepareList(poll);
+            return prepareList(current.getPoll());
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
-    public String prepareEdit() {
-        current = (Item) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "item_edit.xhtml";
+    public String prepareView(Item item) {
+        return "TODO";
+    }
+
+    public String prepareEdit(Item item) {
+        current = item;
+        refresh();
+        return UrlsPy.ITEM_EDIT.getUrl(true);
     }
 
     public String update() {
         try {
             getFacade().edit(current);
+            optionTest(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemUpdated");
-            return pollController.prepareEdit(current.getPoll());
+            return prepareList(current.getPoll());
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
-    public String destroy() {
-        current = (Item) getItems().getRowData();
+    public String destroy(Item item) {
+        current = item;
         Poll poll = current.getPoll();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
         return pollController.prepareEdit(poll);
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
     }
 
     private void performDestroy() {
@@ -147,21 +136,6 @@ public class ItemController implements Serializable {
             ZVotesUtils.addInternationalizedInfoMessage("ItemDeleted");
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-        }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -180,13 +154,13 @@ public class ItemController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return UrlsPy.ITEM_LIST.getUrl();
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return UrlsPy.ITEM_LIST.getUrl();
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
@@ -203,6 +177,27 @@ public class ItemController implements Serializable {
     
     public ItemType[] getAvailableItemTypes() {
         return ItemType.values();
+    }
+    
+    public void optionTest(Item current) {
+        if (current.getType().equals(ItemType.YES_NO)) {
+            Set<ItemOption> options = current.getOptions();
+            if (options != null && !options.isEmpty()) {
+                for (ItemOption option: options) {
+                    ejbOptionFacade.remove(option);
+                }
+            }
+            
+            ItemOption yes = new ItemOption();
+            yes.setShortName("yes");
+            yes.setItem(current);
+            ejbOptionFacade.create(yes);
+            
+            ItemOption no = new ItemOption();
+            no.setShortName("no");
+            no.setItem(current);
+            ejbOptionFacade.create(no);
+        }
     }
 
     @FacesConverter(forClass = Item.class)

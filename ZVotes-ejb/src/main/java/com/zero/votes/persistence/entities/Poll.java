@@ -65,6 +65,10 @@ public class Poll implements Serializable {
     public Long getId() {
         return id;
     }
+    
+    public PollState getPollState() {
+         return this.pollState;
+    }
 
     public void setPollState(PollState pollState) {
         this.pollState = pollState;

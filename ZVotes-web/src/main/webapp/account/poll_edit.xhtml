@@ -28,7 +28,7 @@
                 <h:outputLabel value="#{msg.StartDate}" for="startDate" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <div class="input-group date input-datetimepicker">
-                        <h:inputText id="startDate" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" styleClass="form-control">
+                        <h:inputText id="startDate" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control">
                             <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
                         </h:inputText>
                         <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
@@ -82,16 +82,16 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{itemController.prepareView}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{itemController.prepareView(item)}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{itemController.prepareEdit}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{itemController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{itemController.destroy}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{itemController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
                         </h:column>
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{itemController.prepareCreateForPoll(pollController.selected)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItem}</h:commandLink>
+            <h:commandLink action="#{itemController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItem}</h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>
