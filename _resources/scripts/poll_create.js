@@ -28,18 +28,22 @@ $(document).ready(function() {
         }
     });
 
-    $startDate.on("dp.change",function (e) {
-        $endDate.data("DateTimePicker").setMinDate(e.date);
-    });
-    $endDate.on("dp.change",function (e) {
-        $startDate.data("DateTimePicker").setMaxDate(e.date);
-    });
+    if ($startDate) {
+        $startDate.on("dp.change", function (e) {
+            $endDate.data("DateTimePicker").setMinDate(e.date);
+        });
+    }
+    if ($endDate) {
+        $endDate.on("dp.change", function (e) {
+            $startDate.data("DateTimePicker").setMaxDate(e.date);
+        });
+    }
 
     $datetimepicker.each(function() {
         var picker = $(this).data('DateTimePicker');
 
         if (picker) {
-            picker.element.on('click', $.proxy(picker.show, this));
+            $(this).on('click', $.proxy(picker.show, this));
         }
     });
 });
