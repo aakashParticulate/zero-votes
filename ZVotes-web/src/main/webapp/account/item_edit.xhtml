@@ -22,7 +22,8 @@
                 <h:outputLabel value="#{msg.Type}" for="type" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <h:selectOneMenu value="#{itemController.selected.type}" onchange="submit()" styleClass="form-control">
-                        <f:selectItems value="#{itemController.availableItemTypes}" /> 
+                        <f:selectItems value="#{itemController.availableItemTypes}" var="itemType"
+                       itemLabel="#{msg[itemType.label]}" itemValue="#{itemType}" />
                     </h:selectOneMenu>
                 </div>
             </div>

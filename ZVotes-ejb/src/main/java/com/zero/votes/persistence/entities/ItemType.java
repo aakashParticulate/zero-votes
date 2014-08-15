@@ -1,6 +1,17 @@
 package com.zero.votes.persistence.entities;
 
 public enum ItemType {
+    YES_NO("YesOrNo"),
+    ONE_OF_N("OneOfN"),
+    M_OF_N("MOfN");
 
-    YES_NO, ONE_OF_N, M_OF_N
+    private final String label;
+
+    ItemType(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return this.label;
+    }
 }
