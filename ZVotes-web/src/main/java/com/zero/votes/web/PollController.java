@@ -169,6 +169,12 @@ public class PollController implements Serializable {
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
+    public String page(int page) {
+        getPagination().setPage(page);
+        recreateModel();
+        return UrlsPy.POLL_LIST.getUrl(true);
+    }
+
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }

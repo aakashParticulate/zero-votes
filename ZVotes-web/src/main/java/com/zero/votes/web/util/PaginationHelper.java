@@ -19,6 +19,12 @@ public abstract class PaginationHelper {
     public abstract int getItemsCount();
 
     public abstract DataModel createPageDataModel();
+    
+    public void setPage(int page) {
+        if (page >= 0 && page <= getNumPages() && page != this.page) {
+            this.page = page;
+        }
+    }
 
     public int getPageFirstItem() {
         return page * pageSize;

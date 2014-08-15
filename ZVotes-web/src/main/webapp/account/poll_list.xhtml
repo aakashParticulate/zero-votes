@@ -53,9 +53,9 @@
                                 <li class="disabled"><a href="#" class="fa fa-angle-left"></a></li>
                             </c:otherwise>
                         </c:choose>
-                        <ui:repeat value="#{pollController.pagination.getPaginationEntries()}" var="page" >
-                            <li><a href="#">#{page}</a></li>
-                        </ui:repeat>
+                        <c:forEach items="#{pollController.pagination.getPaginationEntries()}" var="page" >
+                            <li><h:commandLink action="#{pollController.page(page-1)}" value="#{page}" /></li>
+                        </c:forEach>
                         <c:choose>
                             <c:when test="#{pollController.pagination.hasNextPage}">
                                 <li><h:commandLink action="#{pollController.next}" styleClass="fa fa-angle-right" /></li>
@@ -68,10 +68,6 @@
                 </div>
             </div>
 
-          
-
-                    
-            
             <br /><br />
             <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreatePoll}</h:commandLink>
         </h:form>
