@@ -4,6 +4,7 @@ import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.ItemOptionFacade;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
+import com.zero.votes.persistence.entities.ItemType;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
@@ -88,9 +89,14 @@ public class ItemOptionController implements Serializable {
 
     public String create() {
         try {
-            getFacade().create(current);
-            ZVotesUtils.addInternationalizedInfoMessage("ItemOptionCreated");
-            return prepareList(current.getItem());
+            Item item = current.getItem();
+            if (item.getType().equals(ItemType.YES_NO)) {
+                ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
+            } else {
+                getFacade().create(current);
+                ZVotesUtils.addInternationalizedInfoMessage("ItemOptionCreated");
+            }
+            return prepareList(item);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -105,8 +111,13 @@ public class ItemOptionController implements Serializable {
 
     public String update() {
         try {
-            getFacade().edit(current);
-            ZVotesUtils.addInternationalizedInfoMessage("ItemOptionUpdated");
+            Item item = current.getItem();
+            if (item.getType().equals(ItemType.YES_NO)) {
+                ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
+            } else {
+                getFacade().edit(current);
+                ZVotesUtils.addInternationalizedInfoMessage("ItemOptionUpdated");
+            }
             return prepareList(current.getItem());
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
@@ -116,10 +127,14 @@ public class ItemOptionController implements Serializable {
 
     public String destroy(ItemOption itemOption) {
         Item item = itemOption.getItem();
-        current = itemOption;
-        performDestroy();
-        recreatePagination();
-        recreateModel();
+        if (item.getType().equals(ItemType.YES_NO)) {
+            ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
+        } else {
+            current = itemOption;
+            performDestroy();
+            recreatePagination();
+            recreateModel();
+        }
         return prepareList(item);
     }
 
