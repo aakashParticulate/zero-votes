@@ -95,7 +95,7 @@ public class RecipientListController implements Serializable {
         try {
             getFacade().create(current);
             ZVotesUtils.addInternationalizedInfoMessage("RecipientListCreated");
-            return prepareCreate();
+            return prepareList();
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
