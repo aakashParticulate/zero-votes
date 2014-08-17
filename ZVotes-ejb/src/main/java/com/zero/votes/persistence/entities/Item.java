@@ -25,14 +25,14 @@ public class Item implements Serializable {
     private ItemType type;
     private int m;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Poll poll;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST})
     @OrderBy("id ASC")
     private Set<Vote> votes;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)
+    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @OrderBy("shortName ASC")
     private Set<ItemOption> options;
 

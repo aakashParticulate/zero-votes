@@ -4,6 +4,7 @@ import com.zero.votes.ldap.LdapUser;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,11 +34,11 @@ public class Organizer implements Serializable {
     private String encryptedPassword;
     private boolean admin;
 
-    @ManyToMany(mappedBy = "organizers", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "organizers", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @OrderBy("title ASC")
     private Set<Poll> polls;
 
-    @OneToMany(mappedBy = "organizer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "organizer", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private Set<RecipientList> recipientLists;
 
     public Organizer() {

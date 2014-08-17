@@ -1,6 +1,7 @@
 package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,10 +17,10 @@ public class Vote implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Item item;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private ItemOption itemOption;
     private boolean abstention;
 

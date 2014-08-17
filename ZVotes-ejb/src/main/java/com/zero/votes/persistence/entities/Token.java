@@ -2,6 +2,7 @@ package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,10 +24,10 @@ public class Token implements Serializable {
     @Column(unique = true)
     private final String tokenString;
 
-    @OneToOne(mappedBy = "token", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "token", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private Participant participant;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private Poll poll;
 
     public Token() {
