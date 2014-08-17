@@ -8,6 +8,8 @@ import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,9 +75,7 @@ public class ParticipantController implements Serializable {
     }
 
     public String prepareList(Poll poll) {
-        if (poll != null) {
-            this.poll = poll;
-        }
+        this.poll = poll;
         recreateModel();
         return UrlsPy.PARTICIPANT_LIST.getUrl(true);
     }
@@ -83,8 +83,9 @@ public class ParticipantController implements Serializable {
     public String prepareView() {
         return "TODO";
     }
+    
 
-    public String prepareCreate(Poll poll) {
+    public String prepareCreate() {
         current = new Participant();
         current.setPoll(poll);
         return UrlsPy.PARTICIPANT_CREATE.getUrl(true);
@@ -135,10 +136,7 @@ public class ParticipantController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+        return getPagination().createPageDataModel();
     }
 
     private void recreateModel() {
@@ -182,8 +180,19 @@ public class ParticipantController implements Serializable {
 	Pattern email_pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = email_pattern.matcher(email);
         
+        List<Participant> participants_with_title = getFacade().findAllBy("email", email);
+        int amount_participants_with_title = 0;
+        for (Participant participant: participants_with_title) {
+            if (!Objects.equals(participant.getId(), current.getId()) && (Objects.equals(participant.getPoll().getId(), current.getPoll().getId()))) {
+                amount_participants_with_title++;
+            }
+        }
+
         boolean result = true;
         if (email == null) {
+            result = false;
+        } else if (amount_participants_with_title >= 1) {
+            ZVotesUtils.throwValidatorException("EmailAlreadyInList");
             result = false;
         } else if (!matcher.matches()) {
             ZVotesUtils.throwValidatorException("NoValidEmail");

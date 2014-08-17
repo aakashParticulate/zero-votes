@@ -27,6 +27,7 @@ public class ItemOptionController implements Serializable {
 
     private ItemOption current;
     private DataModel items = null;
+    private Item item;
     @EJB
     private com.zero.votes.persistence.ItemOptionFacade ejbFacade;
     @Inject
@@ -73,11 +74,12 @@ public class ItemOptionController implements Serializable {
     }
 
     public String prepareList(Item item) {
+        this.item = item;
         recreateModel();
         return itemController.prepareEdit(item);
     }
 
-    public String prepareCreate(Item item) {
+    public String prepareCreate() {
         current = new ItemOption();
         current.setItem(item);
         return UrlsPy.ITEM_OPTION_CREATE.getUrl(true);
@@ -107,14 +109,14 @@ public class ItemOptionController implements Serializable {
 
     public String update() {
         try {
-            Item item = current.getItem();
+            item = current.getItem();
             if (item.getType().equals(ItemType.YES_NO)) {
                 ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
             } else {
                 getFacade().edit(current);
                 ZVotesUtils.addInternationalizedInfoMessage("ItemOptionUpdated");
             }
-            return prepareList(current.getItem());
+            return prepareList(item);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -144,10 +146,7 @@ public class ItemOptionController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+        return getPagination().createPageDataModel();
     }
 
     private void recreateModel() {

@@ -79,14 +79,12 @@ public class ItemController implements Serializable {
     }
 
     public String prepareList(Poll poll) {
-        if (poll != null) {
-            this.poll = poll;
-        }
+        this.poll = poll;
         recreateModel();
         return UrlsPy.ITEM_LIST.getUrl(true);
     }
     
-    public String prepareCreate(Poll poll) {
+    public String prepareCreate() {
         current = new Item();
         current.setPoll(poll);
         return UrlsPy.ITEM_CREATE.getUrl(true);

@@ -33,13 +33,18 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
                 .addRule(Join.path("/login/").to("/login.xhtml"))
                 .addRule(Join.path("/account/").to("/account/index.xhtml"))
                 .addRule(Join.path("/account/items/").to("/account/item_list.xhtml"))
-                .addRule(Join.path("/account/items/create/").to("/account/item_create.xhtml"))
-                .addRule(Join.path("/account/items/edit/").to("/account/item_edit.xhtml"))
+                .addRule(Join.path("/account/item/create/").to("/account/item_create.xhtml"))
+                .addRule(Join.path("/account/item/edit/").to("/account/item_edit.xhtml"))
+                .addRule(Join.path("/account/item-option/create/").to("/account/item_option_create.xhtml"))
+                .addRule(Join.path("/account/item-option/edit/").to("/account/item_option_edit.xhtml"))
+                .addRule(Join.path("/account/participants/").to("/account/participant_list.xhtml"))
+                .addRule(Join.path("/account/participant/create/").to("/account/participant_create.xhtml"))
+                .addRule(Join.path("/account/participant/edit/").to("/account/participant_edit.xhtml"))
                 .addRule(Join.path("/account/polls/").to("/account/poll_list.xhtml"))
-                .addRule(Join.path("/account/polls/create/").to("/account/poll_create.xhtml"))
-                .addRule(Join.path("/account/polls/edit/").to("/account/poll_edit.xhtml"))
+                .addRule(Join.path("/account/poll/create/").to("/account/poll_create.xhtml"))
+                .addRule(Join.path("/account/poll/edit/").to("/account/poll_edit.xhtml"))
                 .addRule(Join.path("/account/recipient-lists/").to("/account/recipientlist_list.xhtml"))
-                .addRule(Join.path("/account/recipient-lists/create/").to("/account/recipientlist_create.xhtml"))
-                .addRule(Join.path("/account/recipient-lists/edit/").to("/account/recipientlist_edit.xhtml"));
+                .addRule(Join.path("/account/recipient-list/create/").to("/account/recipientlist_create.xhtml"))
+                .addRule(Join.path("/account/recipient-list/edit/").to("/account/recipientlist_edit.xhtml"));
     }
 }
