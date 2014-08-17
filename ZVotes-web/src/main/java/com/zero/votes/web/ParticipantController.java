@@ -75,7 +75,7 @@ public class ParticipantController implements Serializable {
     public String prepareList(Poll poll) {
         this.poll = poll;
         recreateModel();
-        return UrlsPy.PARTICIPANT_LIST.getUrl();
+        return UrlsPy.PARTICIPANT_LIST.getUrl(true);
     }
 
     public String prepareView() {
@@ -85,7 +85,7 @@ public class ParticipantController implements Serializable {
     public String prepareCreate(Poll poll) {
         current = new Participant();
         current.setPoll(poll);
-        return UrlsPy.PARTICIPANT_CREATE.getUrl();
+        return UrlsPy.PARTICIPANT_CREATE.getUrl(true);
     }
 
     public String create() {
@@ -101,7 +101,7 @@ public class ParticipantController implements Serializable {
 
     public String prepareEdit(Participant participant) {
         current = participant;
-        return UrlsPy.PARTICIPANT_EDIT.getUrl();
+        return UrlsPy.PARTICIPANT_EDIT.getUrl(true);
     }
 
     public String update(Participant participant) {

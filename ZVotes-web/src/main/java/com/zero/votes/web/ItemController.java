@@ -131,7 +131,7 @@ public class ItemController implements Serializable {
         performDestroy();
         recreatePagination();
         recreateModel();
-        return UrlsPy.ITEM_LIST.getUrl();
+        return UrlsPy.ITEM_LIST.getUrl(true);
     }
 
     private void performDestroy() {
@@ -158,13 +158,13 @@ public class ItemController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return UrlsPy.ITEM_LIST.getUrl();
+        return UrlsPy.ITEM_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return UrlsPy.ITEM_LIST.getUrl();
+        return UrlsPy.ITEM_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
