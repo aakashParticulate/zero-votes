@@ -20,9 +20,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <h:commandLink action="#{recipientListController.create}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
+                    <h:commandLink action="#{recipientListController.create}" styleClass="btn btn-primary"><h:outputText value="#{icons.save} #{msg.Save}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{recipientListController.prepareList}" styleClass="btn btn-default"><span class="fa fa-list"></span> #{msg.RecipientListShowAll}</h:commandLink>
+                    <h:commandLink action="#{recipientListController.prepareList}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.RecipientListShowAll}" escape="False" /></h:commandLink>
                 </div>
             </div>
         </h:form>

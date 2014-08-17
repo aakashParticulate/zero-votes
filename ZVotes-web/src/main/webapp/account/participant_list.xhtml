@@ -33,7 +33,7 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{participantController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateParticipant}</h:commandLink>
+            <h:commandLink action="#{participantController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateParticipant}" escape="False" /></h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>

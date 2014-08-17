@@ -38,7 +38,7 @@
                 <ui:param name="controller" value="#{recipientListController}" />
             </ui:include>
             
-            <h:commandLink action="#{recipientListController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateRecipientList}</h:commandLink>
+            <h:commandLink action="#{recipientListController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateRecipientList}" escape="False" /></h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>

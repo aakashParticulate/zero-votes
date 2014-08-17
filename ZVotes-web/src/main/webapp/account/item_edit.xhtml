@@ -28,9 +28,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <h:commandLink action="#{itemController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
+                    <h:commandLink action="#{itemController.update}" styleClass="btn btn-primary"><h:outputText value="#{icons.save} #{msg.Save}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{itemController.prepareList(itemController.poll)}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.ItemShowAll}</h:commandLink>
+                    <h:commandLink action="#{itemController.prepareList(itemController.poll)}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.ItemShowAll}" escape="False" /></h:commandLink>
                 </div>
             </div>
         </h:form>
@@ -59,7 +59,7 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{itemOptionController.prepareCreate(itemController.poll)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItemOption}</h:commandLink>
+            <h:commandLink action="#{itemOptionController.prepareCreate(itemController.poll)}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateItemOption}" escape="False" /></h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>

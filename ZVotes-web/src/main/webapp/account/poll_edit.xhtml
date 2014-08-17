@@ -47,7 +47,7 @@
                                 <h:inputText id="startDate" binding="#{startDateInput}" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control" required="true" requiredMessage="#{msg.StartDateNotSet}">
                                     <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
                                 </h:inputText>
-                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                <span class="input-group-addon"><h:outputText value="#{icons.calendar}" escape="False" /></span>
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -65,7 +65,7 @@
                                 <h:inputText id="endDate" binding="#{endDateInput}" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" validator="#{pollController.validateEndDate}" styleClass="form-control" required="true" requiredMessage="#{msg.EndDateNotSet}">
                                     <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
                                 </h:inputText>
-                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                <span class="input-group-addon"><h:outputText value="#{icons.calendar}" escape="False" /></span>
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -86,9 +86,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <h:commandLink action="#{pollController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
+                    <h:commandLink action="#{pollController.update}" styleClass="btn btn-primary"><h:outputText value="#{icons.save} #{msg.Save}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default"><span class="fa fa-list"></span> #{msg.PollShowAll}</h:commandLink>
+                    <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.PollShowAll}" escape="False" /></h:commandLink>
                 </div>
             </div>
         </h:form>
