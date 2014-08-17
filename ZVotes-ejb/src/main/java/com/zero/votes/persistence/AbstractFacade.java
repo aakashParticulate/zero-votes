@@ -80,7 +80,7 @@ public abstract class AbstractFacade<T> {
         }
     }
 
-    public List<T> findMultipleBy(String fieldName, Object value) {
+    public List<T> findAllBy(String fieldName, Object value) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -93,4 +93,23 @@ public abstract class AbstractFacade<T> {
             return null;
         }
     }
+
+    public List<T> findRangeBy(String fieldName, Object value, int[] range) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> rt = cq.from(entityClass);
+        cq.select(rt).where(cb.equal(rt.get(fieldName), value));
+        TypedQuery<T> q = getEntityManager().createQuery(cq);
+        q.setMaxResults(range[1] - range[0] + 1);
+        q.setFirstResult(range[0]);
+        try {
+            return q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    
+    
 }

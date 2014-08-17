@@ -11,65 +11,66 @@
         <h1 class="page-header">
             <h:outputText value="#{msg.EditPoll}"></h:outputText>
         </h1>
-        <h:form styleClass="form-horizontal" role="form">
-            <div class="form-group">
+        <div class="hidden"><h:messages  errorClass="notification-error" infoClass="notification-info" /></div>
+        <h:form styleClass="form-horizontal" role="form" id="pollEditForm">
+            <div class="form-group #{titleInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.Title}" for="title" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
                         <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
-                            <h:inputText id="title" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" />
+                            <h:inputText id="title" binding="#{titleInput}" value="#{pollController.selected.title}" validator="#{pollController.validateTitle}" title="#{msg.Title}" styleClass="form-control" required="true" requiredMessage="#{msg.TitleNotSet}" />
                         </c:when>
                         <c:otherwise>
-                            <h:inputText id="title" readonly="true" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" />
+                            <h:inputText id="title" binding="#{titleInput}" readonly="true" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" required="true" requiredMessage="#{msg.TitleNotSet}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group #{descriptionInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.Description}" for="description" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
                         <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
-                            <h:inputText id="description" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" />
+                            <h:inputText id="description" binding="#{descriptionInput}" value="#{pollController.selected.description}" validator="#{pollController.validateDescription}" title="#{msg.Description}" styleClass="form-control" required="true" requiredMessage="#{msg.DescriptionNotSet}" />
                         </c:when>
                         <c:otherwise>
-                            <h:inputText id="description" readonly="true" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" />
+                            <h:inputText id="description" binding="#{descriptionInput}" readonly="true" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" required="true" requiredMessage="#{msg.DescriptionNotSet}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group #{startDateInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.StartDate}" for="startDate" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
                         <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
                             <div class="input-group date input-datetimepicker">
-                                <h:inputText id="startDate" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control">
+                                <h:inputText id="startDate" binding="#{startDateInput}" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control" required="true" requiredMessage="#{msg.StartDateNotSet}">
                                     <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
                                 </h:inputText>
                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <h:inputText id="startDate" readonly="true" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" styleClass="form-control" />
+                            <h:inputText id="startDate" binding="#{startDateInput}" readonly="true" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control" required="true" requiredMessage="#{msg.StartDateNotSet}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group #{endDateInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.EndDate}" for="endDate" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
                         <c:when test="#{!pollController.selected.pollFinished}">
                             <div class="input-group date input-datetimepicker">
-                                <h:inputText id="endDate" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" styleClass="form-control" >
+                                <h:inputText id="endDate" binding="#{endDateInput}" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" validator="#{pollController.validateEndDate}" styleClass="form-control" required="true" requiredMessage="#{msg.EndDateNotSet}">
                                     <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
                                 </h:inputText>
                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <h:inputText id="endDate" readonly="true" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" styleClass="form-control" />
+                            <h:inputText id="endDate" binding="#{endDateInput}" readonly="true" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" validator="#{pollController.validateEndDate}" styleClass="form-control" required="true" requiredMessage="#{msg.EndDateNotSet}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -89,6 +90,8 @@
                     <h:commandLink action="#{pollController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
                     <h:outputText value=" " />
                     <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.PollShowAll}</h:commandLink>
+                    <h:outputText value=" " />
+                    <h:commandLink action="#{participantController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-users"></span> #{msg.ParticipantShowAll}</h:commandLink>
                 </div>
             </div>
         </h:form>
@@ -121,5 +124,6 @@
             </h:panelGroup>
             <h:commandLink action="#{itemController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItem}</h:commandLink>
         </h:form>
+        <br /><br />
     </ui:define>
 </ui:composition>

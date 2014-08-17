@@ -15,6 +15,10 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     POLL_CREATE("account/poll_create.xhtml"),
     POLL_LIST("account/poll_list.xhtml"),
     POLL_EDIT("account/poll_edit.xhtml"),
+    PARTICIPANT_LIST("account/participant_list.xhtml"),
+    PARTICIPANT_CREATE("account/participant_create.xhtml"),
+    PARTICIPANT_EDIT("account/participant_edit.xhtml"),
+    
     
     RECIPIENTLIST_CREATE("account/recipientlist_create.xhtml"),
     RECIPIENTLIST_LIST("account/recipientlist_list.xhtml"),

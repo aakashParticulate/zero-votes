@@ -18,6 +18,7 @@ import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -52,9 +53,48 @@ public class PollController implements Serializable {
     }
     
     public String publish(Poll poll) {
-        poll.setPollState(PollState.STARTED);
-        getFacade().edit(poll);
-        return UrlsPy.POLL_LIST.getUrl(true);
+        if (validate(poll)) {
+            poll.setPollState(PollState.STARTED);
+            getFacade().edit(poll);
+            ZVotesUtils.addInternationalizedInfoMessage("PollPublishedSuccessfully");
+            return UrlsPy.POLL_LIST.getUrl(true);
+        }
+        else {
+            return UrlsPy.POLL_LIST.getUrl(true);
+        }
+    }
+    
+    public boolean validate(Poll poll) {
+        boolean result = true;
+        if (poll.getItems().isEmpty()) {
+            ZVotesUtils.addInternationalizedErrorMessage("PollNoItem");
+            result = false;
+        }
+        if (poll.getStartDate() == null) {
+            ZVotesUtils.addInternationalizedErrorMessage("StartDateNotSet");
+            result = false;
+        }
+        if (poll.getEndDate() == null) {
+            ZVotesUtils.addInternationalizedErrorMessage("EndDateNotSet");
+            result = false;
+        }
+        if (poll.getEndDate().before(poll.getStartDate())) {
+            ZVotesUtils.addInternationalizedErrorMessage("EndDateBeforeStartDate");
+            result = false;
+        }
+        if (poll.getTitle().isEmpty()) {
+            ZVotesUtils.addInternationalizedErrorMessage("TitleNotSet");
+            result = false;
+        }
+        if (poll.getDescription().isEmpty()) {
+            ZVotesUtils.addInternationalizedErrorMessage("DescriptionNotSet");
+            result = false;
+        }
+        if (poll.getParticipants().size() < 3) {
+            ZVotesUtils.addInternationalizedErrorMessage("PollLessThan3Participants");
+            result = false;
+        }
+        return result;
     }
 
     public void refresh() {
@@ -195,14 +235,29 @@ public class PollController implements Serializable {
 
     public void validateStartDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         Date startDate = (Date) value;
-        if ((!this.current.getPollState().equals(PollState.PREPARED)) && (!startDate.equals(this.current.getStartDate()))) {
-            ZVotesUtils.throwValidatorException("PollAlreadyStarted");
+        if (startDate == null) {
+            ZVotesUtils.throwValidatorException("StartDateNotSet");
+        }
+    }
+
+    public void validateEndDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        Date endDate = (Date) value;
+        if (endDate == null) {
+            ZVotesUtils.throwValidatorException("EndDateNotSet");
+        }
+        UIInput startDateComponent = (UIInput) (context.getViewRoot().findComponent("pollEditForm:startDate"));
+	Date startDate = (Date) startDateComponent.getValue();
+        if (startDate.after(endDate)) {
+            ZVotesUtils.throwValidatorException("EndDateBeforeStartDate");
         }
     }
 
     public void validateTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String title = (String) value;
-        List<Poll> polls_with_title = getFacade().findMultipleBy("title", value);
+        if (title.isEmpty()) {
+            ZVotesUtils.throwValidatorException("TitleNotSet");
+        }
+        List<Poll> polls_with_title = getFacade().findAllBy("title", value);
         int amt_polls_with_title = 0;
         for (Poll poll: polls_with_title) {
             if (!Objects.equals(poll.getId(), current.getId())) {
@@ -211,6 +266,13 @@ public class PollController implements Serializable {
         }
         if (amt_polls_with_title >= 1) {
             ZVotesUtils.throwValidatorException("TitleAlreadyUsed");
+        }
+    }
+
+    public void validateDescription(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        String description = (String) value;
+        if (description.isEmpty()) {
+            ZVotesUtils.throwValidatorException("DescriptionNotSet");
         }
     }
 
