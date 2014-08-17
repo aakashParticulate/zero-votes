@@ -42,10 +42,10 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreatePoll}" escape="False" /></h:commandLink>
             <ui:include src="/WEB-INF/templates/pagination.xhtml">
                 <ui:param name="controller" value="#{pollController}" />
             </ui:include>
+            <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreatePoll}" escape="False" /></h:commandLink>
             <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>

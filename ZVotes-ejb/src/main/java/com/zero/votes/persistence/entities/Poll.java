@@ -38,7 +38,7 @@ public class Poll implements Serializable {
     private Date endDate;
     private boolean participationTracking;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER)
     @OrderBy("username ASC")
     private Set<Organizer> organizers;
 
@@ -65,9 +65,9 @@ public class Poll implements Serializable {
     public Long getId() {
         return id;
     }
-
+    
     public PollState getPollState() {
-        return this.pollState;
+         return this.pollState;
     }
 
     public void setPollState(PollState pollState) {
