@@ -10,6 +10,8 @@ import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.web.util.ZVotesUtils;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +22,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 
 @Named("recipientListController")
 @SessionScoped
@@ -179,6 +182,23 @@ public class RecipientListController implements Serializable {
 
     public RecipientList getRecipientList(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+    
+    public void validateName(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        String name = (String) value;
+        if (name.isEmpty()) {
+            ZVotesUtils.throwValidatorException("NameNotSet");
+        }
+        List<RecipientList> recipient_list_with_name = getFacade().findAllBy("name", name);
+        int amt_recipient_list_with_name = 0;
+        for (RecipientList recipient_list: recipient_list_with_name) {
+            if (!Objects.equals(recipient_list.getId(), current.getId())) {
+                amt_recipient_list_with_name++;
+            }
+        }
+        if (amt_recipient_list_with_name >= 1) {
+            ZVotesUtils.throwValidatorException("NameAlreadyUsed");
+        }
     }
 
     @FacesConverter(forClass = RecipientList.class)

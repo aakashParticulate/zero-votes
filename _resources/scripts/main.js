@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     var current_language = $('html').attr('lang') || "de";
 
-    var preview_text, edit_text, delete_text, publish_text;
+    var preview_text, edit_text, delete_text, publish_text, participants_text, questions_text;
 
     switch (current_language) {
         case "en":

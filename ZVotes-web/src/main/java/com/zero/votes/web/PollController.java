@@ -257,7 +257,7 @@ public class PollController implements Serializable {
         if (title.isEmpty()) {
             ZVotesUtils.throwValidatorException("TitleNotSet");
         }
-        List<Poll> polls_with_title = getFacade().findAllBy("title", value);
+        List<Poll> polls_with_title = getFacade().findAllBy("title", title);
         int amt_polls_with_title = 0;
         for (Poll poll: polls_with_title) {
             if (!Objects.equals(poll.getId(), current.getId())) {
