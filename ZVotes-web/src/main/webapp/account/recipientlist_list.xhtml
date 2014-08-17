@@ -32,15 +32,20 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{recipientListController.prepareView}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{recipientListController.prepareView(item)}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{recipientListController.prepareEdit}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{recipientListController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{recipientListController.destroy}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{recipientListController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
                         </h:column>
                     </h:dataTable>
                 </div>
             </h:panelGroup>
+            
+            <ui:include src="/WEB-INF/templates/pagination.xhtml">
+                <ui:param name="controller" value="#{recipientListController}" />
+            </ui:include>
+            
             <h:commandLink action="#{recipientListController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateRecipientList}</h:commandLink>
         </h:form>
     </ui:define>

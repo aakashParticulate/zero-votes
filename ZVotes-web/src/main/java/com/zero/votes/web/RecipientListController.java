@@ -10,8 +10,6 @@ import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.web.util.ZVotesUtils;
 
 import java.io.Serializable;
-import java.util.ResourceBundle;
-import java.util.Set;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -32,7 +30,6 @@ public class RecipientListController implements Serializable {
     @EJB
     private com.zero.votes.persistence.RecipientListFacade ejbFacade;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
 
     public RecipientListController() {
     }
@@ -40,13 +37,19 @@ public class RecipientListController implements Serializable {
     public RecipientList getSelected() {
         if (current == null) {
             current = new RecipientList();
-            selectedItemIndex = -1;
         }
         return current;
     }
 
     private RecipientListFacade getFacade() {
         return ejbFacade;
+    }
+    
+    public void refresh() {
+        RecipientList updated_current = getFacade().find(current.getId());
+        if (updated_current != null) {
+            current = updated_current;
+        }
     }
 
     public PaginationHelper getPagination() {
@@ -73,9 +76,7 @@ public class RecipientListController implements Serializable {
     }
 
     public String prepareView() {
-        current = (RecipientList) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return "TODO";
     }
 
     public String prepareCreate() {
@@ -87,7 +88,6 @@ public class RecipientListController implements Serializable {
 
         current.setOrganizer(current_organizer);
         
-        selectedItemIndex = -1;
         return UrlsPy.RECIPIENTLIST_CREATE.getUrl(true);
     }
 
@@ -102,9 +102,9 @@ public class RecipientListController implements Serializable {
         }
     }
 
-    public String prepareEdit() {
-        current = (RecipientList) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String prepareEdit(RecipientList recipientList) {
+        current = recipientList;
+        refresh();
         return UrlsPy.RECIPIENTLIST_EDIT.getUrl(true);
     }
 
@@ -119,26 +119,12 @@ public class RecipientListController implements Serializable {
         }
     }
 
-    public String destroy() {
-        current = (RecipientList) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String destroy(RecipientList recipientList) {
+        current = recipientList;
         performDestroy();
         recreatePagination();
         recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
-        }
     }
 
     private void performDestroy() {
@@ -147,21 +133,6 @@ public class RecipientListController implements Serializable {
             ZVotesUtils.addInternationalizedInfoMessage("RecipientListDeleted");
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-        }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -188,6 +159,12 @@ public class RecipientListController implements Serializable {
 
     public String previous() {
         getPagination().previousPage();
+        recreateModel();
+        return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
+    }
+
+    public String page(String page) {
+        getPagination().setPage(Integer.valueOf(page));
         recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
