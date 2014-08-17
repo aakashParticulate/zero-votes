@@ -56,8 +56,15 @@
                                 <li class="disabled"><a href="#" class="fa fa-angle-left"></a></li>
                             </c:otherwise>
                         </c:choose>
-                        <c:forEach items="#{pollController.pagination.getPaginationEntries()}" var="page" >
-                            <li><h:commandLink action="#{pollController.page(page-1)}" value="#{page}" /></li>
+                        <c:forEach items="#{pollController.pagination.getPaginationEntries()}" var="page">
+                            <c:choose>
+                                <c:when test="#{page == 'DOTS'}">
+                                    <li class="disabled"><a href="#"><h:outputText value="&#8230;" /></a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><h:commandLink action="#{pollController.page(page)}" value="#{page+1}" /></li>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                         <c:choose>
                             <c:when test="#{pollController.pagination.hasNextPage}">

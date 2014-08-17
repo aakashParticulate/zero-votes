@@ -2,7 +2,9 @@ package com.zero.votes.web.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.faces.model.DataModel;
 
 public abstract class PaginationHelper {
@@ -13,7 +15,7 @@ public abstract class PaginationHelper {
 
     public PaginationHelper(int pageSize) {
         this.pageSize = pageSize;
-        this.offset = 2;
+        this.offset = 1;
     }
 
     public abstract int getItemsCount();
@@ -67,23 +69,35 @@ public abstract class PaginationHelper {
     }
 
     public int getNumPages() {
-        return (int) Math.ceil(getItemsCount() / (double) pageSize);
+        // we will do floor division cause pages starts at 0 not 1
+        return (getItemsCount() / pageSize) - 1;
     }
 
-    public List<Integer> getPaginationEntries() {
+    public List<String> getPaginationEntries() {
         HashSet<Integer> entries = new HashSet<>();
 
-        entries.add(1);
-
+        entries.add(0);
         for (int i = page - offset; i <= page + offset; i++) {
-            if (i > 1 && i < getNumPages()) {
+            if (i > 0 && i < getNumPages()) {
                 entries.add(i);
+            }
+        } 
+        entries.add(getNumPages());
+        
+        Object[] entries_in_array = entries.toArray();
+        List<String> entries_as_string = new ArrayList<>();
+        
+        for (int i = 0; i < entries_in_array.length; i++) {
+            entries_as_string.add(String.valueOf(entries_in_array[i]));
+            
+            if (i + 1 < entries_in_array.length) {
+                if ((int)entries_in_array[i] + 1 < (int)entries_in_array[i + 1]) {
+                    entries_as_string.add("DOTS");
+                }
             }
         }
 
-        entries.add(getNumPages());
-
-        return new ArrayList<>(entries);
+        return entries_as_string;
     }
 
 }

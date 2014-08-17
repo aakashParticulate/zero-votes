@@ -66,7 +66,7 @@ public class PollController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+            pagination = new PaginationHelper(1) {
 
                 @Override
                 public int getItemsCount() {
@@ -175,8 +175,8 @@ public class PollController implements Serializable {
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
-    public String page(int page) {
-        getPagination().setPage(page);
+    public String page(String page) {
+        getPagination().setPage(Integer.valueOf(page));
         recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
     }
