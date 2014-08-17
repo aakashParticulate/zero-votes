@@ -15,35 +15,63 @@
             <div class="form-group">
                 <h:outputLabel value="#{msg.Title}" for="title" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <h:inputText id="title" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" />
+                    <c:choose>
+                        <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                            <h:inputText id="title" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:inputText id="title" readonly="true" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" />
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="form-group">
                 <h:outputLabel value="#{msg.Description}" for="description" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <h:inputText id="description" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" />
+                    <c:choose>
+                        <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                            <h:inputText id="description" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" />
+                        </c:when>
+                        <c:otherwise>
+                            <h:inputText id="description" readonly="true" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" />
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="form-group">
                 <h:outputLabel value="#{msg.StartDate}" for="startDate" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <div class="input-group date input-datetimepicker">
-                        <h:inputText id="startDate" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control">
-                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
-                        </h:inputText>
-                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                    </div>
+                    <c:choose>
+                        <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                            <div class="input-group date input-datetimepicker">
+                                <h:inputText id="startDate" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control">
+                                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
+                                </h:inputText>
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <h:inputText id="startDate" readonly="true" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" styleClass="form-control" />
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="form-group">
                 <h:outputLabel value="#{msg.EndDate}" for="endDate" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <div class="input-group date input-datetimepicker">
-                        <h:inputText id="endDate" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" styleClass="form-control" >
-                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
-                        </h:inputText>
-                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                    </div>
+                    <c:choose>
+                        <c:when test="#{!pollController.selected.pollFinished}">
+                            <div class="input-group date input-datetimepicker">
+                                <h:inputText id="endDate" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" styleClass="form-control" >
+                                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
+                                </h:inputText>
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <h:inputText id="endDate" readonly="true" value="#{pollController.selected.endDate}" title="#{msg.EndDate}" styleClass="form-control" />
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="form-group">
@@ -64,10 +92,10 @@
                 </div>
             </div>
         </h:form>
-        <h2 class="page-header">
-            <h:outputText value="#{msg.Items}"></h:outputText>
-        </h2>
-        <h:form styleClass="form-horizontal">
+        <h:form styleClass="form-horizontal" rendered="${pollController.selected.pollState == 'PREPARED'}">
+            <h2 class="page-header">
+                <h:outputText value="#{msg.Items}"></h:outputText>
+            </h2>
             <p><h:outputText escape="false" value="#{msg.ListEmpty}" rendered="#{pollController.selected.items.size() == 0}"/></p>
             <h:panelGroup rendered="#{pollController.selected.items.size() > 0}">
                 <div class="table-responsive">

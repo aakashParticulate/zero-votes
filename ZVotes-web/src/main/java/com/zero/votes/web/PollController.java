@@ -50,6 +50,12 @@ public class PollController implements Serializable {
     private PollFacade getFacade() {
         return ejbFacade;
     }
+    
+    public String publish(Poll poll) {
+        poll.setPollState(PollState.STARTED);
+        getFacade().edit(poll);
+        return UrlsPy.POLL_LIST.getUrl(true);
+    }
 
     public void refresh() {
         Poll updated_current = getFacade().find(current.getId());
@@ -128,8 +134,8 @@ public class PollController implements Serializable {
         }
     }
 
-    public String destroy() {
-        current = (Poll) getItems().getRowData();
+    public String destroy(Poll poll) {
+        current = poll;
         performDestroy();
         recreatePagination();
         recreateModel();
