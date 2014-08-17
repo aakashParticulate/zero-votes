@@ -6,7 +6,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:param name="title" value="#{msg.EditItem}"/>
-    <ui:param name="navItems" value="active"/>
+    <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">
         <h1 class="page-header">
             <h:outputText value="#{msg.EditItem}"></h:outputText>
@@ -22,8 +22,7 @@
                 <h:outputLabel value="#{msg.Type}" for="type" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <h:selectOneMenu value="#{itemController.selected.type}" onchange="submit()" styleClass="form-control">
-                        <f:selectItems value="#{itemController.availableItemTypes}" var="itemType"
-                       itemLabel="#{msg[itemType.label]}" itemValue="#{itemType}" />
+                        <f:selectItems value="#{itemController.availableItemTypes}" var="itemType" itemLabel="#{msg[itemType.label]}" itemValue="#{itemType}" />
                     </h:selectOneMenu>
                 </div>
             </div>

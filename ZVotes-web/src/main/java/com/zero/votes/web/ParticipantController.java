@@ -86,8 +86,7 @@ public class ParticipantController implements Serializable {
         return UrlsPy.PARTICIPANT_CREATE.getUrl();
     }
 
-    public String create(Participant participant) {
-        current = participant;
+    public String create() {
         try {
             getFacade().create(current);
             ZVotesUtils.addInternationalizedInfoMessage("ParticipantCreated");

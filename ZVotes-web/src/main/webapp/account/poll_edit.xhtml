@@ -91,7 +91,7 @@
                     <h:outputText value=" " />
                     <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.PollShowAll}</h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{participantController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-users"></span> #{msg.ParticipantShowAll}</h:commandLink>
+                    <h:commandLink action="#{participantController.prepareList(pollController.selected)}" styleClass="btn btn-default" immediate="true"><span class="fa fa-users"></span> #{msg.ParticipantShowAll}</h:commandLink>
                 </div>
             </div>
         </h:form>
