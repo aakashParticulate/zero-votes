@@ -17,10 +17,10 @@
                 <div class="col-sm-9">
                     <c:choose>
                         <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
-                            <h:inputText id="title" binding="#{titleInput}" value="#{pollController.selected.title}" validator="#{pollController.validateTitle}" title="#{msg.Title}" styleClass="form-control" required="true" immediate="true" requiredMessage="#{msg.TitleNotSet}" />
+                            <h:inputText id="title" binding="#{titleInput}" value="#{pollController.selected.title}" validator="#{pollController.validateTitle}" title="#{msg.Title}" styleClass="form-control" required="true" requiredMessage="#{msg.TitleNotSet}" />
                         </c:when>
                         <c:otherwise>
-                            <h:inputText id="title" binding="#{titleInput}" readonly="true" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" required="true" immediate="true" requiredMessage="#{msg.TitleNotSet}" />
+                            <h:inputText id="title" binding="#{titleInput}" readonly="true" value="#{pollController.selected.title}" title="#{msg.Title}" styleClass="form-control" required="true" requiredMessage="#{msg.TitleNotSet}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="col-sm-offset-3 col-sm-9">
                     <h:commandLink action="#{pollController.create}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.PollShowAll}</h:commandLink>
+                    <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default"><span class="fa fa-list"></span> #{msg.PollShowAll}</h:commandLink>
                 </div>
             </div>
         </h:form>
