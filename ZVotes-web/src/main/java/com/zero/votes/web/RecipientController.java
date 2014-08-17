@@ -67,7 +67,7 @@ public class RecipientController implements Serializable {
         return "List";
     }
 
-    public String prepareView() {
+    public String preparePreview(Recipient recipient) {
         current = (Recipient) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";

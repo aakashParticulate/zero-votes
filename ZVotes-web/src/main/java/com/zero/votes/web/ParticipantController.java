@@ -9,6 +9,8 @@ import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -168,6 +170,25 @@ public class ParticipantController implements Serializable {
     public Participant getParticipant(java.lang.Long id) {
         return ejbFacade.find(id);
     }
+    
+    public void validateEmail(FacesContext context, UIComponent component, Object value) {
+        String email = String.valueOf(value);
+        String EMAIL_PATTERN = 
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+ 
+	Pattern email_pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = email_pattern.matcher(email);
+        
+        boolean result = true;
+        if (email == null) {
+            result = false;
+        } else if (!matcher.matches()) {
+            ZVotesUtils.throwValidatorException("NoValidEmail");
+            result = false;
+        }
+    }
+    
 
     @FacesConverter(forClass = Participant.class)
     public static class ParticipantControllerConverter implements Converter {

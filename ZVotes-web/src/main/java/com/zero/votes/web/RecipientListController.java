@@ -75,7 +75,7 @@ public class RecipientListController implements Serializable {
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
-    public String prepareView() {
+    public String preparePreview(RecipientList recipientList) {
         return "TODO";
     }
 

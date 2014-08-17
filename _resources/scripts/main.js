@@ -3,17 +3,30 @@ $(document).ready(function() {
         "closeButton": true
     };
 
+	var messages_displayed = [];
 	$('.notification-fatal').each(function() {
-		toastr.error($(this).html());
+		if (messages_displayed.indexOf('fatal_'+$(this).html()) == -1) {
+			toastr.error($(this).html());
+			messages_displayed.push('fatal_'+$(this).html());
+		}
 	});
 	$('.notification-error').each(function() {
-		toastr.error($(this).html());
+		if (messages_displayed.indexOf('error_'+$(this).html()) == -1) {
+			toastr.error($(this).html());
+			messages_displayed.push('error_'+$(this).html());
+		}
 	});
 	$('.notification-warning').each(function() {
-		toastr.warning($(this).html());
+		if (messages_displayed.indexOf('warning_'+$(this).html()) == -1) {
+			toastr.warning($(this).html());
+			messages_displayed.push('warning_'+$(this).html());
+		}
 	});
 	$('.notification-info').each(function() {
-		toastr.info($(this).html());
+		if (messages_displayed.indexOf('info_'+$(this).html()) == -1) {
+			toastr.info($(this).html());
+			messages_displayed.push('info_'+$(this).html());
+		}
 	});
 
     // --------------------------
@@ -28,6 +41,8 @@ $(document).ready(function() {
             edit_text = "Edit";
             delete_text = "Delete";
             publish_text = "Publish";
+            participants_text = "Participants";
+            questions_text = "Questions";
             break;
         case "de":
         default:
@@ -35,26 +50,39 @@ $(document).ready(function() {
             edit_text = "Editieren";
             delete_text = "Löschen";
             publish_text = "Veröffentlichen";
+            participants_text = "Teilnehmer";
+            questions_text = "Fragen";
             break;
     }
 
-    $('.fa-eye').parent().tooltip({
+    $('.zvotes-preview-btn').parent().tooltip({
         'placement': 'bottom',
         'title': preview_text
     });
 
-    $('.fa-edit').parent().tooltip({
+    $('.zvotes-edit-btn').parent().tooltip({
         'placement': 'bottom',
         'title': edit_text
     });
 
-    $('.fa-trash-o').parent().tooltip({
+    $('.zvotes-delete-btn').parent().tooltip({
         'placement': 'bottom',
         'title': delete_text
     });
 
-    $('.fa-thumbs-o-up').parent().tooltip({
+    $('.zvotes-publish-btn').parent().tooltip({
         'placement': 'bottom',
         'title': publish_text
     });
+
+    $('.zvotes-participants-btn').parent().tooltip({
+        'placement': 'bottom',
+        'title': participants_text
+    });
+
+    $('.zvotes-questions-btn').parent().tooltip({
+        'placement': 'bottom',
+        'title': questions_text
+    });
+	
 });

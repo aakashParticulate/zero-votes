@@ -18,12 +18,6 @@
                     <h:dataTable value="#{pollController.items}" var="item" class="table table-striped table-bordered">
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msg.Id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{msg.Title}"/>
                             </f:facet>
                             <h:outputText value="#{item.title}"/>
@@ -32,11 +26,15 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{pollController.prepareView(item)}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{pollController.preparePreview(item)}" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+                            <h:outputText value=" " />
+                            <h:commandLink action="#{participantController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.participants}" escape="False"/></h:commandLink>
+                            <h:outputText value=" " />
+                            <h:commandLink action="#{itemController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.questions}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.publish(item)}" rendered="${item.pollState == 'PREPARED'}" class="btn btn-success"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
                             <h:commandLink action="NOTHING" rendered="${item.pollState != 'PREPARED'}" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
@@ -44,12 +42,9 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            
             <ui:include src="/WEB-INF/templates/pagination.xhtml">
                 <ui:param name="controller" value="#{pollController}" />
             </ui:include>
-
-            <br /><br />
             <h:commandLink action="#{pollController.prepareCreate}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreatePoll}</h:commandLink>
         </h:form>
     </ui:define>

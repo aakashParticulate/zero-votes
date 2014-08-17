@@ -32,7 +32,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{recipientListController.prepareView(item)}" class="btn btn-info"><h:outputText value="#{icons.view}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{recipientListController.preparePreview(item)}" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{recipientListController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />

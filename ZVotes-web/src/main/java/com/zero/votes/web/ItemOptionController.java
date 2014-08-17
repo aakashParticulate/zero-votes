@@ -77,10 +77,6 @@ public class ItemOptionController implements Serializable {
         return itemController.prepareEdit(item);
     }
 
-    public String prepareView(ItemOption itemOption) {
-        return "TODO";
-    }
-
     public String prepareCreate(Item item) {
         current = new ItemOption();
         current.setItem(item);

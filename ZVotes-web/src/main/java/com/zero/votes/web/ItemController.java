@@ -33,8 +33,7 @@ public class ItemController implements Serializable {
     private com.zero.votes.persistence.ItemFacade ejbFacade;
     @EJB
     private com.zero.votes.persistence.ItemOptionFacade ejbOptionFacade;
-    @Inject
-    private com.zero.votes.web.PollController pollController;
+    private Poll poll;
     private PaginationHelper pagination;
 
     public ItemController() {
@@ -69,7 +68,7 @@ public class ItemController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getFacade().findRangeBy("poll", poll, new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -77,8 +76,9 @@ public class ItemController implements Serializable {
     }
 
     public String prepareList(Poll poll) {
+        this.poll = poll;
         recreateModel();
-        return pollController.prepareEdit(poll);
+        return UrlsPy.ITEM_LIST.getUrl();
     }
     
     public String prepareCreate(Poll poll) {
@@ -99,7 +99,7 @@ public class ItemController implements Serializable {
         }
     }
 
-    public String prepareView(Item item) {
+    public String preparePreview(Item item) {
         return "TODO";
     }
 
@@ -123,11 +123,10 @@ public class ItemController implements Serializable {
 
     public String destroy(Item item) {
         current = item;
-        Poll poll = current.getPoll();
         performDestroy();
         recreatePagination();
         recreateModel();
-        return pollController.prepareEdit(poll);
+        return UrlsPy.ITEM_LIST.getUrl();
     }
 
     private void performDestroy() {

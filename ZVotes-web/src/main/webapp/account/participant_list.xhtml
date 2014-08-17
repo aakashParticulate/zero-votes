@@ -12,7 +12,7 @@
             <h:outputText value="#{msg.Participants}"></h:outputText>
         </h1>
         <h:form styleClass="form-horizontal">
-            <p><h:outputText escape="false" value="#{msg.ListEmpty}" rendered="#{pollController.items.rowCount == 0}"/></p>
+            <p><h:outputText escape="false" value="#{msg.ListEmpty}" rendered="#{participantController.items.rowCount == 0}"/></p>
             <h:panelGroup rendered="#{participantController.items.rowCount > 0}">
                 <div class="table-responsive">
                     <h:dataTable value="#{participantController.items}" var="item" class="table table-striped table-bordered">

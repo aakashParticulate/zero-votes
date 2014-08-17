@@ -127,7 +127,7 @@ public class PollController implements Serializable {
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
-    public String prepareView(Poll poll) {
+    public String preparePreview(Poll poll) {
         return "TODO";
     }
 
