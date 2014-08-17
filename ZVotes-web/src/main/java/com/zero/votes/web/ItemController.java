@@ -20,7 +20,6 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("itemController")
@@ -44,6 +43,10 @@ public class ItemController implements Serializable {
             current = new Item();
         }
         return current;
+    }
+
+    public Poll getPoll() {
+        return poll;
     }
 
     private ItemFacade getFacade() {
@@ -76,9 +79,11 @@ public class ItemController implements Serializable {
     }
 
     public String prepareList(Poll poll) {
-        this.poll = poll;
+        if (poll != null) {
+            this.poll = poll;
+        }
         recreateModel();
-        return UrlsPy.ITEM_LIST.getUrl();
+        return UrlsPy.ITEM_LIST.getUrl(true);
     }
     
     public String prepareCreate(Poll poll) {

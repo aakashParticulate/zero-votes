@@ -30,7 +30,7 @@
                 <div class="col-sm-offset-3 col-sm-9">
                     <h:commandLink action="#{itemController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{pollController.prepareEdit(itemController.selected.poll)}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.ItemShowAll}</h:commandLink>
+                    <h:commandLink action="#{itemController.prepareList(itemController.poll)}" styleClass="btn btn-default" immediate="true"><span class="fa fa-list"></span> #{msg.ItemShowAll}</h:commandLink>
                 </div>
             </div>
         </h:form>
@@ -52,8 +52,6 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{itemOptionController.prepareView(item)}" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
-                            <h:outputText value=" " />
                             <h:commandLink action="#{itemOptionController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{itemOptionController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
@@ -61,7 +59,7 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{itemOptionController.prepareCreate(itemController.selected)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItemOption}</h:commandLink>
+            <h:commandLink action="#{itemOptionController.prepareCreate(itemController.poll)}" styleClass="btn btn-primary"><span class="fa fa-plus"></span> #{msg.CreateItemOption}</h:commandLink>
         </h:form>
     </ui:define>
 </ui:composition>
