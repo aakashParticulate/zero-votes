@@ -66,7 +66,7 @@ public class PollController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(1) {
+            pagination = new PaginationHelper(10) {
 
                 @Override
                 public int getItemsCount() {
