@@ -19,6 +19,7 @@ var paths = {
         './_resources/vendors/bootstrap/js/transition.js',
         './_resources/vendors/bootstrap/js/collapse.js',
         './_resources/vendors/bootstrap/js/dropdown.js',
+        './_resources/vendors/bootstrap/js/tooltip.js',
         './_resources/vendors/toastr/toastr.js',
         './_resources/vendors/highcharts/highcharts.js',
         './_resources/vendors/moment/min/moment-with-locales.js',
