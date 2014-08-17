@@ -69,7 +69,7 @@ var bannerStyles = [
 gulp.task('scripts', function() {
     return gulp.src(paths.scripts)
         .pipe(concat('zvotes.min.js'))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(header(bannerScripts, {pkg: pkg, currentYear: currentYear}))
         .pipe(gulp.dest(paths.build + 'js/'));
 });

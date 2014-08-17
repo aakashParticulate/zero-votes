@@ -34,6 +34,7 @@
                 </div>
             </h:panelGroup>
             <h:commandLink action="#{participantController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateParticipant}" escape="False" /></h:commandLink>
+            <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>
 </ui:composition>

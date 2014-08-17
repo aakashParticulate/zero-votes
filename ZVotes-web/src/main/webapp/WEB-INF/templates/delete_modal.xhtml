@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <div class="modal fade" id="deleteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="btn btn-default pull-right" data-dismiss="modal"><span class="fa fa-times"></span></a>
+                        <h4 class="modal-title">#{msg.SureToDelete}</h4>
+                    </div>
+                    <!--div class="modal-body">
+                      <p>Modal body</p>
+                    </div-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">#{msg.Cancel}</button>
+                        <button type="button" class="btn btn-danger">#{msg.Delete}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

@@ -85,4 +85,19 @@ $(document).ready(function() {
         'title': questions_text
     });
 	
+	$('.zvotes-delete-btn').each(function() {
+		$(this).parent().each(function() {
+			var handlerFunction = $(this)[0].onclick;
+			var $modal = $('#deleteModal');
+			$(this).removeAttr('onclick').on('click', function(e) {
+				e.preventDefault();
+				$modal.find('.btn-danger').on('click', function(e) {
+					e.preventDefault();
+					handlerFunction();
+					$modal.modal('hide');
+				});
+				$modal.modal('show');
+			});
+		});
+	});
 });

@@ -73,7 +73,9 @@ public class ParticipantController implements Serializable {
     }
 
     public String prepareList(Poll poll) {
-        this.poll = poll;
+        if (poll != null) {
+            this.poll = poll;
+        }
         recreateModel();
         return UrlsPy.PARTICIPANT_LIST.getUrl(true);
     }
@@ -92,7 +94,7 @@ public class ParticipantController implements Serializable {
         try {
             getFacade().create(current);
             ZVotesUtils.addInternationalizedInfoMessage("ParticipantCreated");
-            return prepareList(poll);
+            return prepareList(current.getPoll());
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;

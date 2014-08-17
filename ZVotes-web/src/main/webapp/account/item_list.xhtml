@@ -34,8 +34,9 @@
                         </h:column>
                     </h:dataTable>
                 </div>
+                <h:commandLink action="#{itemController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateItem}" escape="False" /></h:commandLink>
             </h:panelGroup>
-            <h:commandLink action="#{itemController.prepareCreate(pollController.selected)}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateItem}" escape="False" /></h:commandLink>
+            <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>
 </ui:composition>
