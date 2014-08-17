@@ -11,5 +11,20 @@
         <h1 class="page-header">
             <h:outputText value="#{msg.EditRecipientList}"></h:outputText>
         </h1>
+        <h:form styleClass="form-horizontal">
+            <div class="form-group #{nameInput.valid ? '' : 'has-error'}">
+                <h:outputLabel value="#{msg.Name}" for="title" styleClass="col-sm-3 control-label" />
+                <div class="col-sm-9">
+                    <h:inputText id="name" binding="#{nameInput}" value="#{recipientListController.selected.name}" validator="#{recipientListController.validateName}" title="#{msg.Name}" styleClass="form-control" required="true" requiredMessage="#{msg.NameNotSet}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <h:commandLink action="#{recipientListController.update}" styleClass="btn btn-primary"><span class="fa fa-save"></span> #{msg.Save}</h:commandLink>
+                    <h:outputText value=" " />
+                    <h:commandLink action="#{recipientListController.prepareList}" styleClass="btn btn-default"><span class="fa fa-list"></span> #{msg.RecipientListShowAll}</h:commandLink>
+                </div>
+            </div>
+        </h:form>
     </ui:define>
 </ui:composition>

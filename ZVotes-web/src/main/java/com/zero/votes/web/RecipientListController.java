@@ -78,10 +78,6 @@ public class RecipientListController implements Serializable {
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
-    public String preparePreview(RecipientList recipientList) {
-        return "TODO";
-    }
-
     public String prepareCreate() {
         current = new RecipientList();
         
@@ -115,7 +111,7 @@ public class RecipientListController implements Serializable {
         try {
             getFacade().edit(current);
             ZVotesUtils.addInternationalizedInfoMessage("RecipientListUpdated");
-            return "View";
+            return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -140,10 +136,7 @@ public class RecipientListController implements Serializable {
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+        return getPagination().createPageDataModel();
     }
 
     private void recreateModel() {
