@@ -27,6 +27,10 @@ public abstract class PaginationHelper {
             this.page = page;
         }
     }
+    
+    public int getPage() {
+        return page;
+    }
 
     public int getPageFirstItem() {
         return page * pageSize;
@@ -70,7 +74,7 @@ public abstract class PaginationHelper {
 
     public int getNumPages() {
         // we will do floor division cause pages starts at 0 not 1
-        return (getItemsCount() / pageSize) - 1;
+        return (int)Math.ceil((double)getItemsCount() / (double)pageSize) - 1;
     }
 
     public List<String> getPaginationEntries() {
