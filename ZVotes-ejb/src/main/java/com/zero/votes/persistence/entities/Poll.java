@@ -42,15 +42,15 @@ public class Poll implements Serializable {
     @OrderBy("username ASC")
     private Set<Organizer> organizers;
 
-    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "poll", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @OrderBy("title ASC")
     private Set<Item> items;
 
-    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "poll", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @OrderBy("email ASC")
     private Set<Participant> participants;
 
-    @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "poll", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @OrderBy("id ASC")
     private Set<Token> tokens;
 
