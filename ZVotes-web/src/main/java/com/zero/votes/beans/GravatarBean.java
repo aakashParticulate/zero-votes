@@ -33,7 +33,7 @@ public class GravatarBean {
     }
 
     public String getImageUrl(String email, String size) {
-        return "https://www.gravatar.com/avatar/" + md5Hex(email) + ".jpg?s=" + size + "&d=mm&r=g";
+        return "https://www.gravatar.com/avatar/" + md5Hex(email) + ".jpg?s=" + size + "&d=retro&r=g";
     }
 
 }

@@ -43,6 +43,9 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
                 .addRule(Join.path("/account/polls/").to("/account/poll_list.xhtml"))
                 .addRule(Join.path("/account/poll/create/").to("/account/poll_create.xhtml"))
                 .addRule(Join.path("/account/poll/edit/").to("/account/poll_edit.xhtml"))
+                .addRule(Join.path("/account/recipients/").to("/account/recipient_list.xhtml"))
+                .addRule(Join.path("/account/recipient/create/").to("/account/recipient_create.xhtml"))
+                .addRule(Join.path("/account/recipient/edit/").to("/account/recipient_edit.xhtml"))
                 .addRule(Join.path("/account/recipient-lists/").to("/account/recipientlist_list.xhtml"))
                 .addRule(Join.path("/account/recipient-list/create/").to("/account/recipientlist_create.xhtml"))
                 .addRule(Join.path("/account/recipient-list/edit/").to("/account/recipientlist_edit.xhtml"));

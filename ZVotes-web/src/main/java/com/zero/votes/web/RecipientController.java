@@ -1,14 +1,16 @@
 package com.zero.votes.web;
 
+import com.zero.votes.beans.UrlsPy;
+import com.zero.votes.persistence.RecipientFacade;
 import com.zero.votes.persistence.entities.Recipient;
+import com.zero.votes.persistence.entities.RecipientList;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
-import com.zero.votes.persistence.RecipientFacade;
-
+import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -17,6 +19,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
 @Named("recipientController")
 @SessionScoped
@@ -26,8 +29,8 @@ public class RecipientController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.RecipientFacade ejbFacade;
+    private RecipientList recipientList;
     private PaginationHelper pagination;
-    private int selectedItemIndex;
 
     public RecipientController() {
     }
@@ -35,7 +38,6 @@ public class RecipientController implements Serializable {
     public Recipient getSelected() {
         if (current == null) {
             current = new Recipient();
-            selectedItemIndex = -1;
         }
         return current;
     }
@@ -62,102 +64,64 @@ public class RecipientController implements Serializable {
         return pagination;
     }
 
-    public String prepareList() {
+    public String prepareList(RecipientList recipientList) {
+        this.recipientList = recipientList;
         recreateModel();
-        return "List";
-    }
-
-    public String preparePreview(Recipient recipient) {
-        current = (Recipient) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public String prepareCreate() {
         current = new Recipient();
-        selectedItemIndex = -1;
+        //current.setRecipientLists(recipientList);
         return "Create";
     }
 
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipientCreated"));
+            ZVotesUtils.addInternationalizedInfoMessage("RecipientCreated");
             return prepareCreate();
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
     public String prepareEdit() {
         current = (Recipient) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipientUpdated"));
+            ZVotesUtils.addInternationalizedInfoMessage("RecipientUpdated");
             return "View";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
     public String destroy() {
         current = (Recipient) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
         recreateModel();
-        return "List";
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipientDeleted"));
+            ZVotesUtils.addInternationalizedInfoMessage("RecipientDeleted");
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-        }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
         }
     }
 
     public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
+        return getPagination().createPageDataModel();
     }
 
     private void recreateModel() {
@@ -171,13 +135,13 @@ public class RecipientController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "List";
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "List";
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
