@@ -181,17 +181,17 @@ public class ParticipantController implements Serializable {
         Matcher matcher = email_pattern.matcher(email);
         
         List<Participant> participants_with_title = getFacade().findAllBy("email", email);
-        int amount_participants_with_title = 0;
+        int amount_participants_with_email = 0;
         for (Participant participant: participants_with_title) {
             if (!Objects.equals(participant.getId(), current.getId()) && (Objects.equals(participant.getPoll().getId(), current.getPoll().getId()))) {
-                amount_participants_with_title++;
+                amount_participants_with_email++;
             }
         }
 
         boolean result = true;
         if (email == null) {
             result = false;
-        } else if (amount_participants_with_title >= 1) {
+        } else if (amount_participants_with_email >= 1) {
             ZVotesUtils.throwValidatorException("EmailAlreadyInList");
             result = false;
         } else if (!matcher.matches()) {
