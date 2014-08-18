@@ -26,11 +26,11 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{itemController.preparePreview(item)}" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{itemController.preparePreview(item)}" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False" /></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{itemController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{itemController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False" /></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{itemController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{itemController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False" /></h:commandLink>
                         </h:column>
                     </h:dataTable>
                 </div>

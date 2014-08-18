@@ -33,10 +33,10 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{recipientListController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateRecipientList}" escape="False" /></h:commandLink>
             <ui:include src="/WEB-INF/templates/pagination.xhtml">
                 <ui:param name="controller" value="#{recipientListController}" />
             </ui:include>
+            <h:commandLink action="#{recipientListController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateRecipientList}" escape="False" /></h:commandLink>
             <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>
