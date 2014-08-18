@@ -30,14 +30,14 @@
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
-                            <h:commandLink action="#{pollController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
-                            <h:outputText value=" " />
                             <h:commandLink action="#{participantController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.participants}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{itemController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.questions}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.publish(item)}" rendered="${item.pollState == 'PREPARED'}" class="btn btn-success"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
                             <h:commandLink action="NOTHING" rendered="${item.pollState != 'PREPARED'}" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
+                            <h:outputText value=" " />
+                            <h:commandLink action="#{pollController.destroy(item)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
                         </h:column>
                     </h:dataTable>
                 </div>
