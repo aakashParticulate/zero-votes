@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     var current_language = $('html').attr('lang') || "de";
 
-    var preview_text, edit_text, delete_text, publish_text, participants_text, questions_text;
+    var preview_text, edit_text, delete_text, publish_text, results_text, participants_text, questions_text;
 
     switch (current_language) {
         case "en":
@@ -41,6 +41,7 @@ $(document).ready(function() {
             edit_text = "Edit";
             delete_text = "Delete";
             publish_text = "Publish";
+            results_text = "Results";
             participants_text = "Participants";
             questions_text = "Questions";
             break;
@@ -50,6 +51,7 @@ $(document).ready(function() {
             edit_text = "Editieren";
             delete_text = "Löschen";
             publish_text = "Veröffentlichen";
+            results_text = "Ergebnisse";
             participants_text = "Teilnehmer";
             questions_text = "Fragen";
             break;
@@ -73,6 +75,11 @@ $(document).ready(function() {
     $('.zvotes-publish-btn').parent().tooltip({
         'placement': 'bottom',
         'title': publish_text
+    });
+
+    $('.zvotes-results-btn').parent().tooltip({
+        'placement': 'bottom',
+        'title': results_text
     });
 
     $('.zvotes-participants-btn').parent().tooltip({

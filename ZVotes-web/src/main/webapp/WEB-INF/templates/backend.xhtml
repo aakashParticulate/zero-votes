@@ -14,13 +14,13 @@
                     </div>
                     <div class="list-group">
                         <h:link outcome="/account/index.xhtml" styleClass="list-group-item #{navDashboard}">
-                            <span class="fa fa-home"></span> #{msg.Dashboard}
+                            <h:outputText value="#{icons.dashboard}" escape="False"/> #{msg.Dashboard}
                         </h:link>
                         <h:link outcome="/account/poll_list.xhtml" styleClass="list-group-item #{navPolls}">
-                            <span class="fa fa-bar-chart-o"></span> #{msg.Polls}
+                            <h:outputText value="#{icons.polls}" escape="False"/> #{msg.Polls}
                         </h:link>
                         <h:link outcome="/account/recipientlist_list.xhtml" styleClass="list-group-item #{navRecipientLists}">
-                            <span class="fa fa-users"></span> #{msg.RecipientLists}
+                            <h:outputText value="#{icons.users}" escape="False"/> #{msg.RecipientLists}
                         </h:link>
                     </div>
                 </div>
