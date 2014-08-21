@@ -8,10 +8,12 @@ import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -30,9 +32,24 @@ public class RecipientController implements Serializable {
     @EJB
     private com.zero.votes.persistence.RecipientFacade ejbFacade;
     private RecipientList recipientList;
+    @ManagedProperty(value = "#{param.recipientData}")
+    private String recipientData;
+
     private PaginationHelper pagination;
 
     public RecipientController() {
+    }
+
+    public String getRecipientData() {
+        return recipientData;
+    }
+
+    public void setRecipientData(String recipientData) {
+        this.recipientData = recipientData;
+    }
+
+    public RecipientList getRecipientList() {
+        return recipientList;
     }
 
     public Recipient getSelected() {
@@ -59,12 +76,12 @@ public class RecipientController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    return getFacade().countBy("recipientList", recipientList);
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getFacade().findRangeByOrderByEmail("recipientList", recipientList, new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -74,20 +91,45 @@ public class RecipientController implements Serializable {
     public String prepareList(RecipientList recipientList) {
         this.recipientList = recipientList;
         recreateModel();
+        recreatePagination();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public String prepareCreate() {
-        current = new Recipient();
-        current.setRecipientList(recipientList);
         return UrlsPy.RECIPIENT_CREATE.getUrl(true);
     }
 
     public String create() {
         try {
-            getFacade().create(current);
-            ZVotesUtils.addInternationalizedInfoMessage("RecipientCreated");
-            return prepareCreate();
+            boolean created = false;
+            Matcher m = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+").matcher(recipientData);
+            while (m.find()) {
+                String email = m.group().toLowerCase();
+                List<Recipient> dbEntries = getFacade().findAllBy("email", email);
+                boolean existInRecipientList = false;
+                if (!dbEntries.isEmpty()) {
+                    for (Recipient dbEntry : dbEntries) {
+                        if (dbEntry.getRecipientList().getId().equals(recipientList.getId())) {
+                            existInRecipientList = true;
+                        }
+                    }
+                }
+                if (!existInRecipientList) {
+                    Recipient recipient = new Recipient();
+                    recipient.setRecipientList(recipientList);
+                    recipient.setEmail(email);
+                    getFacade().create(recipient);
+                    created = true;
+                }
+            }
+
+            if (created) {
+                ZVotesUtils.addInternationalizedInfoMessage("RecipientCreated");
+            } else {
+                ZVotesUtils.addInternationalizedWarnMessage("RecipientNoEmailFound");
+            }
+
+            return prepareList(recipientList);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
@@ -148,6 +190,12 @@ public class RecipientController implements Serializable {
 
     public String previous() {
         getPagination().previousPage();
+        recreateModel();
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
+    }
+
+    public String page(String page) {
+        getPagination().setPage(Integer.valueOf(page));
         recreateModel();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }

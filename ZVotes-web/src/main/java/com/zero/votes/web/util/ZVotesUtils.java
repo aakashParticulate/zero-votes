@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
 public class ZVotesUtils {
+
     public static void addInternationalizedMessage(Severity messageType, String messageString) {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
@@ -14,21 +15,23 @@ public class ZVotesUtils {
         msg.setSeverity(messageType);
         context.addMessage(null, msg);
     }
+
     public static void addInternationalizedInfoMessage(String messageString) {
         addInternationalizedMessage(FacesMessage.SEVERITY_INFO, messageString);
     }
-    
+
     public static void addInternationalizedWarnMessage(String messageString) {
         addInternationalizedMessage(FacesMessage.SEVERITY_WARN, messageString);
     }
-    
+
     public static void addInternationalizedErrorMessage(String messageString) {
         addInternationalizedMessage(FacesMessage.SEVERITY_ERROR, messageString);
     }
-    
+
     public static void addInternationalizedFatalMessage(String messageString) {
         addInternationalizedMessage(FacesMessage.SEVERITY_FATAL, messageString);
     }
+
     public static void throwValidatorException(String messageString) {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
