@@ -17,7 +17,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"email", "organizer"})})
+    @UniqueConstraint(columnNames = {"email", "recipientLists"})})
 public class Recipient implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,13 +28,16 @@ public class Recipient implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @JoinColumn(name = "organizer")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Organizer organizer;
+    private RecipientList recipientList;
 
-    @ManyToMany(mappedBy = "recipients", fetch = FetchType.EAGER)
-    @OrderBy("name ASC")
-    private Set<RecipientList> recipientLists;
+    public RecipientList getRecipientList() {
+        return recipientList;
+    }
+
+    public void setRecipientList(RecipientList recipientList) {
+        this.recipientList = recipientList;
+    }
 
     public Long getId() {
         return id;
@@ -50,22 +53,6 @@ public class Recipient implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Organizer getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(Organizer organizer) {
-        this.organizer = organizer;
-    }
-
-    public Set<RecipientList> getRecipientLists() {
-        return recipientLists;
-    }
-
-    public void setRecipientLists(Set<RecipientList> recipientLists) {
-        this.recipientLists = recipientLists;
     }
 
 }

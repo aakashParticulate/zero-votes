@@ -46,6 +46,13 @@ public class RecipientController implements Serializable {
         return ejbFacade;
     }
 
+    public void refresh() {
+        Recipient updated_current = getFacade().find(current.getId());
+        if (updated_current != null) {
+            current = updated_current;
+        }
+    }
+
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
@@ -72,8 +79,8 @@ public class RecipientController implements Serializable {
 
     public String prepareCreate() {
         current = new Recipient();
-        //current.setRecipientLists(recipientList);
-        return "Create";
+        current.setRecipientList(recipientList);
+        return UrlsPy.RECIPIENT_CREATE.getUrl(true);
     }
 
     public String create() {
@@ -87,24 +94,25 @@ public class RecipientController implements Serializable {
         }
     }
 
-    public String prepareEdit() {
-        current = (Recipient) getItems().getRowData();
-        return "Edit";
+    public String prepareEdit(Recipient recipient) {
+        current = recipient;
+        refresh();
+        return UrlsPy.RECIPIENT_EDIT.getUrl(true);
     }
 
     public String update() {
         try {
             getFacade().edit(current);
             ZVotesUtils.addInternationalizedInfoMessage("RecipientUpdated");
-            return "View";
+            return UrlsPy.RECIPIENT_LIST.getUrl(true);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
         }
     }
 
-    public String destroy() {
-        current = (Recipient) getItems().getRowData();
+    public String destroy(Recipient recipient) {
+        current = recipient;
         performDestroy();
         recreatePagination();
         recreateModel();
