@@ -1,5 +1,17 @@
 # ZVotes by Zero Group - JavaEE Course 2014
 
+## TODOs
+
+* bei umfrage erstellen --> copy von recipientlist zu eigenständigen participants
+* poll items auf organisier restrikten
+* dashboard content
+* statistiken / ergebnisse von beendeten polls
+* emailbenachrichtigungen nach dem start
+* emailbenachrichtigungen vor ablauf - ohne vote
+* tracking wer gevotet hat
+* frontend voting
+
+
 ## Getting Started
 
 ### Local
