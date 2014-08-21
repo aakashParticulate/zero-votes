@@ -112,7 +112,7 @@ public abstract class AbstractFacade<T> {
         Root<T> rt = cq.from(entityClass);
         cq.select(rt).where(cb.equal(rt.get(fieldName), value));
         TypedQuery<T> q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
+        q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
         try {
             return q.getResultList();
