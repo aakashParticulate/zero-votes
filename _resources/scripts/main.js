@@ -43,6 +43,7 @@ $(document).ready(function() {
             publish_text = "Publish";
             results_text = "Results";
             participants_text = "Participants";
+			recipients_text = "Recipients";
             questions_text = "Questions";
             break;
         case "de":
@@ -53,6 +54,7 @@ $(document).ready(function() {
             publish_text = "Veröffentlichen";
             results_text = "Ergebnisse";
             participants_text = "Teilnehmer";
+			recipients_text = "Empfänger";
             questions_text = "Fragen";
             break;
     }
@@ -86,6 +88,12 @@ $(document).ready(function() {
         'placement': 'bottom',
         'title': participants_text
     });
+
+    $('.zvotes-recipients-btn').parent().tooltip({
+        'placement': 'bottom',
+        'title': recipients_text
+    });
+	
 
     $('.zvotes-questions-btn').parent().tooltip({
         'placement': 'bottom',
