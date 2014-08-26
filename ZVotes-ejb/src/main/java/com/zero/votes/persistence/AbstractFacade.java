@@ -75,7 +75,7 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt);
+        cq.select(cb.count(rt));
         try {
             Field current_field = entityClass.getField(fieldName);
             if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
