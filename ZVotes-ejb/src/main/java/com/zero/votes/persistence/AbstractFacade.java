@@ -1,7 +1,10 @@
 package com.zero.votes.persistence;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -75,13 +78,12 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<T> rt = cq.from(entityClass);
-        cq.select(cb.count(rt));
         try {
-            Field current_field = entityClass.getField(fieldName);
+            Field current_field = entityClass.getDeclaredField(fieldName);
             if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                cq.where(cb.equal(rt.in(fieldName), value));
+                cq.select(cb.count(rt)).where(cb.equal(rt.in(fieldName), value));
             } else {
-                cq.where(cb.equal(rt.get(fieldName), value));
+                cq.select(cb.count(rt)).where(cb.equal(rt.get(fieldName), value));
             }
         } catch (NoSuchFieldException ex) {
             return -1;
@@ -95,14 +97,13 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<T> rt = cq.from(entityClass);
-        cq.select(cb.count(rt));
         for (int i = 0; i < fieldNames.length; i++) {
             try {
-                Field current_field = entityClass.getField(fieldNames[i]);
+                Field current_field = entityClass.getDeclaredField(fieldNames[i]);
                 if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                    cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                    cq.select(cb.count(rt)).where(cb.equal(rt.in(fieldNames[i]), values[i]));
                 } else {
-                    cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                    cq.select(cb.count(rt)).where(cb.equal(rt.get(fieldNames[i]), values[i]));
                 }
             } catch (NoSuchFieldException ex) {
                 return -1;
@@ -117,13 +118,12 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt);
         try {
-            Field current_field = entityClass.getField(fieldName);
+            Field current_field = entityClass.getDeclaredField(fieldName);
             if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                cq.where(cb.equal(rt.in(fieldName), value));
+                cq.select(rt).where(cb.equal(rt.in(fieldName), value));
             } else {
-                cq.where(cb.equal(rt.get(fieldName), value));
+                cq.select(rt).where(cb.equal(rt.get(fieldName), value));
             }
         } catch (NoSuchFieldException ex) {
             return null;
@@ -141,14 +141,13 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt);
         for (int i = 0; i < fieldNames.length; i++) {
             try {
-                Field current_field = entityClass.getField(fieldNames[i]);
+                Field current_field = entityClass.getDeclaredField(fieldNames[i]);
                 if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                    cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                    cq.select(rt).where(cb.equal(rt.in(fieldNames[i]), values[i]));
                 } else {
-                    cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                    cq.select(rt).where(cb.equal(rt.get(fieldNames[i]), values[i]));
                 }
             } catch (NoSuchFieldException ex) {
                 return null;
@@ -167,13 +166,12 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt);
         try {
-            Field current_field = entityClass.getField(fieldName);
+            Field current_field = entityClass.getDeclaredField(fieldName);
             if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                cq.where(cb.equal(rt.in(fieldName), value));
+                cq.select(rt).where(cb.equal(rt.in(fieldName), value));
             } else {
-                cq.where(cb.equal(rt.get(fieldName), value));
+                cq.select(rt).where(cb.equal(rt.get(fieldName), value));
             }
         } catch (NoSuchFieldException ex) {
             return null;
@@ -192,14 +190,13 @@ public abstract class AbstractFacade<T> {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(entityClass);
             Root<T> rt = cq.from(entityClass);
-            cq.select(rt);
             for (int i = 0; i < fieldNames.length; i++) {
                 try {
-                    Field current_field = entityClass.getField(fieldNames[i]);
+                    Field current_field = entityClass.getDeclaredField(fieldNames[i]);
                     if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                        cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                        cq.select(rt).where(cb.equal(rt.in(fieldNames[i]), values[i]));
                     } else {
-                        cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                        cq.select(rt).where(cb.equal(rt.get(fieldNames[i]), values[i]));
                     }
                 } catch (NoSuchFieldException ex) {
                     return null;
@@ -221,13 +218,12 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt);
         try {
-            Field current_field = entityClass.getField(fieldName);
+            Field current_field = entityClass.getDeclaredField(fieldName);
             if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                cq.where(cb.equal(rt.in(fieldName), value));
+                cq.select(rt).where(cb.equal(rt.in(fieldName), value));
             } else {
-                cq.where(cb.equal(rt.get(fieldName), value));
+                cq.select(rt).where(cb.equal(rt.get(fieldName), value));
             }
         } catch (NoSuchFieldException ex) {
             return null;
@@ -248,14 +244,13 @@ public abstract class AbstractFacade<T> {
             CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(entityClass);
             Root<T> rt = cq.from(entityClass);
-            cq.select(rt);
             for (int i = 0; i < fieldNames.length; i++) {
                 try {
-                    Field current_field = entityClass.getField(fieldNames[i]);
+                    Field current_field = entityClass.getDeclaredField(fieldNames[i]);
                     if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
-                        cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                        cq.select(rt).where(cb.equal(rt.in(fieldNames[i]), values[i]));
                     } else {
-                        cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                        cq.select(rt).where(cb.equal(rt.get(fieldNames[i]), values[i]));
                     }
                 } catch (NoSuchFieldException ex) {
                     return null;

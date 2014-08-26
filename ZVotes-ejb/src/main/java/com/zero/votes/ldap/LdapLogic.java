@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 public class LdapLogic {
 
     @EJB
-    private OrganizerFacade of;
+    private OrganizerFacade organizerFacade;
 
     public LdapUser lookupUser(String uid) {
         return UnikoLdapLookup.lookupPerson(uid);
@@ -24,21 +24,21 @@ public class LdapLogic {
         if (ldapUser == null) {
             return null;
         }
-        Organizer p = of.findByUsername(uid);
+        Organizer p = organizerFacade.findBy("username", uid);
         if (p == null) {
             p = new Organizer();
             p.setUsername(ldapUser.getName());
             p.setForename(ldapUser.getFirstName());
             p.setSurname(ldapUser.getLastName());
             p.setEmail(ldapUser.getEmail());
-            of.create(p);
+            organizerFacade.create(p);
             return p;
         } else {
             p.setUsername(ldapUser.getName());
             p.setForename(ldapUser.getFirstName());
             p.setSurname(ldapUser.getLastName());
             p.setEmail(ldapUser.getEmail());
-            return of.edit(p);
+            return organizerFacade.edit(p);
         }
     }
 

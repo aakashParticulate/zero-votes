@@ -23,7 +23,7 @@ public class DashboardController implements Serializable {
 
     public int getRunningPolls() {
         if (currentOrganizer == null) {
-            refreshCurrentOrganizer();
+            currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values_started = {currentOrganizer.getId(), PollState.STARTED};
@@ -35,7 +35,7 @@ public class DashboardController implements Serializable {
 
     public int getPreparingPolls() {
         if (currentOrganizer == null) {
-            refreshCurrentOrganizer();
+            currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values = {currentOrganizer.getId(), PollState.PREPARED};
@@ -44,18 +44,16 @@ public class DashboardController implements Serializable {
 
     public int getFinishedPolls() {
         if (currentOrganizer == null) {
-            refreshCurrentOrganizer();
+            currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values = {currentOrganizer.getId(), PollState.FINISHED};
         return pollFacade.countBy(fieldNames, values);
     }
 
-    public void refreshCurrentOrganizer() {
-        if (currentOrganizer == null) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
-            currentOrganizer = userBean.getOrganizer();
-        }
+    public Organizer refreshCurrentOrganizer() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        return userBean.getOrganizer();
     }
 }
