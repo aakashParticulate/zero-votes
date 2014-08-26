@@ -92,4 +92,9 @@ public class Item implements Serializable {
         this.options = options;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
 }

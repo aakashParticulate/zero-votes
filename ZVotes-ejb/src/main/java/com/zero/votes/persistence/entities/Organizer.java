@@ -127,4 +127,9 @@ public class Organizer implements Serializable {
         return to;
     }
 
+    @Override
+    public String toString() {
+        return username;
+    }
+
 }

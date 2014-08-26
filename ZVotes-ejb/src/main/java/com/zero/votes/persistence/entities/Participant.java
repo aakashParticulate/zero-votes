@@ -66,4 +66,9 @@ public class Participant implements Serializable {
         this.token = token;
     }
 
+    @Override
+    public String toString() {
+        return email;
+    }
+
 }

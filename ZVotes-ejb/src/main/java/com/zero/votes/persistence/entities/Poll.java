@@ -168,4 +168,9 @@ public class Poll implements Serializable {
         this.tokens = tokens;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
 }

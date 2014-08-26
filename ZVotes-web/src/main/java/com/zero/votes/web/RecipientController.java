@@ -128,7 +128,7 @@ public class RecipientController implements Serializable {
             } else {
                 ZVotesUtils.addInternationalizedWarnMessage("RecipientNoEmailFound");
             }
-
+            recipientData = "";
             return prepareList(recipientList);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");

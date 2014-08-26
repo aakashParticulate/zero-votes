@@ -22,6 +22,8 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     PARTICIPANT_LIST("account/participant_list.xhtml"),
     PARTICIPANT_EDIT("account/participant_edit.xhtml"),
     
+    PARTICIPANT_IMPORT_LIST("account/participant_import_list.xhtml"),
+    
     RECIPIENT_CREATE("account/recipient_create.xhtml"),
     RECIPIENT_LIST("account/recipient_list.xhtml"),
     RECIPIENT_EDIT("account/recipient_edit.xhtml"),

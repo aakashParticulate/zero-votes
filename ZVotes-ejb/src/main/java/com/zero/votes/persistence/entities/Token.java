@@ -61,4 +61,9 @@ public class Token implements Serializable {
         this.poll = poll;
     }
 
+    @Override
+    public String toString() {
+        return tokenString;
+    }
+
 }

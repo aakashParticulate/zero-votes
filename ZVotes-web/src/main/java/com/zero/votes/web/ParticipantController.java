@@ -1,20 +1,24 @@
 package com.zero.votes.web;
 
 import com.zero.votes.beans.UrlsPy;
+import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.ParticipantFacade;
+import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
+import com.zero.votes.persistence.entities.Recipient;
+import com.zero.votes.persistence.entities.RecipientList;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -33,8 +37,12 @@ public class ParticipantController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.ParticipantFacade ejbFacade;
+    @EJB
+    private com.zero.votes.persistence.RecipientListFacade recipientListFacade;
     private PaginationHelper pagination;
-
+    @ManagedProperty(value = "#{param.recipientListId}")
+    private String recipientListId;
+    
     public ParticipantController() {
     }
 
@@ -74,6 +82,21 @@ public class ParticipantController implements Serializable {
         return pagination;
     }
 
+    public String getRecipientListId() {
+        return recipientListId;
+    }
+
+    public void setRecipientListId(String recipientListId) {
+        this.recipientListId = recipientListId;
+    }
+    
+    public List<RecipientList> getPossibleRecipientLists() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        Organizer current_organizer = userBean.getOrganizer();
+        return recipientListFacade.findAllBy("organizer", current_organizer);
+    }
+    
     public String prepareList(Poll poll) {
         this.poll = poll;
         recreateModel();
@@ -84,6 +107,33 @@ public class ParticipantController implements Serializable {
         return "TODO";
     }
     
+    public String prepareImport() {
+        return UrlsPy.PARTICIPANT_IMPORT_LIST.getUrl(true);
+    }
+    
+    public String importList() {
+        boolean imported = false;
+        if (recipientListId != null) {
+            Long realRecipientListId = Long.valueOf(recipientListId);
+            RecipientList recipientList = recipientListFacade.find(realRecipientListId);
+            for (Recipient recipient: recipientList.getRecipients()) {
+                if (getFacade().countBy("email", recipient.getEmail()) == 0) {
+                    Participant newParticipant = new Participant();
+                    newParticipant.setEmail(recipient.getEmail());
+                    newParticipant.setPoll(this.poll);
+                    getFacade().create(newParticipant);
+                    imported = true;
+                }
+            }
+            if (imported) {
+                ZVotesUtils.addInternationalizedInfoMessage("ImportedRecipientList");
+            } else {
+                ZVotesUtils.addInternationalizedWarnMessage("NoNewRecipientImported");
+            }
+            return prepareList(poll);
+        }
+        return UrlsPy.PARTICIPANT_IMPORT_LIST.getUrl(true);
+    }
 
     public String prepareCreate() {
         current = new Participant();
