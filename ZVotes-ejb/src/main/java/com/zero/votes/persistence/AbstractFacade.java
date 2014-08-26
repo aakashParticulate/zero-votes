@@ -1,7 +1,10 @@
 package com.zero.votes.persistence;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -72,7 +75,39 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<T> rt = cq.from(entityClass);
-        cq.select(cb.count(rt)).where(cb.equal(rt.get(fieldName), value));
+        cq.select(rt);
+        try {
+            Field current_field = entityClass.getField(fieldName);
+            if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                cq.where(cb.equal(rt.in(fieldName), value));
+            } else {
+                cq.where(cb.equal(rt.get(fieldName), value));
+            }
+        } catch (NoSuchFieldException ex) {
+            return -1;
+        }
+        Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
+
+    public int countBy(String[] fieldNames, Object[] values) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery();
+        Root<T> rt = cq.from(entityClass);
+        cq.select(cb.count(rt));
+        for (int i = 0; i < fieldNames.length; i++) {
+            try {
+                Field current_field = entityClass.getField(fieldNames[i]);
+                if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                    cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                } else {
+                    cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                }
+            } catch (NoSuchFieldException ex) {
+                return -1;
+            }
+        }
         Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
@@ -82,7 +117,43 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt).where(cb.equal(rt.get(fieldName), value));
+        cq.select(rt);
+        try {
+            Field current_field = entityClass.getField(fieldName);
+            if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                cq.where(cb.equal(rt.in(fieldName), value));
+            } else {
+                cq.where(cb.equal(rt.get(fieldName), value));
+            }
+        } catch (NoSuchFieldException ex) {
+            return null;
+        }
+        TypedQuery<T> q = getEntityManager().createQuery(cq);
+        try {
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public T findBy(String[] fieldNames, Object[] values) {
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> rt = cq.from(entityClass);
+        cq.select(rt);
+        for (int i = 0; i < fieldNames.length; i++) {
+            try {
+                Field current_field = entityClass.getField(fieldNames[i]);
+                if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                    cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                } else {
+                    cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                }
+            } catch (NoSuchFieldException ex) {
+                return null;
+            }
+        }
         TypedQuery<T> q = getEntityManager().createQuery(cq);
         try {
             return q.getSingleResult();
@@ -96,11 +167,51 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt).where(cb.equal(rt.get(fieldName), value));
+        cq.select(rt);
+        try {
+            Field current_field = entityClass.getField(fieldName);
+            if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                cq.where(cb.equal(rt.in(fieldName), value));
+            } else {
+                cq.where(cb.equal(rt.get(fieldName), value));
+            }
+        } catch (NoSuchFieldException ex) {
+            return null;
+        }
         TypedQuery<T> q = getEntityManager().createQuery(cq);
         try {
             return q.getResultList();
         } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public List<T> findAllBy(String[] fieldNames, Object[] values) {
+        if (fieldNames.length == values.length) {
+            getEntityManager().getEntityManagerFactory().getCache().evictAll();
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<T> cq = cb.createQuery(entityClass);
+            Root<T> rt = cq.from(entityClass);
+            cq.select(rt);
+            for (int i = 0; i < fieldNames.length; i++) {
+                try {
+                    Field current_field = entityClass.getField(fieldNames[i]);
+                    if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                        cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                    } else {
+                        cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                    }
+                } catch (NoSuchFieldException ex) {
+                    return null;
+                }
+            }
+            TypedQuery<T> q = getEntityManager().createQuery(cq);
+            try {
+                return q.getResultList();
+            } catch (NoResultException e) {
+                return null;
+            }
+        } else {
             return null;
         }
     }
@@ -110,13 +221,55 @@ public abstract class AbstractFacade<T> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> rt = cq.from(entityClass);
-        cq.select(rt).where(cb.equal(rt.get(fieldName), value));
+        cq.select(rt);
+        try {
+            Field current_field = entityClass.getField(fieldName);
+            if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                cq.where(cb.equal(rt.in(fieldName), value));
+            } else {
+                cq.where(cb.equal(rt.get(fieldName), value));
+            }
+        } catch (NoSuchFieldException ex) {
+            return null;
+        }
         TypedQuery<T> q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0]);
+        q.setMaxResults(range[1]);
         q.setFirstResult(range[0]);
         try {
             return q.getResultList();
         } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public List<T> findRangeBy(String[] fieldNames, Object[] values, int[] range) {
+        if (fieldNames.length == values.length) {
+            getEntityManager().getEntityManagerFactory().getCache().evictAll();
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<T> cq = cb.createQuery(entityClass);
+            Root<T> rt = cq.from(entityClass);
+            cq.select(rt);
+            for (int i = 0; i < fieldNames.length; i++) {
+                try {
+                    Field current_field = entityClass.getField(fieldNames[i]);
+                    if (current_field.isAnnotationPresent(ManyToMany.class) || current_field.isAnnotationPresent(ManyToOne.class)) {
+                        cq.where(cb.equal(rt.in(fieldNames[i]), values[i]));
+                    } else {
+                        cq.where(cb.equal(rt.get(fieldNames[i]), values[i]));
+                    }
+                } catch (NoSuchFieldException ex) {
+                    return null;
+                }
+            }
+            TypedQuery<T> q = getEntityManager().createQuery(cq);
+            q.setMaxResults(range[1]);
+            q.setFirstResult(range[0]);
+            try {
+                return q.getResultList();
+            } catch (NoResultException e) {
+                return null;
+            }
+        } else {
             return null;
         }
     }
