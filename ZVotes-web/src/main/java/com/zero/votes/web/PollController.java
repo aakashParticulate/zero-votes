@@ -3,6 +3,7 @@ package com.zero.votes.web;
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.PollFacade;
+import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
@@ -105,6 +106,12 @@ public class PollController implements Serializable {
         if (poll.getParticipants().size() < 3) {
             ZVotesUtils.addInternationalizedErrorMessage("PollLessThan3Participants");
             result = false;
+        }
+        for (Item item : poll.getItems()) {
+            if (item.getOptions().isEmpty()) {
+                ZVotesUtils.addInternationalizedErrorMessage("AnItemDoesNotHaveAnOption");
+                result = false;
+            }
         }
         return result;
     }

@@ -4,6 +4,7 @@
   "dependencies": {
     "bootstrap": "3.2.0",
     "eonasdan-bootstrap-datetimepicker": "3.0.2",
+	"bootstrap-progressbar": "0.8.3",
     "font-awesome": "4.1.0",
     "highcharts": "4.0.3",
     "jquery": "2.1.1",

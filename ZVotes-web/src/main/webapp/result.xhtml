@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://xmlns.jcp.org/jsf/html"
+				xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+				xmlns:f="http://xmlns.jcp.org/jsf/core"
+                                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:param name="title" value="#{msg.Poll}"/>
+    <ui:param name="navIndex" value="active"/>
+    <ui:define name="content">
+        <div class="text-center">
+            <h1 class="page-header">#{resultController.current.title}</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h:form styleClass="form-horizontal">
+                    <c:forEach items="#{resultController.current.items}" var="item">
+                        <div>
+                            <h3>#{item.title}</h3>
+                        </div>
+                        <c:forEach items="#{item.options}" var="option">
+                            <div class="form-group">
+                                #{option.shortName}:
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" data-transitiongoal="#{resultController.getVotes(option).size()}" aria-valuemin="0" aria-valuemax="#{resultController.allVotes}"></div>
+                                </div>
+                                
+                            </div>
+                        </c:forEach>
+                        <div class="form-group">
+                            #{msg.Abstention}:
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" data-transitiongoal="#{resultController.getAbstentions(item).size()}" aria-valuemin="0" aria-valuemax="#{resultController.allVotes}"></div>
+                                </div>
+                        </div>
+                    </c:forEach>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

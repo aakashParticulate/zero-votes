@@ -24,6 +24,7 @@ var paths = {
         './_resources/vendors/toastr/toastr.js',
         './_resources/vendors/highcharts/highcharts.js',
         './_resources/vendors/moment/min/moment-with-locales.js',
+        './_resources/vendors/bootstrap-progressbar/bootstrap-progressbar.js',
         './_resources/vendors/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
         './_resources/scripts/main.js',
         './_resources/scripts/poll_create.js'
@@ -47,6 +48,7 @@ var bannerScripts = [
     ' * Bootstrap v3.2.0 | Copyright (c) 2011-2014 Twitter, Inc. | MIT license | http://getbootstrap.com',
     ' * Toastr v2.0.3 | Copyright (c) 2012-2014 John Papa and Hans Fjällemark | MIT license | https://github.com/CodeSeven/toastr',
     ' * Highcharts v4.0.3 | Copyright (c) 2009-2014 Torstein Honsi | http://www.highcharts.com/license | http://www.highcharts.com',
+    ' * bootstrap-progressbar v0.8.3 | Copyright (c) 2014 Stephan Groß | MIT license | https://github.com/minddust/bootstrap-progressbar',
     ' * eonasdan-bootstrap-datetimepicker v3.0.3 | Copyright (c) 2014 Jonathan Peterson | MIT license | https://github.com/Eonasdan/bootstrap-datetimepicker',
     ' * moment.js v2.8.1 | Copyright (c) 2011-2014 Tim Wood, Iskren Chernev | MIT license | http://momentjs.com',
     ' */',
@@ -60,6 +62,7 @@ var bannerStyles = [
     ' * Bootstrap v3.2.0 | Copyright (c) 2011-2014 Twitter, Inc. | MIT license | http://getbootstrap.com',
     ' * Font Awesome v4.1.0 | by @davegandy | Font: SIL OFL 1.1, CSS: MIT License | http://fontawesome.io',
     ' * Toastr v2.0.3 | Copyright (c) 2012-2014 John Papa and Hans Fjällemark | MIT license | https://github.com/CodeSeven/toastr',
+    ' * bootstrap-progressbar v0.8.3 | Copyright (c) 2014 Stephan Groß | MIT license | https://github.com/minddust/bootstrap-progressbar',
     ' * eonasdan-bootstrap-datetimepicker v3.0.3 | Copyright (c) 2014 Jonathan Peterson | MIT license | https://github.com/Eonasdan/bootstrap-datetimepicker',
     ' */',
     ''

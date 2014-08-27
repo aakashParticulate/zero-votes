@@ -12,33 +12,18 @@
             <h1 class="page-header">#{votingController.current.title}</h1>
         </div>
         <div class="row">
-            <div class="col-xs-12">
-                <h:form styleClass="form-horizontal">
-                    <c:forEach items="#{votingController.current.items}" var="item">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <h3>#{item.title}</h3>
-                        </div>
-                        <c:forEach items="#{item.options}" var="option">
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <div class="checkbox">
-                                        <label for="option_#{option.id}">
-                                            <h:selectBooleanCheckbox id="option_#{option.id}" value="#{votingController.results[option.id.toString()]}" title="#{option.shortName}" />
-                                            #{option.shortName}
-                                        </label>
-                                    </div>
-                                    <div>
-                                        #{option.description}
-                                    </div>
-                                </div>
-                            </div>
-                        </c:forEach>
+            <h:form styleClass="form-horizontal">
+                <c:forEach items="#{votingController.current.items}" var="item">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <h3>#{item.title}</h3>
+                    </div>
+                    <c:forEach items="#{item.options}" var="option">
                         <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-9">
+                            <div class="col-sm-offset-3 col-sm-6">
                                 <div class="checkbox">
-                                    <label for="abstention_#{item.id}">
-                                        <h:selectBooleanCheckbox id="abstention_#{item.id}" value="#{votingController.abstentions[item.id.toString()]}" title="#{msg.Abstention}" />
-                                        #{msg.Abstention}
+                                    <label for="option_#{option.id}">
+                                        <h:selectBooleanCheckbox id="option_#{option.id}" value="#{votingController.results[option.id.toString()]}" title="#{option.shortName}" />
+                                        #{option.shortName}
                                     </label>
                                 </div>
                                 <div>
@@ -48,12 +33,25 @@
                         </div>
                     </c:forEach>
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <div class="checkbox">
+                                <label for="abstention_#{item.id}">
+                                    <h:selectBooleanCheckbox id="abstention_#{item.id}" value="#{votingController.abstentions[item.id.toString()]}" title="#{msg.Abstention}" />
+                                    #{msg.Abstention}
+                                </label>
+                            </div>
+                            <div>
+                                #{option.description}
+                            </div>
                         </div>
                     </div>
-                </h:form>
-            </div>
+                </c:forEach>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
+                    </div>
+                </div>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>

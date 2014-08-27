@@ -3,10 +3,11 @@ package com.zero.votes.web;
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
-import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
+import com.zero.votes.persistence.entities.Token;
 import com.zero.votes.persistence.entities.Vote;
+import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -79,6 +80,7 @@ public class VotingController implements Serializable {
         }
         tokenController.markUsed();
         updatePollState();
+        ZVotesUtils.addInternationalizedInfoMessage("Voted");
         return UrlsPy.HOME.getUrl(true);
     }
 
@@ -90,8 +92,8 @@ public class VotingController implements Serializable {
                 finished = true;
             } else {
                 finished = true;
-                for (Participant p : current.getParticipants()) {
-                    if (!p.hasVoted()) {
+                for (Token token : current.getTokens()) {
+                    if (!token.isUsed()) {
                         finished = false;
                     }
                 }
