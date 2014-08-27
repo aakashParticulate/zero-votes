@@ -120,4 +120,20 @@ $(document).ready(function() {
 		display_text: 'center',
 		use_percentage: false
 	});
+	
+	$('.option-real').on('click', function(e) {
+		var abstention = true;
+		var checked = 0;
+		$item=$(this).closest('.item');
+		$item.find('.option-real').each(function() {
+			 if ($(this)[0].checked == true) { abstention = false; checked += 1; }
+		});
+		$item.find('.option-abstention')[0].checked= abstention;
+		if (checked > parseInt($item.attr('data-m'))) {
+			e.preventDefault();
+		}
+	});
+	$('.option-abstention').on('click', function(e) {
+		 e.preventDefault();
+	});
 });

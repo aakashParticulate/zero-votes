@@ -8,13 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"email", "recipientLists"})})
+    @UniqueConstraint(columnNames = {"email", "recipientList_id"})})
 public class Recipient implements Serializable {
 
     private static final long serialVersionUID = 1L;

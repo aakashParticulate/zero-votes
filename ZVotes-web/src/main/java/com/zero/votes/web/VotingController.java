@@ -3,6 +3,7 @@ package com.zero.votes.web;
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
+import com.zero.votes.persistence.entities.ItemType;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.persistence.entities.Token;
@@ -23,6 +24,7 @@ import javax.inject.Named;
 public class VotingController implements Serializable {
 
     private Poll current;
+    private Token token;
     @ManagedProperty(value = "#{param.results}")
     private Map<String, Object> results;
     @ManagedProperty(value = "#{param.abstentions}")
@@ -37,17 +39,17 @@ public class VotingController implements Serializable {
     public VotingController() {
     }
 
-    public String prepareVoting(Poll poll) {
-        current = poll;
+    public String prepareVoting(Poll poll, Token token) {
+        this.current = poll;
+        this.token = token;
         results = new HashMap<String, Object>();
         abstentions = new HashMap<String, Object>();
         for (Item item : current.getItems()) {
-            abstentions.put(item.getId().toString(), Boolean.FALSE);
+            abstentions.put(item.getId().toString(), Boolean.TRUE);
             for (ItemOption itemOption : item.getOptions()) {
                 results.put(itemOption.getId().toString(), Boolean.FALSE);
             }
         }
-
         return UrlsPy.POLL.getUrl(true);
     }
 
@@ -60,6 +62,25 @@ public class VotingController implements Serializable {
     }
 
     public String submit() {
+        if (this.token == null) {
+            ZVotesUtils.addInternationalizedWarnMessage("Preview");
+            return UrlsPy.POLL.getUrl();
+        }
+        
+        for (Item item : current.getItems()) {
+            int votes = 0;
+            for (ItemOption itemOption : item.getOptions()) {
+                if (results.get(itemOption.getId().toString()) == Boolean.TRUE) {
+                    votes++;
+                }
+            }
+            if (votes > item.getM() && item.getType().equals(ItemType.M_OF_N)) {
+                return UrlsPy.POLL.getUrl();
+            }
+            else if (votes > 1 && !item.getType().equals(ItemType.M_OF_N)) {
+                return UrlsPy.POLL.getUrl();
+            }
+        }
         for (Item item : current.getItems()) {
             if (abstentions.get(item.getId().toString()) == Boolean.TRUE) {
                 Vote vote = new Vote();
@@ -78,7 +99,7 @@ public class VotingController implements Serializable {
                 }
             }
         }
-        tokenController.markUsed();
+        tokenController.markUsed(token);
         updatePollState();
         ZVotesUtils.addInternationalizedInfoMessage("Voted");
         return UrlsPy.HOME.getUrl(true);
@@ -105,6 +126,14 @@ public class VotingController implements Serializable {
                 current.setPollState(PollState.VOTING);
                 pollFacade.edit(current);
             }
+        }
+    }
+    
+    public int getMaxOptions(Item item) {
+        if (item.getType().equals(ItemType.M_OF_N)) {
+            return item.getM();
+        } else {
+            return 1;
         }
     }
 

@@ -16,7 +16,6 @@ public class TokenController implements Serializable {
 
     @ManagedProperty(value = "#{param.tokenString}")
     private String tokenString;
-    private Token current;
     @EJB
     private com.zero.votes.persistence.TokenFacade tokenFacade;
     @Inject
@@ -25,9 +24,9 @@ public class TokenController implements Serializable {
     public TokenController() {
     }
     
-    public void markUsed() {
-        current.setUsed(true);
-        tokenFacade.edit(current);
+    public void markUsed(Token token) {
+        token.setUsed(true);
+        tokenFacade.edit(token);
     }
 
     public String submit() {
@@ -44,10 +43,9 @@ public class TokenController implements Serializable {
             } else {
                 if (token.getPoll().isPollFinished()) {
                     ZVotesUtils.addInternationalizedErrorMessage("PollAlreadyFinished");
-                    return votingController.prepareVoting(current.getPoll());
+                    return UrlsPy.TOKEN.getUrl();
                 } else {
-                    current = token;
-                    return votingController.prepareVoting(current.getPoll());
+                    return votingController.prepareVoting(token.getPoll(), token);
                 }
             }
         }

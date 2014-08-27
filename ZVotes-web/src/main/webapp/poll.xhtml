@@ -14,30 +14,28 @@
         <div class="row">
             <h:form styleClass="form-horizontal">
                 <c:forEach items="#{votingController.current.items}" var="item">
-                    <div class="col-sm-offset-3 col-sm-6">
+                    <div class="col-xs-6 col-xs-offset-3">
                         <h3>#{item.title}</h3>
                     </div>
-                    <c:forEach items="#{item.options}" var="option">
-                        <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-6">
+                    <div class="item" data-m="#{votingController.getMaxOptions(item)}">
+                        <c:forEach items="#{item.options}" var="option">
+                            <div class="col-xs-6 col-xs-offset-3">
                                 <div class="checkbox">
                                     <label for="option_#{option.id}">
-                                        <h:selectBooleanCheckbox id="option_#{option.id}" value="#{votingController.results[option.id.toString()]}" title="#{option.shortName}" />
-                                        #{option.shortName}
+                                        <h:selectBooleanCheckbox id="option_#{option.id}" styleClass="option-real" value="#{votingController.results[option.id.toString()]}" title="#{option.shortName}" />
+                                        <strong>#{option.shortName}</strong>
                                     </label>
                                 </div>
                                 <div>
                                     #{option.description}
                                 </div>
                             </div>
-                        </div>
-                    </c:forEach>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-6">
+                        </c:forEach>
+                        <div class="col-xs-6 col-xs-offset-3">
                             <div class="checkbox">
                                 <label for="abstention_#{item.id}">
-                                    <h:selectBooleanCheckbox id="abstention_#{item.id}" value="#{votingController.abstentions[item.id.toString()]}" title="#{msg.Abstention}" />
-                                    #{msg.Abstention}
+                                    <h:selectBooleanCheckbox id="abstention_#{item.id}" styleClass="option-abstention" value="#{votingController.abstentions[item.id.toString()]}" title="#{msg.Abstention}" />
+                                    <strong>#{msg.Abstention}</strong>
                                 </label>
                             </div>
                             <div>
@@ -46,10 +44,9 @@
                         </div>
                     </div>
                 </c:forEach>
-                <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-6">
-                        <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
-                    </div>
+                <div class="col-xs-6 col-xs-offset-3">
+                    <br />
+                    <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
                 </div>
             </h:form>
         </div>

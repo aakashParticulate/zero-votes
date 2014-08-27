@@ -5,10 +5,13 @@ import com.zero.votes.persistence.ItemOptionFacade;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.ItemType;
+import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -18,6 +21,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -79,7 +83,8 @@ public class ItemOptionController implements Serializable {
         return itemController.prepareEdit(item);
     }
 
-    public String prepareCreate() {
+    public String prepareCreate(Item item) {
+        this.item = item;
         current = new ItemOption();
         current.setItem(item);
         return UrlsPy.ITEM_OPTION_CREATE.getUrl(true);
@@ -87,8 +92,7 @@ public class ItemOptionController implements Serializable {
 
     public String create() {
         try {
-            Item item = current.getItem();
-            if (item.getType().equals(ItemType.YES_NO)) {
+            if (this.item.getType().equals(ItemType.YES_NO)) {
                 ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
             } else {
                 getFacade().create(current);
@@ -120,6 +124,25 @@ public class ItemOptionController implements Serializable {
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
             return null;
+        }
+    }
+    
+    public void validateShortName(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        String shortName = (String) value;
+        if (shortName.isEmpty()) {
+            ZVotesUtils.throwValidatorException("ShortNameNotSet");
+        }
+        String[] fieldNames = {"shortName", "item"};
+        Object[] values = {shortName, item};
+        List<ItemOption> itemOptionsWithTitle = getFacade().findAllBy(fieldNames, values);
+        int amountItemOptionsWithTitle = 0;
+        for (ItemOption itemOption: itemOptionsWithTitle) {
+            if (!Objects.equals(itemOption.getId(), current.getId())) {
+                amountItemOptionsWithTitle++;
+            }
+        }
+        if (amountItemOptionsWithTitle >= 1) {
+            ZVotesUtils.throwValidatorException("ShortNameAlreadyUsed");
         }
     }
 

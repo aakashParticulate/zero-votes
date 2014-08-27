@@ -26,7 +26,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
-                            <h:commandLink action="#{pollController.preparePreview(item)}" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{votingController.prepareVoting(item, null)}" target="_blank" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />

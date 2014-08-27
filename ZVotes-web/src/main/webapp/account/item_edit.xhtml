@@ -27,6 +27,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <h:outputLabel value="#{msg.M}" for="m" styleClass="col-sm-3 control-label" />
+                <div class="col-sm-9">
+                    <h:inputText id="m" value="#{itemController.selected.m}" title="#{msg.M}" styleClass="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <h:commandLink action="#{itemController.update}" styleClass="btn btn-primary"><h:outputText value="#{icons.save} #{msg.Save}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />
@@ -59,7 +65,8 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
-            <h:commandLink action="#{itemOptionController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateItemOption}" escape="False" /></h:commandLink>
+            <h:commandLink action="#{itemOptionController.prepareCreate(itemController.selected)}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateItemOption}" escape="False" /></h:commandLink>
+            <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>
 </ui:composition>
