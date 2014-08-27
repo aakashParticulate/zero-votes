@@ -3,9 +3,12 @@ package com.zero.votes.web;
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
+import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
+import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.persistence.entities.Vote;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -19,9 +22,9 @@ import javax.inject.Named;
 public class VotingController implements Serializable {
 
     private Poll current;
-    @ManagedProperty(value="#{param.results}")
+    @ManagedProperty(value = "#{param.results}")
     private Map<String, Object> results;
-    @ManagedProperty(value="#{param.abstentions}")
+    @ManagedProperty(value = "#{param.abstentions}")
     private Map<String, Object> abstentions;
     @EJB
     private com.zero.votes.persistence.PollFacade pollFacade;
@@ -29,11 +32,10 @@ public class VotingController implements Serializable {
     private com.zero.votes.persistence.VoteFacade voteFacade;
     @Inject
     private com.zero.votes.web.TokenController tokenController;
-    
 
     public VotingController() {
     }
-    
+
     public String prepareVoting(Poll poll) {
         current = poll;
         results = new HashMap<String, Object>();
@@ -55,7 +57,7 @@ public class VotingController implements Serializable {
     public void setCurrent(Poll current) {
         this.current = current;
     }
-    
+
     public String submit() {
         for (Item item : current.getItems()) {
             if (abstentions.get(item.getId().toString()) == Boolean.TRUE) {
@@ -76,7 +78,32 @@ public class VotingController implements Serializable {
             }
         }
         tokenController.markUsed();
+        updatePollState();
         return UrlsPy.HOME.getUrl(true);
+    }
+
+    public void updatePollState() {
+        if (!current.isPollFinished()) {
+            boolean finished;
+            PollState state_before = current.getPollState();
+            if (current.getEndDate().before(new Date())) {
+                finished = true;
+            } else {
+                finished = true;
+                for (Participant p : current.getParticipants()) {
+                    if (!p.hasVoted()) {
+                        finished = false;
+                    }
+                }
+            }
+            if (finished) {
+                current.setPollState(PollState.FINISHED);
+                pollFacade.edit(current);
+            } else if (!finished && !state_before.equals(PollState.VOTING)) {
+                current.setPollState(PollState.VOTING);
+                pollFacade.edit(current);
+            }
+        }
     }
 
     public Map<String, Object> getResults() {

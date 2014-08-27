@@ -42,8 +42,13 @@ public class TokenController implements Serializable {
                 ZVotesUtils.addInternationalizedErrorMessage("TokenAlreadyUsed");
                 return UrlsPy.TOKEN.getUrl();
             } else {
-                current = token;
-                return votingController.prepareVoting(current.getPoll());
+                if (token.getPoll().isPollFinished()) {
+                    ZVotesUtils.addInternationalizedErrorMessage("PollAlreadyFinished");
+                    return votingController.prepareVoting(current.getPoll());
+                } else {
+                    current = token;
+                    return votingController.prepareVoting(current.getPoll());
+                }
             }
         }
     }

@@ -75,23 +75,7 @@ public class Poll implements Serializable {
     }
 
     public boolean isPollFinished() {
-        switch (this.pollState) {
-            case FINISHED:
-                return true;
-            case VOTING:
-                boolean result = true;
-                for (Participant p : this.participants) {
-                    if (p.hasVoted()) {
-                        result = false;
-                    }
-                }
-                if (result) {
-                    this.setPollState(PollState.FINISHED);
-                }
-                return result;
-            default:
-                return false;
-        }
+        return this.pollState.equals(PollState.FINISHED);
     }
 
     public Date getEndDate() {
