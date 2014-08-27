@@ -24,18 +24,27 @@ public class TokenController implements Serializable {
 
     public TokenController() {
     }
+    
+    public void markUsed() {
+        current.setUsed(true);
+        tokenFacade.edit(current);
+    }
 
     public String submit() {
-        String[] fieldNames = {"tokenString", "used"};
-        Object[] values = {tokenString, false};
+        String[] fieldNames = {"tokenString"};
+        Object[] values = {tokenString};
         Token token = tokenFacade.findBy(fieldNames, values);
         if (token == null) {
             ZVotesUtils.addInternationalizedErrorMessage("TokenNotFound");
             return UrlsPy.TOKEN.getUrl();
         } else {
-            current = token;
-            votingController.setCurrent(current.getPoll());
-            return UrlsPy.POLL.getUrl(true);
+            if (token.isUsed()) {
+                ZVotesUtils.addInternationalizedErrorMessage("TokenAlreadyUsed");
+                return UrlsPy.TOKEN.getUrl();
+            } else {
+                current = token;
+                return votingController.prepareVoting(current.getPoll());
+            }
         }
     }
 

@@ -19,6 +19,8 @@ public class DashboardController implements Serializable {
 
     @EJB
     private com.zero.votes.persistence.PollFacade pollFacade;
+    @EJB
+    private com.zero.votes.persistence.TokenFacade tokenFacade;
 
     public DashboardController() {
     }
@@ -35,7 +37,7 @@ public class DashboardController implements Serializable {
         return started_polls;
     }
 
-    public List<Poll> getPreparingPolls() {
+    public List<Poll> getUnpublishedPolls() {
         if (currentOrganizer == null) {
             currentOrganizer = refreshCurrentOrganizer();
         }
@@ -51,6 +53,12 @@ public class DashboardController implements Serializable {
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values = {currentOrganizer.getId(), PollState.FINISHED};
         return pollFacade.findAllBy(fieldNames, values);
+    }
+    
+    public int getUsedTokens(Poll poll) {
+        String[] fieldNames = {"poll", "used"};
+        Object[] values = {poll, true};
+        return tokenFacade.countBy(fieldNames, values);
     }
 
     public Organizer refreshCurrentOrganizer() {

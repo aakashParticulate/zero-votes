@@ -11,8 +11,80 @@
         <h1 class="page-header">
             <h:outputText value="#{msg.Dashboard}"></h:outputText>
         </h1>
-        <p>#{dashboardController.runningPolls} running polls</p>
-        <p>#{dashboardController.finishedPolls} finish polls</p>
-        <p>#{dashboardController.preparingPolls} unpublished polls</p>
+        <h3>#{msg.unpublishedPolls}</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-condensed table-bordered">
+                <thead>
+                    <tr>
+                      <th style="width: 25%">#{msg.Title}</th>
+                      <th style="width: 25%">#{msg.Items}</th>
+                      <th style="width: 25%">#{msg.Participants}</th>
+                      <th style="width: 25%">#{msg.AlreadyVoted}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="#{dashboardController.unpublishedPolls.size() > 0}">
+                            <c:forEach items="#{dashboardController.unpublishedPolls}" var="poll">
+                                <tr><td>#{poll.title}</td><td>#{poll.items.size()}</td><td>#{poll.participants.size()}</td><td>#{dashboardController.getUsedTokens(poll)}</td></tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr><td colspan="4">#{msg.ListEmpty}</td></tr>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
+        <h3>#{msg.runningPolls}</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-condensed table-bordered">
+                <thead>
+                    <tr>
+                      <th style="width: 25%">#{msg.Title}</th>
+                      <th style="width: 25%">#{msg.Items}</th>
+                      <th style="width: 25%">#{msg.Participants}</th>
+                      <th style="width: 25%">#{msg.AlreadyVoted}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="#{dashboardController.runningPolls.size() > 0}">
+                            <c:forEach items="#{dashboardController.runningPolls}" var="poll">
+                                <tr><td>#{poll.title}</td><td>#{poll.items.size()}</td><td>#{poll.participants.size()}</td><td>#{dashboardController.getUsedTokens(poll)}</td></tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr><td colspan="4">#{msg.ListEmpty}</td></tr>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
+        <h3>#{msg.finishedPolls}</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-condensed table-bordered">
+                <thead>
+                    <tr>
+                      <th style="width: 25%">#{msg.Title}</th>
+                      <th style="width: 25%">#{msg.Items}</th>
+                      <th style="width: 25%">#{msg.Participants}</th>
+                      <th style="width: 25%">#{msg.AlreadyVoted}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="#{dashboardController.finishedPolls.size() > 0}">
+                            <c:forEach items="#{dashboardController.finishedPolls}" var="poll">
+                                <tr><td>#{poll.title}</td><td>#{poll.items.size()}</td><td>#{poll.participants.size()}</td><td>#{dashboardController.getUsedTokens(poll)}</td></tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr><td colspan="4">#{msg.ListEmpty}</td></tr>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
     </ui:define>
 </ui:composition>

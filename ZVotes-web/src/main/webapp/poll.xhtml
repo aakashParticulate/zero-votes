@@ -22,8 +22,8 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">
                                     <div class="checkbox">
-                                        <label for="option_#{option.shortName}">
-                                            <h:selectBooleanCheckbox id="option_#{option.shortName}" title="#{option.shortName}" />
+                                        <label for="option_#{option.id}">
+                                            <h:selectBooleanCheckbox id="option_#{option.id}" value="#{votingController.results[option.id.toString()]}" title="#{option.shortName}" />
                                             #{option.shortName}
                                         </label>
                                     </div>
@@ -33,7 +33,25 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <div class="checkbox">
+                                    <label for="abstention_#{item.id}">
+                                        <h:selectBooleanCheckbox id="abstention_#{item.id}" value="#{votingController.abstentions[item.id.toString()]}" title="#{msg.Abstention}" />
+                                        #{msg.Abstention}
+                                    </label>
+                                </div>
+                                <div>
+                                    #{option.description}
+                                </div>
+                            </div>
+                        </div>
                     </c:forEach>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
+                        </div>
+                    </div>
                 </h:form>
             </div>
         </div>
