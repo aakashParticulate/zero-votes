@@ -9,7 +9,33 @@
     <ui:param name="navIndex" value="active"/>
     <ui:define name="content">
         <div class="text-center">
-            <h1 class="page-header">#{msg.Poll}</h1>
+            <h1 class="page-header">#{votingController.current.title}</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h:form styleClass="form-horizontal">
+                    <c:forEach items="#{votingController.current.items}" var="item">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <h3>#{item.title}</h3>
+                        </div>
+                        <c:forEach items="#{item.options}" var="option">
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <div class="checkbox">
+                                        <label for="option_#{option.shortName}">
+                                            <h:selectBooleanCheckbox id="option_#{option.shortName}" title="#{option.shortName}" />
+                                            #{option.shortName}
+                                        </label>
+                                    </div>
+                                    <div>
+                                        #{option.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:forEach>
+                </h:form>
+            </div>
         </div>
     </ui:define>
 </ui:composition>

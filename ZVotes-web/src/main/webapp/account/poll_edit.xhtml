@@ -78,8 +78,16 @@
                 <div class="col-sm-offset-3 col-sm-9">
                     <div class="checkbox">
                         <label for="participationTracking">
-                            <h:selectBooleanCheckbox id="participationTracking" value="#{pollController.selected.participationTracking}" title="#{msg.ParticipationTracking}" />
-                            #{msg.ParticipationTracking}
+                            <c:choose>
+                                <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                                    <h:selectBooleanCheckbox id="participationTracking" value="#{pollController.selected.participationTracking}" title="#{msg.ParticipationTracking}" />
+                                    #{msg.ParticipationTracking}
+                                </c:when>
+                                <c:otherwise>
+                                    <h:selectBooleanCheckbox id="participationTracking" value="#{pollController.selected.participationTracking}" title="#{msg.ParticipationTracking}" readonly="true" onclick="return false" />
+                                    #{msg.ParticipationTracking}
+                                </c:otherwise>
+                            </c:choose>
                         </label>
                     </div>
                 </div>

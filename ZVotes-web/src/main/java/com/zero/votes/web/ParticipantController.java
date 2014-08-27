@@ -42,7 +42,7 @@ public class ParticipantController implements Serializable {
     private PaginationHelper pagination;
     @ManagedProperty(value = "#{param.recipientListId}")
     private String recipientListId;
-    
+
     public ParticipantController() {
     }
 
@@ -89,14 +89,14 @@ public class ParticipantController implements Serializable {
     public void setRecipientListId(String recipientListId) {
         this.recipientListId = recipientListId;
     }
-    
+
     public List<RecipientList> getPossibleRecipientLists() {
         FacesContext context = FacesContext.getCurrentInstance();
         UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         Organizer current_organizer = userBean.getOrganizer();
         return recipientListFacade.findAllBy("organizer", current_organizer);
     }
-    
+
     public String prepareList(Poll poll) {
         this.poll = poll;
         recreateModel();
@@ -106,18 +106,21 @@ public class ParticipantController implements Serializable {
     public String prepareView() {
         return "TODO";
     }
-    
+
     public String prepareImport() {
         return UrlsPy.PARTICIPANT_IMPORT_LIST.getUrl(true);
     }
-    
+
     public String importList() {
         boolean imported = false;
         if (recipientListId != null) {
             Long realRecipientListId = Long.valueOf(recipientListId);
             RecipientList recipientList = recipientListFacade.find(realRecipientListId);
-            for (Recipient recipient: recipientList.getRecipients()) {
-                if (getFacade().countBy("email", recipient.getEmail()) == 0) {
+            String[] fieldNames = {"email", "poll"};
+            for (Recipient recipient : recipientList.getRecipients()) {
+                Object[] values = {recipient.getEmail(), this.poll};
+                int email_amount = getFacade().countBy(fieldNames, values);
+                if (email_amount == 0) {
                     Participant newParticipant = new Participant();
                     newParticipant.setEmail(recipient.getEmail());
                     newParticipant.setPoll(this.poll);
@@ -220,19 +223,19 @@ public class ParticipantController implements Serializable {
     public Participant getParticipant(java.lang.Long id) {
         return ejbFacade.find(id);
     }
-    
+
     public void validateEmail(FacesContext context, UIComponent component, Object value) {
         String email = String.valueOf(value);
-        String EMAIL_PATTERN = 
-		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
- 
-	Pattern email_pattern = Pattern.compile(EMAIL_PATTERN);
+        String EMAIL_PATTERN
+                = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern email_pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = email_pattern.matcher(email);
-        
+
         List<Participant> participants_with_title = getFacade().findAllBy("email", email);
         int amount_participants_with_email = 0;
-        for (Participant participant: participants_with_title) {
+        for (Participant participant : participants_with_title) {
             if (!Objects.equals(participant.getId(), current.getId()) && (Objects.equals(participant.getPoll().getId(), current.getPoll().getId()))) {
                 amount_participants_with_email++;
             }
@@ -249,7 +252,6 @@ public class ParticipantController implements Serializable {
             result = false;
         }
     }
-    
 
     @FacesConverter(forClass = Participant.class)
     public static class ParticipantControllerConverter implements Converter {

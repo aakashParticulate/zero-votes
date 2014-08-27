@@ -28,6 +28,7 @@ public class Token implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Poll poll;
+    private boolean used;
 
     public Token() {
         this.tokenString = UUID.randomUUID().toString();
@@ -59,6 +60,14 @@ public class Token implements Serializable {
 
     public void setPoll(Poll poll) {
         this.poll = poll;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     @Override

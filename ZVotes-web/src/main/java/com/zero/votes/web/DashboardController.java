@@ -2,8 +2,10 @@ package com.zero.votes.web;
 
 import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.entities.Organizer;
+import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -21,34 +23,34 @@ public class DashboardController implements Serializable {
     public DashboardController() {
     }
 
-    public int getRunningPolls() {
+    public List<Poll> getRunningPolls() {
         if (currentOrganizer == null) {
             currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values_started = {currentOrganizer.getId(), PollState.STARTED};
-        int started_polls = pollFacade.countBy(fieldNames, values_started);
+        List<Poll> started_polls = pollFacade.findAllBy(fieldNames, values_started);
         Object[] values_voting = {currentOrganizer.getId(), PollState.VOTING};
-        started_polls += pollFacade.countBy(fieldNames, values_voting);
+        started_polls.addAll(pollFacade.findAllBy(fieldNames, values_voting));
         return started_polls;
     }
 
-    public int getPreparingPolls() {
+    public List<Poll> getPreparingPolls() {
         if (currentOrganizer == null) {
             currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values = {currentOrganizer.getId(), PollState.PREPARED};
-        return pollFacade.countBy(fieldNames, values);
+        return pollFacade.findAllBy(fieldNames, values);
     }
 
-    public int getFinishedPolls() {
+    public List<Poll> getFinishedPolls() {
         if (currentOrganizer == null) {
             currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
         Object[] values = {currentOrganizer.getId(), PollState.FINISHED};
-        return pollFacade.countBy(fieldNames, values);
+        return pollFacade.findAllBy(fieldNames, values);
     }
 
     public Organizer refreshCurrentOrganizer() {

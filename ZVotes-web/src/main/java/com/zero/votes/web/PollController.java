@@ -4,8 +4,10 @@ import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Organizer;
+import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
+import com.zero.votes.persistence.entities.Token;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
@@ -35,6 +37,8 @@ public class PollController implements Serializable {
     private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.PollFacade ejbFacade;
+    @EJB
+    private com.zero.votes.persistence.TokenFacade tokenFacade;
     private PaginationHelper pagination;
 
     public PollController() {
@@ -55,6 +59,15 @@ public class PollController implements Serializable {
         if (validate(poll)) {
             poll.setPollState(PollState.STARTED);
             getFacade().edit(poll);
+            for(Participant participant: poll.getParticipants()) {
+                Token token = new Token();
+                token.setPoll(poll);
+                if (poll.isParticipationTracking()) {
+                    token.setParticipant(participant);
+                }
+                tokenFacade.create(token);
+            }
+            // TODO SEND EMAILS
             ZVotesUtils.addInternationalizedInfoMessage("PollPublishedSuccessfully");
             return UrlsPy.POLL_LIST.getUrl(true);
         }
