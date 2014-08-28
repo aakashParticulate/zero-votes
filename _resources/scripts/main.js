@@ -134,6 +134,10 @@ $(document).ready(function() {
 		}
 	});
 	$('.option-abstention').on('click', function(e) {
-		 e.preventDefault();
+    $(this)[0].checked = true;
+		$item=$(this).closest('.item');
+		$item.find('.option-real').each(function() {
+      $(this)[0].checked = false;
+		});
 	});
 });
