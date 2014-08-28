@@ -17,3 +17,4 @@ hs_err_pid*
 /ZVotes-ejb/target/
 /ZVotes-web/target/
 /ZVotes-ear/target/
+.DS_Store
