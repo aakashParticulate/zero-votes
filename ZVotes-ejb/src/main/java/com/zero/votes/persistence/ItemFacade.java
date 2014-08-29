@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 public class ItemFacade extends AbstractFacade<Item> {
 
     @PersistenceContext(unitName = "com.zero.votes.ZVotesPU")
-    private EntityManager em;
+    EntityManager em;
 
     @Override
     protected EntityManager getEntityManager() {
