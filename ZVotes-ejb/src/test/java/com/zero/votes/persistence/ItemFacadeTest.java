@@ -35,7 +35,7 @@ import static org.mockito.Mockito.*;
 public class ItemFacadeTest {
     
     private ItemFacade itemFacade;
-    private EntityManager em;
+    //private EntityManager em;
     private EntityManagerFactory emf;
     private Cache c;
     
@@ -56,11 +56,11 @@ public class ItemFacadeTest {
         //mocking an EntityManagerFactory-object
         emf = mock(EntityManagerFactory.class);
         //setting up replacing getter
-        doReturn( emf ).when( itemFacade.em ).getEntityManagerFactory();
+        doReturn(emf).when(itemFacade.em).getEntityManagerFactory();
         
         //mocking a Cache-object
         c = mock(Cache.class);
-        doReturn( c ).when( emf ).getCache();
+        doReturn(c).when(emf).getCache();
     }
     
     /**
@@ -70,43 +70,39 @@ public class ItemFacadeTest {
     public void testCreate() {
         Item itemEntity = new Item();
         this.itemFacade.create(itemEntity);
-        verify(c, times(1)).evictAll();
+        verify(c).evictAll();
         verify(itemFacade.em, times(1)).persist(itemEntity);
     }
     
     @Test
     public void testEdit(){
         Item itemEntity = new Item();
-        this.itemFacade.create(itemEntity);
         itemEntity.setTitle("MyTitle");
         this.itemFacade.edit(itemEntity);
-        verify(c, times(2)).evictAll();
+        verify(c).evictAll();
         verify(itemFacade.em).merge(itemEntity);
     }
     
     @Test
     public void testRemove(){
         Item itemEntity = new Item();
-        this.itemFacade.create(itemEntity);
         this.itemFacade.remove(itemEntity);
-        verify(c, times(2)).evictAll();
+        verify(c).evictAll();
         verify(itemFacade.em).remove(itemFacade.em.merge(itemEntity));
     }
     
     @Test
     public void testFind(){
         Item itemEntity = new Item();
-        this.itemFacade.create(itemEntity);
         Object id = itemEntity.getId();
         this.itemFacade.find(id);
-        verify(c, times(2)).evictAll();
+        verify(c).evictAll();
         verify(itemFacade.em).find(itemEntity.getClass(), id);
     }
     
     @Test
     public void testFindAll(){
         Item itemEntity = new Item();
-        this.itemFacade.create(itemEntity);
         
         //some mocks needed
         CriteriaBuilder cb = mock(CriteriaBuilder.class);
@@ -122,10 +118,15 @@ public class ItemFacadeTest {
         doReturn(query).when(itemFacade.em).createQuery(cq1);
         
         itemFacade.findAll();
-        verify(c, times(2)).evictAll();
+        verify(c, times(1)).evictAll();
         verify(cq1).select(cq1.from(itemEntity.getClass()));
         verify(itemFacade.em).createQuery(cq1);
         verify(query).getResultList();
+    }
+    
+    @Test
+    public void testFindRange(){
+        
     }
     
     

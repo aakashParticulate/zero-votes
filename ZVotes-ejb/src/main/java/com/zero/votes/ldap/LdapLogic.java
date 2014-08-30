@@ -16,7 +16,11 @@ public class LdapLogic {
     }
 
     public LdapUser getUser(String uid) {
-        return getOrganizer(uid).createLdapUser();
+        try{
+            return getOrganizer(uid).createLdapUser();
+        }catch(NullPointerException e){
+            return null;
+        }
     }
 
     public Organizer getOrganizer(String uid) {
