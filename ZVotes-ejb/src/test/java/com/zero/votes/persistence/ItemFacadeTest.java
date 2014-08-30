@@ -7,11 +7,18 @@
 package com.zero.votes.persistence;
 
 import com.zero.votes.persistence.entities.Item;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.ejb.embeddable.EJBContainer;
 import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -22,21 +29,29 @@ import static org.mockito.Mockito.*;
 
 /**
  *
- * @author Marcel
+ * These tests only verify wether something was called.
+ * No actual value tests are possible with mocks.
  */
 public class ItemFacadeTest {
     
     private ItemFacade itemFacade;
-    
+    private EntityManager em;
     private EntityManagerFactory emf;
     private Cache c;
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
         itemFacade = new ItemFacade();
         
         //mocking an EntityManager-object
         itemFacade.em = mock(EntityManager.class);
+        
+        /*introducing a version, where em could still be private via reflection
+        em = mock(EntityManager.class);
+        Field field = ItemFacade.class.getDeclaredField("em");
+        field.setAccessible(true);
+        field.set(itemFacade, em);
+        */
         
         //mocking an EntityManagerFactory-object
         emf = mock(EntityManagerFactory.class);
@@ -53,9 +68,65 @@ public class ItemFacadeTest {
      */
     @Test
     public void testCreate() {
-        System.out.println("create");
         Item itemEntity = new Item();
         this.itemFacade.create(itemEntity);
+        verify(c, times(1)).evictAll();
         verify(itemFacade.em, times(1)).persist(itemEntity);
     }
+    
+    @Test
+    public void testEdit(){
+        Item itemEntity = new Item();
+        this.itemFacade.create(itemEntity);
+        itemEntity.setTitle("MyTitle");
+        this.itemFacade.edit(itemEntity);
+        verify(c, times(2)).evictAll();
+        verify(itemFacade.em).merge(itemEntity);
+    }
+    
+    @Test
+    public void testRemove(){
+        Item itemEntity = new Item();
+        this.itemFacade.create(itemEntity);
+        this.itemFacade.remove(itemEntity);
+        verify(c, times(2)).evictAll();
+        verify(itemFacade.em).remove(itemFacade.em.merge(itemEntity));
+    }
+    
+    @Test
+    public void testFind(){
+        Item itemEntity = new Item();
+        this.itemFacade.create(itemEntity);
+        Object id = itemEntity.getId();
+        this.itemFacade.find(id);
+        verify(c, times(2)).evictAll();
+        verify(itemFacade.em).find(itemEntity.getClass(), id);
+    }
+    
+    @Test
+    public void testFindAll(){
+        Item itemEntity = new Item();
+        this.itemFacade.create(itemEntity);
+        
+        //some mocks needed
+        CriteriaBuilder cb = mock(CriteriaBuilder.class);
+        doReturn( cb ).when( itemFacade.em ).getCriteriaBuilder();
+        
+        CriteriaQuery cq1 = mock(CriteriaQuery.class);
+        doReturn( cq1 ).when( cb ).createQuery();
+        
+        Root root = mock(Root.class);
+        doReturn(root).when(cq1).from(itemEntity.getClass());
+        
+        TypedQuery query = mock(TypedQuery.class);
+        doReturn(query).when(itemFacade.em).createQuery(cq1);
+        
+        itemFacade.findAll();
+        verify(c, times(2)).evictAll();
+        verify(cq1).select(cq1.from(itemEntity.getClass()));
+        verify(itemFacade.em).createQuery(cq1);
+        verify(query).getResultList();
+    }
+    
+    
 }
