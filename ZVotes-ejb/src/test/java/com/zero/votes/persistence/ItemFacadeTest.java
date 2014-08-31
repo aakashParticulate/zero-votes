@@ -31,6 +31,8 @@ import static org.mockito.Mockito.*;
  *
  * These tests only verify wether something was called.
  * No actual value tests are possible with mocks.
+ * 
+ * http://www.oracle.com/technetwork/articles/java/unittesting-455385.html
  */
 public class ItemFacadeTest {
     
