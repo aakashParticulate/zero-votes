@@ -38,9 +38,6 @@ public class ItemFacadeIT {
         itemFacade.em = Persistence.createEntityManagerFactory("integration").createEntityManager();
         this.transaction = itemFacade.em.getTransaction();
     }
-    
-    
-
 
     /**
      * Test of create method, of class OrganizerFacade.
