@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/admin.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:param name="title" value="#{msg.AddOrganizer}"/>
+    <ui:param name="navAdmins" value="active"/>
+    <ui:define name="backend_content">        
+        <h1 class="page-header">
+            <h:outputText value="#{msg.AddOrganizer}"></h:outputText>
+        </h1>
+        <h:form styleClass="form-horizontal" role="form">
+            <div class="form-group">
+                <h:outputLabel value="#{msg.AddOrganizer}" for="organizer" styleClass="col-sm-3 control-label" />
+                <div class="col-sm-9">
+                    <c:choose>
+                        <c:when test="#{adminController.possibleAdmins.size() > 0}">
+                            <h:selectOneMenu value="#{adminController.adminId}" id="admin" styleClass="form-control">
+                                <f:selectItems value="#{adminController.possibleAdmins}" var="admin" itemLabel="#{admin.username}" itemValue="#{admin.id}" />
+                            </h:selectOneMenu>
+                        </c:when>
+                        <c:otherwise>
+                            #{msg.ListEmpty}
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <h:commandLink action="#{adminController.addAdmin}" styleClass="btn btn-primary" rendered="#{adminController.possibleAdmins.size() > 0}"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
+                    <h:commandLink styleClass="btn btn-primary btn-disabled" rendered="#{adminController.possibleAdmins.size() == 0}"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
+                    <h:outputText value=" " />
+                    <h:commandLink action="#{adminController.prepareList()}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.AdminShowAll}" escape="False" /></h:commandLink>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

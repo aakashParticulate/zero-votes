@@ -4,13 +4,11 @@ import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.beans.UserBean;
 import com.zero.votes.persistence.OrganizerFacade;
 import com.zero.votes.persistence.entities.Organizer;
-import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
@@ -23,37 +21,24 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-@Named("organizerController")
+@Named("adminController")
 @SessionScoped
-public class OrganizerController implements Serializable {
+public class AdminController implements Serializable {
 
-    private Organizer current;
     @EJB
     private com.zero.votes.persistence.OrganizerFacade ejbFacade;
     @EJB
     private com.zero.votes.persistence.PollFacade pollFacade;
     private PaginationHelper pagination;
-    private Poll poll;
     private DataModel items = null;
-    @ManagedProperty(value="#{param.organizerId}")
-    private String organizerId;
+    @ManagedProperty(value="#{param.adminId}")
+    private String adminId;
 
-    public OrganizerController() {
-    }
-
-    public Organizer getSelected() {
-        return current;
+    public AdminController() {
     }
 
     private OrganizerFacade getFacade() {
         return ejbFacade;
-    }
-
-    public void refresh() {
-        Organizer updated_current = getFacade().find(current.getId());
-        if (updated_current != null) {
-            current = updated_current;
-        }
     }
 
     public PaginationHelper getPagination() {
@@ -62,70 +47,60 @@ public class OrganizerController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().countBy("polls", poll.getId());
+                    return getFacade().countBy("admin", 1);
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRangeBy("polls", poll.getId(), new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getFacade().findRangeBy("admin", 1, new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
         return pagination;
     }
 
-    public Poll getPoll() {
-        return poll;
+
+    public String getAdminId() {
+        return adminId;
     }
 
-    public String getOrganizerId() {
-        return organizerId;
-    }
-
-    public void setOrganizerId(String organizerId) {
-        this.organizerId = organizerId;
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
     
-    public List<Organizer> getPossibleOrganizers() {
-        return getFacade().findAll();
+    public List<Organizer> getPossibleAdmins() {
+        return getFacade().findAllBy("admin", 0);
     }
 
-    public String remove(Organizer organizer) {
+    public String remove(Organizer admin) {
         FacesContext context = FacesContext.getCurrentInstance();
         UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
-        if (organizer.getId().equals(userBean.getOrganizer().getId())) {
+        if (admin.getId().equals(userBean.getOrganizer().getId())) {
             ZVotesUtils.addInternationalizedInfoMessage("OrganizerCantRemoveYourself");
-            return prepareList(poll);
+        return prepareList();
         }
+        admin.setAdmin(false);
+        getFacade().edit(admin);
 
-        Set<Organizer> poll_organizers = poll.getOrganizers();
-        poll_organizers.remove(organizer);
-        poll.setOrganizers(poll_organizers);
-        pollFacade.edit(poll);
-
-        ZVotesUtils.addInternationalizedInfoMessage("OrganizerRemoved");
-        return prepareList(poll);
+        ZVotesUtils.addInternationalizedInfoMessage("AdminRemoved");
+        return prepareList();
     }
 
-    public String prepareList(Poll poll) {
-        this.poll = poll;
-        return UrlsPy.ORGANIZER_LIST.getUrl(true);
+    public String prepareList() {
+        return UrlsPy.ADMIN_LIST.getUrl(true);
     }
 
     public String prepareAdd() {
-        return UrlsPy.ORGANIZER_ADD.getUrl(true);
+        return UrlsPy.ADMIN_ADD.getUrl(true);
     }
     
-    public String addOrganizer() {
-        Organizer organizer = getFacade().find(Long.valueOf(organizerId));
+    public String addAdmin() {
+        Organizer admin = getFacade().find(Long.valueOf(adminId));
+        admin.setAdmin(true);
+        getFacade().edit(admin);
         
-        Set<Organizer> poll_organizers = poll.getOrganizers();
-        poll_organizers.add(organizer);
-        poll.setOrganizers(poll_organizers);
-        pollFacade.edit(poll);
-        
-        ZVotesUtils.addInternationalizedInfoMessage("OrganizerAdded");
-        return prepareList(poll);
+        ZVotesUtils.addInternationalizedInfoMessage("AdminAdded");
+        return UrlsPy.ADMIN_LIST.getUrl(true);
     }
 
     public DataModel getItems() {
@@ -143,13 +118,13 @@ public class OrganizerController implements Serializable {
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return UrlsPy.ORGANIZER_LIST.getUrl(true);
+        return UrlsPy.ADMIN_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return UrlsPy.ORGANIZER_LIST.getUrl(true);
+        return UrlsPy.ADMIN_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
@@ -172,8 +147,8 @@ public class OrganizerController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            OrganizerController controller = (OrganizerController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "organizerController");
+            AdminController controller = (AdminController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "adminController");
             return controller.getOrganizer(getKey(value));
         }
 

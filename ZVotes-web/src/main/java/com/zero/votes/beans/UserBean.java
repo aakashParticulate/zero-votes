@@ -33,6 +33,13 @@ public class UserBean implements Serializable {
         }
         return user;
     }
+    
+    public boolean getIsAdmin() {
+        if (this.getOrganizer() == null) {
+            return false;
+        }
+        return this.getOrganizer().isAdmin();
+    }
 
     public Organizer getOrganizer() {
         if (organizer == null) {

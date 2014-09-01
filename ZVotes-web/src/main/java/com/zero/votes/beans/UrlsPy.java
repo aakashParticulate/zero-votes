@@ -14,6 +14,9 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     ITEM_OPTION_LIST("account/item_option_list.xhtml"),
     ITEM_OPTION_EDIT("account/item_option_edit.xhtml"),
     
+    ORGANIZER_LIST("account/organizer_list.xhtml"),
+    ORGANIZER_ADD("account/organizer_add.xhtml"),
+    
     POLL_CREATE("account/poll_create.xhtml"),
     POLL_LIST("account/poll_list.xhtml"),
     POLL_EDIT("account/poll_edit.xhtml"),
@@ -31,6 +34,12 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     RECIPIENTLIST_CREATE("account/recipientlist_create.xhtml"),
     RECIPIENTLIST_LIST("account/recipientlist_list.xhtml"),
     RECIPIENTLIST_EDIT("account/recipientlist_edit.xhtml"),
+    
+    ADMIN("admin/index.xhtml"),
+    ADMIN_LIST("admin/admin_list.xhtml"),
+    ADMIN_ADD("admin/admin_add.xhtml"),
+    
+    ADMIN_POLL_LIST("admin/poll_list.xhtml"),
     
     TOKEN("token.xhtml"),
     POLL("poll.xhtml"),

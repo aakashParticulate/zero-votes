@@ -61,12 +61,18 @@ public class RecipientListController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+                    Organizer current_organizer = userBean.getOrganizer();
+                    return getFacade().countBy("organizer", current_organizer);
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+                    Organizer current_organizer = userBean.getOrganizer();
+                    return new ListDataModel(getFacade().findRangeBy("organizer", current_organizer, new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -82,7 +88,7 @@ public class RecipientListController implements Serializable {
         current = new RecipientList();
         
         FacesContext context = FacesContext.getCurrentInstance();
-        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         Organizer current_organizer = userBean.getOrganizer();
 
         current.setOrganizer(current_organizer);

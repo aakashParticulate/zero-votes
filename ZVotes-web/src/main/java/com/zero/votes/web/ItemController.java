@@ -10,6 +10,7 @@ import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +21,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 
 @Named("itemController")
@@ -92,6 +94,9 @@ public class ItemController implements Serializable {
 
     public String create() {
         try {
+            if (!current.getType().equals(ItemType.M_OF_N)) {
+                this.current.setM(1);
+            }
             getFacade().create(current);
             optionTest(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemCreated");
@@ -102,10 +107,6 @@ public class ItemController implements Serializable {
         }
     }
 
-    public String preparePreview(Item item) {
-        return "TODO";
-    }
-
     public String prepareEdit(Item item) {
         current = item;
         refresh();
@@ -114,6 +115,9 @@ public class ItemController implements Serializable {
 
     public String update() {
         try {
+            if (!current.getType().equals(ItemType.M_OF_N)) {
+                this.current.setM(1);
+            }
             getFacade().edit(current);
             optionTest(current);
             ZVotesUtils.addInternationalizedInfoMessage("ItemUpdated");
@@ -138,6 +142,13 @@ public class ItemController implements Serializable {
             ZVotesUtils.addInternationalizedInfoMessage("ItemDeleted");
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+        }
+    }
+
+    public void validateM(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        int m = (Integer) value;
+        if (m < 1) {
+            ZVotesUtils.throwValidatorException("MMustBeGreaterThan0");
         }
     }
 

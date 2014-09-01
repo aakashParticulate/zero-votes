@@ -63,7 +63,7 @@ public class DashboardController implements Serializable {
 
     public Organizer refreshCurrentOrganizer() {
         FacesContext context = FacesContext.getCurrentInstance();
-        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         return userBean.getOrganizer();
     }
 }

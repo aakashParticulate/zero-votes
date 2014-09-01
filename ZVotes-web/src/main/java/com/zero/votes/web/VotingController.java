@@ -60,13 +60,24 @@ public class VotingController implements Serializable {
     public void setCurrent(Poll current) {
         this.current = current;
     }
+    
+    public String abstainAll() {
+        for (Item item : current.getItems()) {
+            abstentions.remove(item.getId().toString());
+            abstentions.put(item.getId().toString(), Boolean.TRUE);
+            for (ItemOption itemOption : item.getOptions()) {
+                results.remove(itemOption.getId().toString());
+                results.put(itemOption.getId().toString(), Boolean.FALSE);
+            }
+        }
+        return this.submit();
+    }
 
     public String submit() {
         if (this.token == null) {
             ZVotesUtils.addInternationalizedWarnMessage("Preview");
             return UrlsPy.POLL.getUrl();
         }
-        
         for (Item item : current.getItems()) {
             int votes = 0;
             for (ItemOption itemOption : item.getOptions()) {

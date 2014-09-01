@@ -47,9 +47,6 @@ public class ParticipantController implements Serializable {
     }
 
     public Participant getSelected() {
-        if (current == null) {
-            current = new Participant();
-        }
         return current;
     }
 
@@ -70,7 +67,7 @@ public class ParticipantController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    return getFacade().countBy("poll", poll);
                 }
 
                 @Override
@@ -92,7 +89,7 @@ public class ParticipantController implements Serializable {
 
     public List<RecipientList> getPossibleRecipientLists() {
         FacesContext context = FacesContext.getCurrentInstance();
-        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         Organizer current_organizer = userBean.getOrganizer();
         return recipientListFacade.findAllBy("organizer", current_organizer);
     }
@@ -101,10 +98,6 @@ public class ParticipantController implements Serializable {
         this.poll = poll;
         recreateModel();
         return UrlsPy.PARTICIPANT_LIST.getUrl(true);
-    }
-
-    public String prepareView() {
-        return "TODO";
     }
 
     public String prepareImport() {

@@ -44,9 +44,39 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="#{gravatarBean.getImageUrl(userBean.user.email)}" height="20px" /> #{facesContext.externalContext.remoteUser} <span class="fa fa-caret-down"></span></a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li class="#{navDashboard}"><a href="/account/"><span class="fa fa-home"></span> #{msg.Dashboard}</a></li>
-                                        <li class="#{navPolls}"><a href="/account/polls/"><span class="fa fa-bar-chart-o"></span> #{msg.Polls}</a></li>
-                                        <li class="#{navRecipientLists}"><a href="/account/recipient-lists/"><span class="fa fa-users"></span> #{msg.RecipientLists}</a></li>
+                                        <li class="#{navDashboard}">
+                                            <h:link outcome="/account/index.xhtml">
+                                                <h:outputText value="#{icons.dashboard}" escape="False"/> #{msg.Dashboard}
+                                            </h:link>
+                                        </li>
+                                        <li class="#{navPolls}">
+                                            <h:link outcome="/account/poll_list.xhtml">
+                                                <h:outputText value="#{icons.polls}" escape="False"/> #{msg.Polls}
+                                            </h:link>
+                                        </li>
+                                        <li class="#{navRecipientLists}">
+                                            <h:link outcome="/account/recipientlist_list.xhtml">
+                                                <h:outputText value="#{icons.users}" escape="False"/> #{msg.RecipientLists}
+                                            </h:link>
+                                        </li>
+                                            <c:if test="#{userBean.isAdmin}">
+                                                <li class="divider"></li>
+                                                <li class="#{navAdmin}">
+                                                    <h:link outcome="/admin/index.xhtml">
+                                                        <h:outputText value="#{icons.dashboard}" escape="False"/> #{msg.Admin}
+                                                    </h:link>
+                                                </li>
+                                                <li class="#{navAdmins}">
+                                                    <h:link outcome="/admin/admin_list.xhtml">
+                                                        <h:outputText value="#{icons.users}" escape="False"/> #{msg.Admins}
+                                                    </h:link>
+                                                </li>
+                                                <li class="#{navAdminPolls}">
+                                                    <h:link outcome="/admin/poll_list.xhtml">
+                                                        <h:outputText value="#{icons.polls}" escape="False"/> #{msg.Polls}
+                                                    </h:link>
+                                                </li>
+                                            </c:if>
                                         <li class="divider"></li>
                                         <li><h:form><h:commandLink action="#{loginBean.doLogout}"><span class="fa fa-sign-out"></span> #{msg.Logout}</h:commandLink></h:form></li>
                                     </ul>

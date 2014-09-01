@@ -7,7 +7,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:param name="title" value="#{msg.Polls}"/>
     <ui:param name="navPolls" value="active"/>
-    <ui:define name="backend_content">        
+    <ui:define name="backend_content">
         <h1 class="page-header">
             <h:outputText value="#{msg.Polls}"></h:outputText>
         </h1>
@@ -30,10 +30,12 @@
                             <h:outputText value=" " />
                             <h:commandLink action="#{pollController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
+                            <h:commandLink action="#{organizerController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.organizers}" escape="False"/></h:commandLink>
+                            <h:outputText value=" " /> 
                             <h:commandLink action="#{participantController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.participants}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:commandLink action="#{itemController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.questions}" escape="False"/></h:commandLink>
-                            <h:outputText value=" " />
+                            <h:outputText value=" " />                    
                             <h:commandLink action="#{pollController.publish(item)}" rendered="${item.pollState == 'PREPARED'}" class="btn btn-success"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
                             <h:commandLink action="NOTHING" rendered="${item.pollState != 'PREPARED'}" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />

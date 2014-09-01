@@ -16,9 +16,9 @@ public class LdapLogic {
     }
 
     public LdapUser getUser(String uid) {
-        try{
+        try {
             return getOrganizer(uid).createLdapUser();
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             return null;
         }
     }

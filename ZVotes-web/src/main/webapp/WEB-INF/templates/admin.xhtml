@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3 col-md-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="#{gravatarBean.getImageUrl(userBean.user.email)}" height="20px" /> #{facesContext.externalContext.remoteUser}</h3>
+                    </div>
+                    <div class="list-group">
+                        <h:link outcome="/admin/index.xhtml" styleClass="list-group-item #{navAdmin}">
+                            <h:outputText value="#{icons.dashboard}" escape="False"/> #{msg.Admin}
+                        </h:link>
+                        <h:link outcome="/admin/admin_list.xhtml" styleClass="list-group-item #{navAdmins}">
+                            <h:outputText value="#{icons.users}" escape="False"/> #{msg.Admins}
+                        </h:link>
+                        <h:link outcome="/admin/poll_list.xhtml" styleClass="list-group-item #{navAdminPolls}">
+                            <h:outputText value="#{icons.polls}" escape="False"/> #{msg.Polls}
+                        </h:link>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-10" id="backend-content">
+                <ui:insert name="backend_content"/>
+            </div>
+            <div class="hidden">
+                <h:messages  errorClass="notification-error" infoClass="notification-info" />
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

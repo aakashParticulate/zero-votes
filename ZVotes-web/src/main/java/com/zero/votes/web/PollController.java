@@ -62,6 +62,9 @@ public class PollController implements Serializable {
             getFacade().edit(poll);
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
+                while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {
+                    token = new Token();
+                }
                 token.setPoll(poll);
                 if (poll.isParticipationTracking()) {
                     token.setParticipant(participant);
@@ -108,8 +111,12 @@ public class PollController implements Serializable {
             result = false;
         }
         for (Item item : poll.getItems()) {
-            if (item.getOptions().isEmpty()) {
-                ZVotesUtils.addInternationalizedErrorMessage("AnItemDoesNotHaveAnOption");
+            if (item.getOptions().size() < 2) {
+                ZVotesUtils.addInternationalizedErrorMessage("AnItemNeedsAtLeast2Options");
+                result = false;
+            }
+            if (item.getOptions().size() < item.getM()) {
+                ZVotesUtils.addInternationalizedErrorMessage("AnItemOptionsThanM");
                 result = false;
             }
         }
@@ -129,12 +136,18 @@ public class PollController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+                    Organizer current_organizer = userBean.getOrganizer();
+                    return getFacade().countBy("organizers", current_organizer.getId());
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+                    Organizer current_organizer = userBean.getOrganizer();
+                    return new ListDataModel(getFacade().findRangeBy("organizers", current_organizer.getId(), new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -155,7 +168,7 @@ public class PollController implements Serializable {
 
         // Add this Organizer to Poll
         FacesContext context = FacesContext.getCurrentInstance();
-        UserBean userBean = (UserBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         Organizer current_organizer = userBean.getOrganizer();
 
         Set<Organizer> organizers = current.getOrganizers();
@@ -268,6 +281,15 @@ public class PollController implements Serializable {
 	Date startDate = (Date) startDateComponent.getValue();
         if (startDate.after(endDate)) {
             ZVotesUtils.throwValidatorException("EndDateBeforeStartDate");
+        }
+        if (endDate.before(new Date())) {
+            ZVotesUtils.throwValidatorException("EndDateBeforeNow");
+        }
+        if (current.getId() != null) {
+            Date previousEndDate = getFacade().find(current.getId()).getEndDate();
+            if ((current.getPollState().equals(PollState.STARTED) || current.getPollState().equals(PollState.VOTING)) && endDate.before(previousEndDate)) {
+                ZVotesUtils.throwValidatorException("EndDateCantBeMovedToEarlierTime");
+            }
         }
     }
 
