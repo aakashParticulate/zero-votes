@@ -69,13 +69,25 @@ var bannerStyles = [
 ].join('\n');
 
 
-gulp.task('scripts', function() {
+
+
+gulp.task('scriptsMain', function() {
     return gulp.src(paths.scripts)
         .pipe(concat('zvotes.min.js'))
         .pipe(uglify())
         .pipe(header(bannerScripts, {pkg: pkg, currentYear: currentYear}))
         .pipe(gulp.dest(paths.build + 'js/'));
 });
+
+gulp.task('scriptsToken', function() {
+  return gulp.src(['./_resources/scripts/token.js'])
+      .pipe(concat('token.js'))
+      .pipe(uglify())
+      .pipe(header(bannerScripts, {pkg: pkg, currentYear: currentYear}))
+      .pipe(gulp.dest(paths.build + 'js/'));
+});
+
+gulp.task('scripts', ['scriptsMain', 'scriptsToken']);
 
 gulp.task('styles', function() {
     return gulp.src(paths.styles)

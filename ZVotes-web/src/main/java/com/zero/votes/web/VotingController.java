@@ -29,10 +29,14 @@ public class VotingController implements Serializable {
     private Map<String, Object> results;
     @ManagedProperty(value = "#{param.abstentions}")
     private Map<String, Object> abstentions;
+    @ManagedProperty(value = "#{param.freeTexts}")
+    private Map<String, Object> freeTexts;
     @EJB
     private com.zero.votes.persistence.PollFacade pollFacade;
     @EJB
     private com.zero.votes.persistence.VoteFacade voteFacade;
+    @EJB
+    private com.zero.votes.persistence.ItemOptionFacade itemOptionFacade;
     @Inject
     private com.zero.votes.web.TokenController tokenController;
 
@@ -44,6 +48,7 @@ public class VotingController implements Serializable {
         this.token = token;
         results = new HashMap<String, Object>();
         abstentions = new HashMap<String, Object>();
+        freeTexts = new HashMap<String, Object>();
         for (Item item : current.getItems()) {
             abstentions.put(item.getId().toString(), Boolean.TRUE);
             for (ItemOption itemOption : item.getOptions()) {
@@ -60,7 +65,7 @@ public class VotingController implements Serializable {
     public void setCurrent(Poll current) {
         this.current = current;
     }
-    
+
     public String abstainAll() {
         for (Item item : current.getItems()) {
             abstentions.remove(item.getId().toString());
@@ -75,7 +80,11 @@ public class VotingController implements Serializable {
 
     public String submit() {
         if (this.token == null) {
-            ZVotesUtils.addInternationalizedWarnMessage("Preview");
+            ZVotesUtils.addInternationalizedWarnMessage("NoValidTokenActive");
+            return UrlsPy.POLL.getUrl();
+        }
+        if (this.token.isUsed()) {
+            ZVotesUtils.addInternationalizedWarnMessage("TokenAlreadyUsed");
             return UrlsPy.POLL.getUrl();
         }
         for (Item item : current.getItems()) {
@@ -85,10 +94,17 @@ public class VotingController implements Serializable {
                     votes++;
                 }
             }
+            if (item.isOwnOptions()) {
+                for (int i = 1; i <= this.getMaxOptions(item); i++) {
+                    String freeTextId = item.getId().toString()+"_"+Integer.toString(i);
+                    if (results.get(freeTextId) == Boolean.TRUE) {
+                        votes++;
+                    }
+                }
+            }
             if (votes > item.getM() && item.getType().equals(ItemType.M_OF_N)) {
                 return UrlsPy.POLL.getUrl();
-            }
-            else if (votes > 1 && !item.getType().equals(ItemType.M_OF_N)) {
+            } else if (votes > 1 && !item.getType().equals(ItemType.M_OF_N)) {
                 return UrlsPy.POLL.getUrl();
             }
         }
@@ -99,6 +115,22 @@ public class VotingController implements Serializable {
                 vote.setAbstention(true);
                 voteFacade.create(vote);
             } else {
+                if (item.isOwnOptions()) {
+                    for (int i = 1; i <= this.getMaxOptions(item); i++) {
+                        String freeTextId = item.getId().toString()+"_"+Integer.toString(i);
+                        if (results.get(freeTextId) == Boolean.TRUE) {
+                            ItemOption itemOption = new ItemOption();
+                            itemOption.setShortName((String) freeTexts.get(freeTextId));
+                            itemOption.setItem(item);
+                            itemOptionFacade.create(itemOption);
+                            Vote vote = new Vote();
+                            vote.setItem(item);
+                            vote.setItemOption(itemOption);
+                            vote.setAbstention(false);
+                            voteFacade.create(vote);
+                        }
+                    }
+                }
                 for (ItemOption itemOption : item.getOptions()) {
                     if (results.get(itemOption.getId().toString()) == Boolean.TRUE) {
                         Vote vote = new Vote();
@@ -109,11 +141,35 @@ public class VotingController implements Serializable {
                     }
                 }
             }
+            for (ItemOption itemOption : item.getOptions()) {
+                results.remove(itemOption.getId().toString());
+                results.put(itemOption.getId().toString(), Boolean.FALSE);
+            }
+            abstentions.remove(item.getId().toString());
+            abstentions.put(item.getId().toString(), Boolean.TRUE);
         }
         tokenController.markUsed(token);
         updatePollState();
+        this.token = null;
+        this.current = null;
+        freeTexts = new HashMap<String, Object>();
         ZVotesUtils.addInternationalizedInfoMessage("Voted");
         return UrlsPy.HOME.getUrl(true);
+    }
+    
+    public String cancel() {
+        for (Item item : current.getItems()) {
+            for (ItemOption itemOption : item.getOptions()) {
+                results.remove(itemOption.getId().toString());
+                results.put(itemOption.getId().toString(), Boolean.FALSE);
+            }
+            abstentions.remove(item.getId().toString());
+            abstentions.put(item.getId().toString(), Boolean.TRUE);
+        }
+        freeTexts = new HashMap<String, Object>();
+        this.token = null;
+        this.current = null;
+        return UrlsPy.TOKEN.getUrl(true);
     }
 
     public void updatePollState() {
@@ -139,7 +195,7 @@ public class VotingController implements Serializable {
             }
         }
     }
-    
+
     public int getMaxOptions(Item item) {
         if (item.getType().equals(ItemType.M_OF_N)) {
             return item.getM();
@@ -162,6 +218,14 @@ public class VotingController implements Serializable {
 
     public void setAbstentions(Map<String, Object> abstentions) {
         this.abstentions = abstentions;
+    }
+
+    public Map<String, Object> getFreeTexts() {
+        return freeTexts;
+    }
+
+    public void setFreeTexts(Map<String, Object> freeTexts) {
+        this.freeTexts = freeTexts;
     }
 
 }

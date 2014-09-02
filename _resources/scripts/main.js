@@ -1,3 +1,17 @@
+var ZVotes = {};
+
+ZVotes.getQueryString = function(param) {
+    var str = window.location.search;
+    var objURL = {};
+    str.replace(
+        new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+        function( $0, $1, $2, $3 ){
+            objURL[ $1 ] = $3;
+        }
+    );
+    return objURL[param];
+};
+
 $(document).ready(function() {
     toastr.options = {
         "closeButton": true
@@ -29,76 +43,83 @@ $(document).ready(function() {
 		}
 	});
 
-    // --------------------------
+  // --------------------------
 
-    var current_language = $('html').attr('lang') || "de";
+  var current_language = $('html').attr('lang') || "de";
 
-    var preview_text, edit_text, delete_text, publish_text, results_text, participants_text, questions_text;
+  var preview_text, edit_text, delete_text, publish_text, results_text, participants_text, questions_text;
 
-    switch (current_language) {
-        case "en":
-            preview_text = "Preview";
-            edit_text = "Edit";
-            delete_text = "Delete";
-            publish_text = "Publish";
-            results_text = "Results";
-            participants_text = "Participants";
-			recipients_text = "Recipients";
-            questions_text = "Questions";
-            break;
-        case "de":
-        default:
-            preview_text = " Vorschau";
-            edit_text = "Editieren";
-            delete_text = "Löschen";
-            publish_text = "Veröffentlichen";
-            results_text = "Ergebnisse";
-            participants_text = "Teilnehmer";
-			recipients_text = "Empfänger";
-            questions_text = "Fragen";
-            break;
-    }
+  switch (current_language) {
+      case "en":
+          preview_text = "Preview";
+          edit_text = "Edit";
+          delete_text = "Delete";
+          publish_text = "Publish";
+          results_text = "Results";
+          participants_text = "Participants";
+      		recipients_text = "Recipients";
+      		organizers_text = "Organizers";
+          questions_text = "Questions";
+          break;
+      case "de":
+      default:
+          preview_text = " Vorschau";
+          edit_text = "Editieren";
+          delete_text = "Löschen";
+          publish_text = "Veröffentlichen";
+          results_text = "Ergebnisse";
+          participants_text = "Teilnehmer";
+      		recipients_text = "Empfänger";
+      		organizers_text = "Organisatoren";
+          questions_text = "Fragen";
+          break;
+  }
 
-    $('.zvotes-preview-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': preview_text
-    });
+  $('.zvotes-preview-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': preview_text
+  });
 
-    $('.zvotes-edit-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': edit_text
-    });
+  $('.zvotes-edit-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': edit_text
+  });
 
-    $('.zvotes-delete-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': delete_text
-    });
+  $('.zvotes-delete-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': delete_text
+  });
 
-    $('.zvotes-publish-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': publish_text
-    });
+  $('.zvotes-publish-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': publish_text
+  });
 
-    $('.zvotes-results-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': results_text
-    });
+  $('.zvotes-results-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': results_text
+  });
 
-    $('.zvotes-participants-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': participants_text
-    });
+  $('.zvotes-participants-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': participants_text
+  });
 
-    $('.zvotes-recipients-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': recipients_text
-    });
-	
+  $('.zvotes-recipients-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': recipients_text
+  });
 
-    $('.zvotes-questions-btn').parent().tooltip({
-        'placement': 'bottom',
-        'title': questions_text
-    });
+  $('.zvotes-questions-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': questions_text
+  });
+
+  $('.zvotes-organizers-btn').parent().tooltip({
+      'placement': 'bottom',
+      'title': organizers_text
+  });
+
 	
 	$('.zvotes-delete-btn').each(function() {
 		$(this).parent().each(function() {
@@ -140,4 +161,14 @@ $(document).ready(function() {
       $(this)[0].checked = false;
 		});
 	});
+  
+  $(document).ready(function() {
+  	$('.option-abstention').each(function() {
+      $(this)[0].checked = true;
+    });
+  	$('.option-real').each(function() {
+      $(this)[0].checked = false;
+    });
+    $('.freetext-input').val(''));
+  });
 });

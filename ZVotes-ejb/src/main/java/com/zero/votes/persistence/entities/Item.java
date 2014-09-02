@@ -24,6 +24,7 @@ public class Item implements Serializable {
     private String title;
     private ItemType type;
     private int m;
+    private boolean ownOptions;
 
     @ManyToOne
     private Poll poll;
@@ -90,6 +91,14 @@ public class Item implements Serializable {
 
     public void setOptions(Set<ItemOption> options) {
         this.options = options;
+    }
+
+    public boolean isOwnOptions() {
+        return ownOptions;
+    }
+
+    public void setOwnOptions(boolean ownOptions) {
+        this.ownOptions = ownOptions;
     }
 
     @Override

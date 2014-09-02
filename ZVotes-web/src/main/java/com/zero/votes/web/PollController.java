@@ -2,8 +2,11 @@ package com.zero.votes.web;
 
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.beans.UserBean;
+import com.zero.votes.cronjobs.FinishPollJob;
+import com.zero.votes.cronjobs.ZVotesScheduler;
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Item;
+import com.zero.votes.persistence.entities.ItemType;
 import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
@@ -14,6 +17,7 @@ import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -40,6 +44,11 @@ public class PollController implements Serializable {
     private com.zero.votes.persistence.PollFacade ejbFacade;
     @EJB
     private com.zero.votes.persistence.TokenFacade tokenFacade;
+    @EJB
+    private com.zero.votes.persistence.ItemFacade itemFacade;
+    @EJB
+    private ZVotesScheduler zVotesScheduler;
+    
     private PaginationHelper pagination;
 
     public PollController() {
@@ -60,6 +69,9 @@ public class PollController implements Serializable {
         if (validate(poll)) {
             poll.setPollState(PollState.STARTED);
             getFacade().edit(poll);
+            HashMap<Date, Runnable> finishTask = new HashMap<>();
+            finishTask.put(poll.getEndDate(), new FinishPollJob(poll));
+            zVotesScheduler.addTask("FINISH_POLL_"+poll.getId(), finishTask);
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
                 while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {
@@ -118,6 +130,10 @@ public class PollController implements Serializable {
             if (item.getOptions().size() < item.getM()) {
                 ZVotesUtils.addInternationalizedErrorMessage("AnItemOptionsThanM");
                 result = false;
+            }
+            if (item.getType().equals(ItemType.YES_NO)) {
+                item.setOwnOptions(false);
+                itemFacade.edit(item);
             }
         }
         return result;
@@ -199,6 +215,12 @@ public class PollController implements Serializable {
         try {
             getFacade().edit(current);
             ZVotesUtils.addInternationalizedInfoMessage("PollUpdated");
+            // In Case of changing Enddate
+            if (current.getPollState().equals(PollState.STARTED)) {
+                HashMap<Date, Runnable> finishTask = new HashMap<>();
+                finishTask.put(current.getEndDate(), new FinishPollJob(current));
+                zVotesScheduler.addTask("FINISH_POLL_"+current.getId(), finishTask);
+            }
             return UrlsPy.POLL_LIST.getUrl(true);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");

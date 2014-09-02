@@ -7,8 +7,10 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 @Named("tokenController")
 @SessionScoped
@@ -45,6 +47,7 @@ public class TokenController implements Serializable {
                     ZVotesUtils.addInternationalizedErrorMessage("PollAlreadyFinished");
                     return UrlsPy.TOKEN.getUrl();
                 } else {
+                    this.tokenString = "";
                     return votingController.prepareVoting(token.getPoll(), token);
                 }
             }
@@ -52,7 +55,10 @@ public class TokenController implements Serializable {
     }
 
     public String getTokenString() {
-        return tokenString;
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if (req.getParameter("token") != null && !req.getParameter("token").isEmpty()) {
+        }
+        return req.getParameter("token");
     }
 
     public void setTokenString(String tokenString) {

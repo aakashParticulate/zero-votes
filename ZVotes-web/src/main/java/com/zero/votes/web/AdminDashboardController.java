@@ -1,7 +1,5 @@
 package com.zero.votes.web;
 
-import com.zero.votes.beans.UserBean;
-import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 import java.io.Serializable;

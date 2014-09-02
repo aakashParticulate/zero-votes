@@ -18,5 +18,6 @@
      </application>
      <lifecycle>
          <phase-listener>com.zero.votes.listeners.MultiPageMessagesSupport</phase-listener>
+         <phase-listener>com.zero.votes.listeners.DisableCacheListener</phase-listener>
      </lifecycle>
 </faces-config>

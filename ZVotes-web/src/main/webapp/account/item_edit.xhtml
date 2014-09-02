@@ -34,6 +34,16 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
+                    <div class="checkbox">
+                        <label for="ownOptions">
+                            <h:selectBooleanCheckbox id="ownOptions" value="#{itemController.selected.ownOptions}" title="#{msg.OwnOptions}" />
+                            #{msg.OwnOptions}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
                     <h:commandLink action="#{itemController.update}" styleClass="btn btn-primary"><h:outputText value="#{icons.save} #{msg.Save}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />
                     <h:commandLink action="#{itemController.prepareList(itemController.poll)}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.ItemShowAll}" escape="False" /></h:commandLink>

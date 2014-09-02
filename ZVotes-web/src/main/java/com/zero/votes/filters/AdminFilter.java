@@ -3,7 +3,6 @@ package com.zero.votes.filters;
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.Organizer;
 import java.io.IOException;
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

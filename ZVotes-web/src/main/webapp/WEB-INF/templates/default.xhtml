@@ -23,6 +23,7 @@
         <link href="#{request.contextPath}/resources/favicon-72.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="72x72"/>
         <link href="#{request.contextPath}/resources/favicon-57.png?ln=ico" rel="apple-touch-icon-precomposed" sizes="57x57"/>
         <ui:insert name="additional-headers"/>
+        <h:outputScript library="js" name="zvotes.min.js"></h:outputScript>
     </h:head>
 
     <h:body>
@@ -117,6 +118,5 @@
                 </div>
             </div>
         </div>
-        <h:outputScript library="js" name="zvotes.min.js"></h:outputScript>
     </h:body>
 </html>

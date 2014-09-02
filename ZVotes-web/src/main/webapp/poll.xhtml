@@ -31,6 +31,21 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <c:if test="#{item.ownOptions}">
+                            <c:forEach begin="1" end="#{votingController.getMaxOptions(item)}" var="loopCount">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <div class="form-group">
+                                        <h:outputLabel for="ownOption_#{item.id.toString()}_#{loopCount}" styleClass="col-sm-6 control-label" style="text-align: left!important;">
+                                            <h:selectBooleanCheckbox styleClass="option-real" value="#{votingController.results[(item.id.toString()).concat('_').concat(loopCount)]}" title="#{option.shortName}" />
+                                            <h:outputText value=" " />#{msg.OwnOption}:
+                                        </h:outputLabel>
+                                        <div class="col-sm-6">
+                                            <h:inputText id="ownOption_#{item.id.toString()}_#{loopCount}" value="#{votingController.freeTexts[(item.id.toString()).concat('_').concat(loopCount)]}" title="#{msg.OwnOption}" styleClass="freetext-input form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </c:if>
                         <div class="col-xs-6 col-xs-offset-3">
                             <div class="checkbox">
                                 <label for="abstention_#{item.id}">
@@ -48,8 +63,9 @@
                     <br />
                     <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />
-                    <h:commandLink action="#{votingController.abstainAll}" styleClass="btn btn-warning"><h:outputText value="#{icons.submit} #{msg.AbstainFromAll}" escape="False" /></h:commandLink>
-
+                    <h:commandLink action="#{votingController.cancel}" styleClass="btn btn-default"><h:outputText value="#{icons.cancel} #{msg.Cancel}" escape="False" /></h:commandLink>
+                    <h:outputText value=" " />
+                    <h:commandLink action="#{votingController.abstainAll}" styleClass="btn btn-warning"><h:outputText value="#{icons.abstain} #{msg.AbstainFromAll}" escape="False" /></h:commandLink>
                 </div>
             </h:form>
         </div>
