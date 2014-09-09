@@ -52,15 +52,15 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 * Create a new JavaMail-Session with:
 	* JNDI Name : mail/uniko-mail
 	* Mail Host : mailhost.uni-koblenz.de
-	* Default User : <username from uni-koblenz>
-	* Default Sender Address: <address from uni-koblenz>
+	* Default User : username from uni-koblenz
+	* Default Sender Address: address from uni-koblenz
 	
 	* Store Protocol : imap
 	* Store Protocol Class : com.sun.mail.imap.IMAPStore
 	* Transport Protocol : smtp
 	* Transport Protocol Class : com.sun.mail.smtp.SMTPTransport
 * Add some additional Attributes:
-	* mail.smtp.password : <Default User's password>
+	* mail.smtp.password : Default User's password
 	* mail.smtp.auth : true
 	* mail.smtp.host : deliver.uni-koblenz.de
 	* mail.smtp.ssl.enable : true
