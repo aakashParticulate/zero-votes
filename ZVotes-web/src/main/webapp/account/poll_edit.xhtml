@@ -16,7 +16,7 @@
                 <h:outputLabel value="#{msg.Title}" for="title" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
-                        <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                        <c:when test="#{pollController.selected.pollState == 'PREPARING'}">
                             <h:inputText id="title" binding="#{titleInput}" value="#{pollController.selected.title}" validator="#{pollController.validateTitle}" title="#{msg.Title}" styleClass="form-control" required="true" requiredMessage="#{msg.TitleNotSet}" />
                         </c:when>
                         <c:otherwise>
@@ -29,11 +29,11 @@
                 <h:outputLabel value="#{msg.Description}" for="description" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
-                        <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
-                            <h:inputText id="description" binding="#{descriptionInput}" value="#{pollController.selected.description}" validator="#{pollController.validateDescription}" title="#{msg.Description}" styleClass="form-control" required="true" requiredMessage="#{msg.DescriptionNotSet}" />
+                        <c:when test="#{pollController.selected.pollState == 'PREPARING'}">
+                            <h:inputTextarea id="description" binding="#{descriptionInput}" value="#{pollController.selected.description}" validator="#{pollController.validateDescription}" title="#{msg.Description}" styleClass="form-control" required="true" requiredMessage="#{msg.DescriptionNotSet}" />
                         </c:when>
                         <c:otherwise>
-                            <h:inputText id="description" binding="#{descriptionInput}" readonly="true" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" required="true" requiredMessage="#{msg.DescriptionNotSet}" />
+                            <h:inputTextarea id="description" binding="#{descriptionInput}" readonly="true" value="#{pollController.selected.description}" title="#{msg.Description}" styleClass="form-control" required="true" requiredMessage="#{msg.DescriptionNotSet}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -42,7 +42,7 @@
                 <h:outputLabel value="#{msg.StartDate}" for="startDate" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
                     <c:choose>
-                        <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                        <c:when test="#{pollController.selected.pollState == 'PREPARING'}">
                             <div class="input-group date input-datetimepicker">
                                 <h:inputText id="startDate" binding="#{startDateInput}" value="#{pollController.selected.startDate}" title="#{msg.StartDate}" validator="#{pollController.validateStartDate}" styleClass="form-control" required="true" requiredMessage="#{msg.StartDateNotSet}">
                                     <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/> 
@@ -79,7 +79,7 @@
                     <div class="checkbox">
                         <label for="participationTracking">
                             <c:choose>
-                                <c:when test="#{pollController.selected.pollState == 'PREPARED'}">
+                                <c:when test="#{pollController.selected.pollState == 'PREPARING'}">
                                     <h:selectBooleanCheckbox id="participationTracking" value="#{pollController.selected.participationTracking}" title="#{msg.ParticipationTracking}" />
                                     #{msg.ParticipationTracking}
                                 </c:when>

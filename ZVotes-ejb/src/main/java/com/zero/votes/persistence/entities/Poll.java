@@ -56,7 +56,7 @@ public class Poll implements Serializable {
     private Set<Token> tokens;
 
     public Poll() {
-        this.pollState = PollState.PREPARED;
+        this.pollState = PollState.PREPARING;
         this.organizers = new HashSet<Organizer>();
         this.items = new HashSet<Item>();
         this.participants = new HashSet<Participant>();

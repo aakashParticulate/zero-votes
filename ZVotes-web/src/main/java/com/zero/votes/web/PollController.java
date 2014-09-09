@@ -67,7 +67,7 @@ public class PollController implements Serializable {
     
     public String publish(Poll poll) {
         if (validate(poll)) {
-            poll.setPollState(PollState.STARTED);
+            poll.setPollState(PollState.PUBLISHED);
             getFacade().edit(poll);
             HashMap<Date, Runnable> finishTask = new HashMap<>();
 //            finishTask.put(poll.getEndDate(), new FinishPollJob(poll));
@@ -309,7 +309,7 @@ public class PollController implements Serializable {
         }
         if (current.getId() != null) {
             Date previousEndDate = getFacade().find(current.getId()).getEndDate();
-            if ((current.getPollState().equals(PollState.STARTED) || current.getPollState().equals(PollState.VOTING)) && endDate.before(previousEndDate)) {
+            if ((current.getPollState().equals(PollState.PUBLISHED) || current.getPollState().equals(PollState.STARTED) || current.getPollState().equals(PollState.VOTING)) && endDate.before(previousEndDate)) {
                 ZVotesUtils.throwValidatorException("EndDateCantBeMovedToEarlierTime");
             }
         }

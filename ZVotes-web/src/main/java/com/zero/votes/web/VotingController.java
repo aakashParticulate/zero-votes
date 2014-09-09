@@ -100,6 +100,10 @@ public class VotingController implements Serializable {
                     if (results.get(freeTextId) == Boolean.TRUE) {
                         votes++;
                     }
+                    if (itemOptionFacade.countBy("shortName", freeTexts.get(freeTextId)) > 0) {
+                        ZVotesUtils.addInternationalizedErrorMessage("ShortNameAlreadyUsed");
+                        return UrlsPy.POLL.getUrl();
+                    }
                 }
             }
             if (votes > item.getM() && item.getType().equals(ItemType.M_OF_N)) {

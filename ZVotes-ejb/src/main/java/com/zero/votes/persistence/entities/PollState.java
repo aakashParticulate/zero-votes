@@ -1,7 +1,8 @@
 package com.zero.votes.persistence.entities;
 
 public enum PollState {
-    PREPARED("Prepared"),
+    PREPARING("Preparing"),
+    PUBLISHED("Published"),
     STARTED("Started"),
     VOTING("Voting"),
     FINISHED("Finished");

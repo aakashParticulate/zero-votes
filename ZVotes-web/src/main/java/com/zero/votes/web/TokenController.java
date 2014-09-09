@@ -56,8 +56,6 @@ public class TokenController implements Serializable {
 
     public String getTokenString() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        if (req.getParameter("token") != null && !req.getParameter("token").isEmpty()) {
-        }
         return req.getParameter("token");
     }
 

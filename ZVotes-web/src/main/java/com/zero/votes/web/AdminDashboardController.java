@@ -22,16 +22,18 @@ public class AdminDashboardController implements Serializable {
 
     public List<Poll> getRunningPolls() {
         String[] fieldNames = {"pollState"};
+        Object[] values_published = {PollState.PUBLISHED};
+        List<Poll> published_polls = pollFacade.findAllBy(fieldNames, values_published);
         Object[] values_started = {PollState.STARTED};
-        List<Poll> started_polls = pollFacade.findAllBy(fieldNames, values_started);
+        published_polls.addAll(pollFacade.findAllBy(fieldNames, values_started));
         Object[] values_voting = {PollState.VOTING};
-        started_polls.addAll(pollFacade.findAllBy(fieldNames, values_voting));
-        return started_polls;
+        published_polls.addAll(pollFacade.findAllBy(fieldNames, values_voting));
+        return published_polls;
     }
 
     public List<Poll> getUnpublishedPolls() {
         String[] fieldNames = {"pollState"};
-        Object[] values = {PollState.PREPARED};
+        Object[] values = {PollState.PREPARING};
         return pollFacade.findAllBy(fieldNames, values);
     }
 

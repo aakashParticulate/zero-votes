@@ -30,11 +30,13 @@ public class DashboardController implements Serializable {
             currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
+        Object[] values_published = {currentOrganizer.getId(), PollState.PUBLISHED};
+        List<Poll> published_polls = pollFacade.findAllBy(fieldNames, values_published);
         Object[] values_started = {currentOrganizer.getId(), PollState.STARTED};
-        List<Poll> started_polls = pollFacade.findAllBy(fieldNames, values_started);
+        published_polls.addAll(pollFacade.findAllBy(fieldNames, values_started));
         Object[] values_voting = {currentOrganizer.getId(), PollState.VOTING};
-        started_polls.addAll(pollFacade.findAllBy(fieldNames, values_voting));
-        return started_polls;
+        published_polls.addAll(pollFacade.findAllBy(fieldNames, values_voting));
+        return published_polls;
     }
 
     public List<Poll> getUnpublishedPolls() {
@@ -42,7 +44,7 @@ public class DashboardController implements Serializable {
             currentOrganizer = refreshCurrentOrganizer();
         }
         String[] fieldNames = {"organizers", "pollState"};
-        Object[] values = {currentOrganizer.getId(), PollState.PREPARED};
+        Object[] values = {currentOrganizer.getId(), PollState.PREPARING};
         return pollFacade.findAllBy(fieldNames, values);
     }
 

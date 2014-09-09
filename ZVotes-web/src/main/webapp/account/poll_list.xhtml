@@ -36,8 +36,8 @@
                             <h:outputText value=" " />
                             <h:commandLink action="#{itemController.prepareList(item)}" class="btn btn-default"><h:outputText value="#{icons.questions}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />                    
-                            <h:commandLink action="#{pollController.publish(item)}" rendered="${item.pollState == 'PREPARED'}" class="btn btn-success"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
-                            <h:commandLink action="NOTHING" rendered="${item.pollState != 'PREPARED'}" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
+                            <h:commandLink action="#{pollController.publish(item)}" rendered="${item.pollState == 'PREPARING'}" class="btn btn-success"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
+                            <h:commandLink action="NOTHING" rendered="${item.pollState != 'PREPARING'}" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
                             <h:outputText value=" " />
                             <h:link rendered="${item.pollState == 'FINISHED'}" class="btn btn-success" outcome="/result.xhtml?poll=#{item.id}"><h:outputText value="#{icons.results}" escape="False"/></h:link>
                             <h:commandLink rendered="${item.pollState != 'FINISHED'}" action="NOTHING" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.results}" escape="False"/></h:commandLink>
