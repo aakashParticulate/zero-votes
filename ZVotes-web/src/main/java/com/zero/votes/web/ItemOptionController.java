@@ -205,7 +205,7 @@ public class ItemOptionController implements Serializable {
     public void checkForInstance() throws IOException {
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.ITEM_EDIT.getUrl(false));
+            ec.redirect("/account/item/edit/");
         }
     }
 

@@ -202,7 +202,7 @@ public class RecipientListController implements Serializable {
     public void checkForInstance() throws IOException {
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.RECIPIENTLIST_LIST.getUrl(false));
+            ec.redirect("/account/recipient-lists/");
         }
     }
 

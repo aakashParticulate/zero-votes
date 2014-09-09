@@ -6,44 +6,44 @@ public enum UrlsPy { // in memory of the awesome django urls routing
     LOGIN("login.xhtml"),
     ACCOUNT("account/index.xhtml"),
     
-    ITEM_LIST("account/items/"),
-    ITEM_CREATE("account/item/create/"),
-    ITEM_EDIT("account/item/edit/"),
+    ITEM_CREATE("account/item_create.xhtml"),
+    ITEM_LIST("account/item_list.xhtml"),
+    ITEM_EDIT("account/item_edit.xhtml"),
     
-    ITEM_OPTION_CREATE("account/item-option/create/"),
-    ITEM_OPTION_EDIT("account/item-option/edit/"),
+    ITEM_OPTION_CREATE("account/item_option_create.xhtml"),
+    ITEM_OPTION_EDIT("account/item_option_edit.xhtml"),
     
-    ORGANIZER_LIST("account/organizers/"),
-    ORGANIZER_ADD("account/organizer/add/"),
+    ORGANIZER_LIST("account/organizer_list.xhtml"),
+    ORGANIZER_ADD("account/organizer_add.xhtml"),
     
-    POLL_LIST("account/polls/"),
-    POLL_CREATE("account/poll/create/"),
-    POLL_EDIT("account/poll/edit/"),
+    POLL_CREATE("account/poll_create.xhtml"),
+    POLL_LIST("account/poll_list.xhtml"),
+    POLL_EDIT("account/poll_edit.xhtml"),
     
-    PARTICIPANT_CREATE("account/participant/create/"),
-    PARTICIPANT_LIST("account/participants/"),
-    PARTICIPANT_EDIT("account/participant/edit/"),
+    PARTICIPANT_CREATE("account/participant_create.xhtml"),
+    PARTICIPANT_LIST("account/participant_list.xhtml"),
+    PARTICIPANT_EDIT("account/participant_edit.xhtml"),
     
-    PARTICIPANT_IMPORT_LIST("account/participant/import-list/"),
+    PARTICIPANT_IMPORT_LIST("account/participant_import_list.xhtml"),
     
-    RECIPIENT_LIST("account/recipients/"),
-    RECIPIENT_CREATE("account/recipient/create/"),
-    RECIPIENT_EDIT("account/recipient/edit/"),
+    RECIPIENT_CREATE("account/recipient_create.xhtml"),
+    RECIPIENT_LIST("account/recipient_list.xhtml"),
+    RECIPIENT_EDIT("account/recipient_edit.xhtml"),
     
-    RECIPIENTLIST_LIST("account/recipient-lists/"),
-    RECIPIENTLIST_CREATE("account/recipient-list/create/"),
-    RECIPIENTLIST_EDIT("account/recipient-list/edit/"),
+    RECIPIENTLIST_CREATE("account/recipientlist_create.xhtml"),
+    RECIPIENTLIST_LIST("account/recipientlist_list.xhtml"),
+    RECIPIENTLIST_EDIT("account/recipientlist_edit.xhtml"),
     
-    ADMIN("admin/"),
-    ADMIN_LIST("admin/admins/"),
-    ADMIN_ADD("admin/admins/add/"),
+    ADMIN("admin/index.xhtml"),
+    ADMIN_LIST("admin/admin_list.xhtml"),
+    ADMIN_ADD("admin/admin_add.xhtml"),
     
-    ADMIN_POLL_LIST("admin/polls/"),
+    ADMIN_POLL_LIST("admin/poll_list.xhtml"),
     
-    TOKEN("token/"),
-    POLL("poll/"),
+    TOKEN("token.xhtml"),
+    POLL("poll.xhtml"),
     
-    LOGOUT("logout/");
+    LOGOUT("logout.xhtml");
 
     private final String url;
     private final String url_prefix;

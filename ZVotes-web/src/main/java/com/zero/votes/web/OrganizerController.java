@@ -169,7 +169,7 @@ public class OrganizerController implements Serializable {
     public void checkForInstance() throws IOException {
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.ORGANIZER_LIST.getUrl(false));
+            ec.redirect("/account/organizers/");
         }
     }
 

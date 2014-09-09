@@ -11,7 +11,6 @@ import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -224,7 +223,7 @@ public class ItemController implements Serializable {
     public void checkForInstance() throws IOException {
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.ITEM_LIST.getUrl(false));
+            ec.redirect("/account/items/");
         }
     }
 

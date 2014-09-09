@@ -1,6 +1,5 @@
 package com.zero.votes.web;
 
-import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.Poll;
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -115,7 +113,7 @@ public class ResultController implements Serializable {
         if (poll == null) {
             current = null;
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.TOKEN.getUrl(false));
+            ec.redirect("/token/");
         }
         String[] fieldNames_token = {"poll", "used"};
         Object[] values_token = {poll, true};
@@ -126,7 +124,7 @@ public class ResultController implements Serializable {
         }
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.TOKEN.getUrl(false));
+            ec.redirect("/token/");
         }
     }
 }

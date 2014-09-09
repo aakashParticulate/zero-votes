@@ -252,7 +252,7 @@ public class VotingController implements Serializable {
     public void checkForInstance() throws IOException {
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.POLL_LIST.getUrl(false));
+            ec.redirect("/token/");
         }
     }
 
