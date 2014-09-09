@@ -2,8 +2,6 @@ package com.zero.votes.web;
 
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.beans.UserBean;
-//import com.zero.votes.cronjobs.FinishPollJob;
-//import com.zero.votes.cronjobs.ZVotesScheduler;
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemType;
@@ -21,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -33,6 +34,12 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @Named("pollController")
 @SessionScoped
@@ -50,6 +57,10 @@ public class PollController implements Serializable {
 //    private ZVotesScheduler zVotesScheduler;
     
     private PaginationHelper pagination;
+    
+    // Mail delivery
+    @Resource(lookup = "mail/uniko-mail")
+    private Session mailSession;
 
     public PollController() {
     }
@@ -84,6 +95,19 @@ public class PollController implements Serializable {
                 tokenFacade.create(token);
             }
             // TODO SEND EMAILS
+            try {
+			Message msg = new MimeMessage(mailSession);
+			msg.setSubject("Test vom Glassfish äöüÄÖÜß€µ∫");
+			msg.setSentDate(new Date());
+			msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
+			msg.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse("heinz@uni-koblenz.de", false));
+			msg.setText("Test\n\nUmlaute: äöüÄÖÜß€µ∫\n\n-- \n"
+					+ "Viele Grüße: Marcel");
+			Transport.send(msg);
+		} catch (MessagingException ex) {
+			ex.printStackTrace();
+		}
             ZVotesUtils.addInternationalizedInfoMessage("PollPublishedSuccessfully");
             return UrlsPy.POLL_LIST.getUrl(true);
         }
