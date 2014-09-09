@@ -1,10 +1,12 @@
 package com.zero.votes.web;
 
+import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.persistence.entities.Vote;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +94,7 @@ public class ResultController implements Serializable {
                 winnerCount = winner.getVotes().size();
             }
         }
-        HashMap<String, Object> results = new HashMap<String, Object>();
+        HashMap<String, Object> results = new HashMap<>();
         results.put("absolute", winnerCount > (voteCount/2));
         results.put("relative", winnerCount > ((voteCount-abstentionCount)/2));
         results.put("simple", winnerCount > (voteCount-abstentionCount-winnerCount));
@@ -101,5 +104,29 @@ public class ResultController implements Serializable {
     
     public int getAllVotes() {
         return current.getTokens().size();
+    }
+    
+    public void checkForInstance() throws IOException {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Long pollId = Long.valueOf((String) req.getParameter("poll"));
+        String[] fieldNames = {"id", "pollState"};
+        Object[] values = {pollId, PollState.FINISHED};
+        Poll poll = pollFacade.findBy(fieldNames, values);
+        if (poll == null) {
+            current = null;
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.TOKEN.getUrl(false));
+        }
+        String[] fieldNames_token = {"poll", "used"};
+        Object[] values_token = {poll, true};
+        if (tokenFacade.countBy(fieldNames_token, values_token) < 3) {
+            current = null;
+        } else {
+            current = poll;
+        }
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.TOKEN.getUrl(false));
+        }
     }
 }

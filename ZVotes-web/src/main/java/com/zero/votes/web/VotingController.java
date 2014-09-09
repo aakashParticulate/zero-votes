@@ -9,6 +9,7 @@ import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.persistence.entities.Token;
 import com.zero.votes.persistence.entities.Vote;
 import com.zero.votes.web.util.ZVotesUtils;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -244,6 +247,13 @@ public class VotingController implements Serializable {
 
     public void setFreeTextDescriptions(Map<String, Object> freeTextDescriptions) {
         this.freeTextDescriptions = freeTextDescriptions;
+    }
+    
+    public void checkForInstance() throws IOException {
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.POLL_LIST.getUrl(false));
+        }
     }
 
 }
