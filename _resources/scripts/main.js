@@ -57,9 +57,11 @@ $(document).ready(function() {
           publish_text = "Publish";
           results_text = "Results";
           participants_text = "Participants";
-      		recipients_text = "Recipients";
-      		organizers_text = "Organizers";
+          recipients_text = "Recipients";
+      	  organizers_text = "Organizers";
           questions_text = "Questions";
+          description_text = "Description";
+          shortname_text = "Shortname";
           break;
       case "de":
       default:
@@ -69,9 +71,11 @@ $(document).ready(function() {
           publish_text = "Veröffentlichen";
           results_text = "Ergebnisse";
           participants_text = "Teilnehmer";
-      		recipients_text = "Empfänger";
-      		organizers_text = "Organisatoren";
+          recipients_text = "Empfänger";
+          organizers_text = "Organisatoren";
           questions_text = "Fragen";
+          description_text = "Beschreibung";
+          shortname_text = "Kurzname";
           break;
   }
 
@@ -169,6 +173,8 @@ $(document).ready(function() {
   	$('.option-real').each(function() {
       $(this)[0].checked = false;
     });
-    $('.freetext-input').val(''));
+    $('.freetext-input').val('');
+    $('.freetext-input-shortname').attr('placeholder', shortname_text);
+    $('.freetext-input-description').attr('placeholder', description_text);
   });
 });
