@@ -5,7 +5,6 @@ import com.zero.votes.persistence.ItemOptionFacade;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.ItemType;
-import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
@@ -206,7 +205,7 @@ public class ItemOptionController implements Serializable {
     public void checkForInstance() throws IOException {
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(UrlsPy.ITEM_OPTION_LIST.getUrl(false));
+            ec.redirect(UrlsPy.ITEM_EDIT.getUrl(false));
         }
     }
 

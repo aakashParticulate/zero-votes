@@ -35,12 +35,15 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
                 .addRule(Join.path("/result/{poll}").to("/result.xhtml?poll={poll}"))
                 .addRule(Join.path("/token/").to("/token.xhtml"))
                 .addRule(Join.path("/token/{token}").to("/token.xhtml?token={token}"))
+
                 .addRule(Join.path("/account/").to("/account/index.xhtml"))
                 .addRule(Join.path("/account/items/").to("/account/item_list.xhtml"))
                 .addRule(Join.path("/account/item/create/").to("/account/item_create.xhtml"))
                 .addRule(Join.path("/account/item/edit/").to("/account/item_edit.xhtml"))
                 .addRule(Join.path("/account/item-option/create/").to("/account/item_option_create.xhtml"))
                 .addRule(Join.path("/account/item-option/edit/").to("/account/item_option_edit.xhtml"))
+                .addRule(Join.path("/account/organizers/").to("/account/organizer_list.xhtml"))
+                .addRule(Join.path("/account/organizer/add/").to("/account/organizer_add.xhtml"))
                 .addRule(Join.path("/account/participants/").to("/account/participant_list.xhtml"))
                 .addRule(Join.path("/account/participant/create/").to("/account/participant_create.xhtml"))
                 .addRule(Join.path("/account/participant/edit/").to("/account/participant_edit.xhtml"))
@@ -53,6 +56,11 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
                 .addRule(Join.path("/account/recipient/edit/").to("/account/recipient_edit.xhtml"))
                 .addRule(Join.path("/account/recipient-lists/").to("/account/recipientlist_list.xhtml"))
                 .addRule(Join.path("/account/recipient-list/create/").to("/account/recipientlist_create.xhtml"))
-                .addRule(Join.path("/account/recipient-list/edit/").to("/account/recipientlist_edit.xhtml"));
+                .addRule(Join.path("/account/recipient-list/edit/").to("/account/recipientlist_edit.xhtml"))
+
+                .addRule(Join.path("/admin/").to("/admin/list.xhtml"))
+                .addRule(Join.path("/admin/admins/").to("/admin/admin_list.xhtml"))
+                .addRule(Join.path("/admin/admins/add/").to("/admin/admin_add.xhtml"))
+                .addRule(Join.path("/admin/poll/").to("/admin/poll_list.xhtml"));
     }
 }
