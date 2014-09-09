@@ -8,4 +8,4 @@
  * eonasdan-bootstrap-datetimepicker v3.0.3 | Copyright (c) 2014 Jonathan Peterson | MIT license | https://github.com/Eonasdan/bootstrap-datetimepicker
  * moment.js v2.8.1 | Copyright (c) 2011-2014 Tim Wood, Iskren Chernev | MIT license | http://momentjs.com
  */
-$(document).ready(function(){console.log("/"==location.pathname.charAt(location.pathname.length-1)),"/"==location.pathname.charAt(location.pathname.length-1)&&$('[id*=":tokenString"]').val(""),window.history.replaceState({},document.title,"/token/")});
+$(document).ready(function(){"/"==location.pathname.charAt(location.pathname.length-1)&&$('[id*=":tokenString"]').val(""),window.history.replaceState({},document.title,"/token/")});

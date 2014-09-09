@@ -43,7 +43,8 @@
                                             <h:outputText value=" " />#{msg.OwnOption}:
                                         </h:outputLabel>
                                         <div class="col-sm-6">
-                                            <h:inputText id="ownOption_#{item.id.toString()}_#{loopCount}" value="#{votingController.freeTexts[(item.id.toString()).concat('_').concat(loopCount)]}" title="#{msg.OwnOption}" styleClass="freetext-input form-control" />
+                                            <h:inputText id="ownOption_#{item.id.toString()}_#{loopCount}" value="#{votingController.freeTexts[(item.id.toString()).concat('_').concat(loopCount)]}" title="#{msg.OwnOption}" styleClass="freetext-input freetext-input-shortname form-control" />
+                                            <h:inputTextarea id="ownOptionDescription_#{item.id.toString()}_#{loopCount}" value="#{votingController.freeTextDescriptions[(item.id.toString()).concat('_').concat(loopCount)]}" title="#{msg.OwnOption}" styleClass="freetext-input freetext-input-description form-control" />
                                         </div>
                                     </div>
                                 </div>

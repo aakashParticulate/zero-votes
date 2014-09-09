@@ -31,6 +31,8 @@ public class VotingController implements Serializable {
     private Map<String, Object> abstentions;
     @ManagedProperty(value = "#{param.freeTexts}")
     private Map<String, Object> freeTexts;
+    @ManagedProperty(value = "#{param.freeTextDescriptions}")
+    private Map<String, Object> freeTextDescriptions;
     @EJB
     private com.zero.votes.persistence.PollFacade pollFacade;
     @EJB
@@ -49,6 +51,7 @@ public class VotingController implements Serializable {
         results = new HashMap<String, Object>();
         abstentions = new HashMap<String, Object>();
         freeTexts = new HashMap<String, Object>();
+        freeTextDescriptions = new HashMap<String, Object>();
         for (Item item : current.getItems()) {
             abstentions.put(item.getId().toString(), Boolean.TRUE);
             for (ItemOption itemOption : item.getOptions()) {
@@ -125,6 +128,7 @@ public class VotingController implements Serializable {
                         if (results.get(freeTextId) == Boolean.TRUE) {
                             ItemOption itemOption = new ItemOption();
                             itemOption.setShortName((String) freeTexts.get(freeTextId));
+                            itemOption.setDescription((String) freeTextDescriptions.get(freeTextId));
                             itemOption.setItem(item);
                             itemOptionFacade.create(itemOption);
                             Vote vote = new Vote();
@@ -157,6 +161,7 @@ public class VotingController implements Serializable {
         this.token = null;
         this.current = null;
         freeTexts = new HashMap<String, Object>();
+        freeTextDescriptions = new HashMap<String, Object>();
         ZVotesUtils.addInternationalizedInfoMessage("Voted");
         return UrlsPy.HOME.getUrl(true);
     }
@@ -171,6 +176,7 @@ public class VotingController implements Serializable {
             abstentions.put(item.getId().toString(), Boolean.TRUE);
         }
         freeTexts = new HashMap<String, Object>();
+        freeTextDescriptions = new HashMap<String, Object>();
         this.token = null;
         this.current = null;
         return UrlsPy.TOKEN.getUrl(true);
@@ -230,6 +236,14 @@ public class VotingController implements Serializable {
 
     public void setFreeTexts(Map<String, Object> freeTexts) {
         this.freeTexts = freeTexts;
+    }
+
+    public Map<String, Object> getFreeTextDescriptions() {
+        return freeTextDescriptions;
+    }
+
+    public void setFreeTextDescriptions(Map<String, Object> freeTextDescriptions) {
+        this.freeTextDescriptions = freeTextDescriptions;
     }
 
 }
