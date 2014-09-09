@@ -10,6 +10,7 @@ import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.persistence.entities.Token;
+import com.zero.votes.web.util.EMailer;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
@@ -59,8 +60,8 @@ public class PollController implements Serializable {
     private PaginationHelper pagination;
     
     // Mail delivery
-    @Resource(lookup = "mail/uniko-mail")
-    private Session mailSession;
+    @EJB
+    private EMailer eMailer;
 
     public PollController() {
     }
@@ -87,20 +88,8 @@ public class PollController implements Serializable {
                     token.setParticipant(participant);
                 }
                 tokenFacade.create(token);
+                eMailer.sendPublishMail(poll, token, participant.getEmail());
             }
-            try {
-			Message msg = new MimeMessage(mailSession);
-			msg.setSubject("Test vom Glassfish äöüÄÖÜß€µ∫");
-			msg.setSentDate(new Date());
-			msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
-			msg.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("heinz@uni-koblenz.de", false));
-			msg.setText("Test\n\nUmlaute: äöüÄÖÜß€µ∫\n\n-- \n"
-					+ "Viele Grüße: Marcel");
-			Transport.send(msg);
-		} catch (MessagingException ex) {
-			ex.printStackTrace();
-		}
             ZVotesUtils.addInternationalizedInfoMessage("PollPublishedSuccessfully");
             return UrlsPy.POLL_LIST.getUrl(true);
         }
