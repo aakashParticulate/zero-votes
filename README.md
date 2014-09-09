@@ -29,6 +29,8 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
 
 ### Glassfish
 
+#### Realm
+
 * Open http://localhost:4848/
 * Goto: Konfigurationen --> server-config --> Sicherheit --> Realms
 * Create new one with:
@@ -42,7 +44,27 @@ GRANT ALL ON DATABASE zvotes_db_name TO zvotes_db_user;
     * search-filter: `(uid=%s)`
     * group-search-filter: `(member=%d)`
     * group-base-dn: `dc=uni-koblenz-landau,dc=de`
+	
+#### Mailsession
 
+* Open http://localhost:4848/
+* Goto: Ressourcen --> JavaMail-Sessions
+* Create a new JavaMail-Session with:
+	* JNDI Name : mail/uniko-mail
+	* Mail Host : mailhost.uni-koblenz.de
+	* Default User : <username from uni-koblenz>
+	* Default Sender Address: <address from uni-koblenz>
+	
+	* Store Protocol : imap
+	* Store Protocol Class : com.sun.mail.imap.IMAPStore
+	* Transport Protocol : smtp
+	* Transport Protocol Class : com.sun.mail.smtp.SMTPTransport
+* Add some additional Attributes:
+	* mail.smtp.password : <Default User's password>
+	* mail.smtp.auth : true
+	* mail.smtp.host : deliver.uni-koblenz.de
+	* mail.smtp.ssl.enable : true
+	* mail.debug : false
 
 ## Fulfilled Specifications
 
