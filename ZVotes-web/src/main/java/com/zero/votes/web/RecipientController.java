@@ -95,6 +95,8 @@ public class RecipientController implements Serializable {
     }
 
     public String prepareCreate() {
+        current = new Recipient();
+        current.setRecipientList(recipientList);
         return UrlsPy.RECIPIENT_CREATE.getUrl(true);
     }
 
@@ -213,6 +215,13 @@ public class RecipientController implements Serializable {
     
     public void checkForInstance() throws IOException {
         if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect("/account/recipients/");
+        }
+    }
+    
+    public void checkForRecipientList() throws IOException {
+        if (recipientList == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             ec.redirect("/account/recipients/");
         }

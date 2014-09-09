@@ -11,10 +11,12 @@ import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -146,8 +148,12 @@ public class ItemController implements Serializable {
 
     public void validateM(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         int m = (Integer) value;
-        if (m < 1) {
-            ZVotesUtils.throwValidatorException("MMustBeGreaterThan0");
+        UIInput itemTypeComponent = (UIInput) (context.getViewRoot().findComponent("itemEditForm:itemType"));
+	ItemType itemType = (ItemType) itemTypeComponent.getValue();
+        if (itemType.equals(ItemType.M_OF_N)) {
+            if (m < 1) {
+                ZVotesUtils.throwValidatorException("MMustBeGreaterThan0");
+            }
         }
     }
 
@@ -222,6 +228,13 @@ public class ItemController implements Serializable {
     
     public void checkForInstance() throws IOException {
         if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect("/account/items/");
+        }
+    }
+    
+    public void checkForPoll() throws IOException {
+        if (poll == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             ec.redirect("/account/items/");
         }

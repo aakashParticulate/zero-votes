@@ -172,6 +172,13 @@ public class OrganizerController implements Serializable {
             ec.redirect("/account/organizers/");
         }
     }
+    
+    public void checkForPoll() throws IOException {
+        if (poll == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect("/account/polls/");
+        }
+    }
 
     @FacesConverter(forClass = Organizer.class)
     public static class OrganizerControllerConverter implements Converter {

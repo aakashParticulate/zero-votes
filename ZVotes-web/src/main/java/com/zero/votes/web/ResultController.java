@@ -34,26 +34,6 @@ public class ResultController implements Serializable {
 
     public ResultController() {
     }
-    
-    @PostConstruct
-    public void getPollFromUrl() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Long pollId = Long.valueOf((String) req.getParameter("poll"));
-        String[] fieldNames = {"id", "pollState"};
-        Object[] values = {pollId, PollState.FINISHED};
-        Poll poll = pollFacade.findBy(fieldNames, values);
-        if (poll == null) {
-            current = null;
-            return;
-        }
-        String[] fieldNames_token = {"poll", "used"};
-        Object[] values_token = {poll, true};
-        if (tokenFacade.countBy(fieldNames_token, values_token) < 3) {
-            current = null;
-        } else {
-            current = poll;
-        }
-    }
 
     public Poll getCurrent() {
         return current;
@@ -107,8 +87,9 @@ public class ResultController implements Serializable {
     public void checkForInstance() throws IOException {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Long pollId = Long.valueOf((String) req.getParameter("poll"));
-        String[] fieldNames = {"id", "pollState"};
-        Object[] values = {pollId, PollState.FINISHED};
+        String previewToken = (String) req.getParameter("previewToken");
+        String[] fieldNames = {"id", "previewToken", "pollState"};
+        Object[] values = {pollId, previewToken, PollState.FINISHED};
         Poll poll = pollFacade.findBy(fieldNames, values);
         if (poll == null) {
             current = null;

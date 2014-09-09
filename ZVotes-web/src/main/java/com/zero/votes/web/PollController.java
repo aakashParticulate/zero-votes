@@ -77,9 +77,6 @@ public class PollController implements Serializable {
         if (validate(poll)) {
             poll.setPollState(PollState.PUBLISHED);
             getFacade().edit(poll);
-            HashMap<Date, Runnable> finishTask = new HashMap<>();
-//            finishTask.put(poll.getEndDate(), new FinishPollJob(poll));
-//            zVotesScheduler.addTask("FINISH_POLL_"+poll.getId(), finishTask);
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
                 while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {
@@ -91,7 +88,6 @@ public class PollController implements Serializable {
                 }
                 tokenFacade.create(token);
             }
-            // TODO SEND EMAILS
             try {
 			Message msg = new MimeMessage(mailSession);
 			msg.setSubject("Test vom Glassfish äöüÄÖÜß€µ∫");

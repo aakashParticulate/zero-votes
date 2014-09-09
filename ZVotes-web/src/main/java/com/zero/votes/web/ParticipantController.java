@@ -254,6 +254,13 @@ public class ParticipantController implements Serializable {
             ec.redirect("/account/participants/");
         }
     }
+    
+    public void checkForPoll() throws IOException {
+        if (poll == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect("/account/participants/");
+        }
+    }
 
     @FacesConverter(forClass = Participant.class)
     public static class ParticipantControllerConverter implements Converter {

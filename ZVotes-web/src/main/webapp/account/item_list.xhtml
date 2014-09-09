@@ -6,7 +6,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <f:metadata>
-        <f:event type="preRenderView" listener="#{pollController.checkForInstance}" />
+        <f:event type="preRenderView" listener="#{itemController.checkForPoll}" />
     </f:metadata>
     <ui:param name="title" value="#{msg.Items}"/>
     <ui:param name="navPolls" value="active"/>

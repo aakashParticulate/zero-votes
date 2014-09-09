@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ public class Poll implements Serializable {
     @Column(unique = true)
     private String title;
     private String description;
+    private final String previewToken;
     private PollState pollState;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,6 +63,7 @@ public class Poll implements Serializable {
         this.items = new HashSet<Item>();
         this.participants = new HashSet<Participant>();
         this.tokens = new HashSet<Token>();
+        this.previewToken = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -151,6 +154,10 @@ public class Poll implements Serializable {
 
     public void setTokens(Set<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public String getPreviewToken() {
+        return previewToken;
     }
 
     @Override

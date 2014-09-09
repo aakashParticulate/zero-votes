@@ -35,6 +35,9 @@ public class LdapLogic {
             p.setForename(ldapUser.getFirstName());
             p.setSurname(ldapUser.getLastName());
             p.setEmail(ldapUser.getEmail());
+            if (organizerFacade.countBy("admin", true) == 0) {
+                p.setAdmin(true);
+            }
             organizerFacade.create(p);
             return p;
         } else {
