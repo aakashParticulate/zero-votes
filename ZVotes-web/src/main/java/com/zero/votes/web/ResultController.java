@@ -42,6 +42,7 @@ public class ResultController implements Serializable {
         Object[] values = {pollId, PollState.FINISHED};
         Poll poll = pollFacade.findBy(fieldNames, values);
         if (poll == null) {
+            current = null;
             return;
         }
         String[] fieldNames_token = {"poll", "used"};

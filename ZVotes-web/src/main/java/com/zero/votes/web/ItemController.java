@@ -9,15 +9,18 @@ import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
@@ -41,9 +44,6 @@ public class ItemController implements Serializable {
     }
 
     public Item getSelected() {
-        if (current == null) {
-            current = new Item();
-        }
         return current;
     }
 
@@ -210,6 +210,21 @@ public class ItemController implements Serializable {
             no.setShortName("no");
             no.setItem(current);
             ejbOptionFacade.create(no);
+        }
+    }
+    
+    public void processTypeChange(ValueChangeEvent e) {
+        ItemType itemType = (ItemType) e.getNewValue();
+        current.setType(itemType);
+        if (!itemType.equals(ItemType.M_OF_N)) {
+            current.setM(1);
+        }
+    }
+    
+    public void checkForInstance() throws IOException {
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.ITEM_LIST.getUrl(false));
         }
     }
 

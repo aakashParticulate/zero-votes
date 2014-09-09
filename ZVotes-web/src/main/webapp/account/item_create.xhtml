@@ -5,6 +5,9 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{itemController.checkForInstance}" />
+    </f:metadata>
     <ui:param name="title" value="#{msg.CreateItem}"/>
     <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">
@@ -21,7 +24,7 @@
             <div class="form-group">
                 <h:outputLabel value="#{msg.Type}" for="type" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <h:selectOneMenu value="#{itemController.selected.type}" onchange="submit()" styleClass="form-control">
+                    <h:selectOneMenu value="#{itemController.selected.type}" valueChangeListener="#{itemController.processTypeChange}" styleClass="form-control">
                         <f:selectItems value="#{itemController.availableItemTypes}" var="itemType" itemLabel="#{msg[itemType.label]}" itemValue="#{itemType}" />
                     </h:selectOneMenu>
                 </div>

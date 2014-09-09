@@ -8,6 +8,7 @@ import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -162,6 +164,13 @@ public class OrganizerController implements Serializable {
 
     public Organizer getOrganizer(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+    
+    public void checkForInstance() throws IOException {
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.ORGANIZER_LIST.getUrl(false));
+        }
     }
 
     @FacesConverter(forClass = Organizer.class)

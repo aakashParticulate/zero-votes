@@ -5,6 +5,9 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{participantController.checkForInstance}" />
+    </f:metadata>
     <ui:param name="title" value="#{msg.CreateParticipant}"/>
     <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">

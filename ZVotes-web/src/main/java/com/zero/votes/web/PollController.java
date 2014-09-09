@@ -13,19 +13,19 @@ import com.zero.votes.persistence.entities.Token;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -66,9 +66,6 @@ public class PollController implements Serializable {
     }
 
     public Poll getSelected() {
-        if (current == null) {
-            current = new Poll();
-        }
         return current;
     }
 
@@ -360,6 +357,13 @@ public class PollController implements Serializable {
         String description = (String) value;
         if (description.isEmpty()) {
             ZVotesUtils.throwValidatorException("DescriptionNotSet");
+        }
+    }
+    
+    public void checkForInstance() throws IOException {
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.POLL_LIST.getUrl(false));
         }
     }
 

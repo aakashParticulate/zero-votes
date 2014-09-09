@@ -8,6 +8,7 @@ import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.persistence.RecipientListFacade;
 import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.web.util.ZVotesUtils;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -38,9 +40,6 @@ public class RecipientListController implements Serializable {
     }
 
     public RecipientList getSelected() {
-        if (current == null) {
-            current = new RecipientList();
-        }
         return current;
     }
 
@@ -197,6 +196,13 @@ public class RecipientListController implements Serializable {
         }
         if (amt_recipient_list_with_name >= 1) {
             ZVotesUtils.throwValidatorException("NameAlreadyUsed");
+        }
+    }
+    
+    public void checkForInstance() throws IOException {
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.RECIPIENTLIST_LIST.getUrl(false));
         }
     }
 

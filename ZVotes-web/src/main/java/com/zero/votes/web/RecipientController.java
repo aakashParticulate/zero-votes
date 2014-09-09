@@ -7,6 +7,7 @@ import com.zero.votes.persistence.entities.RecipientList;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,6 +16,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
@@ -53,9 +55,6 @@ public class RecipientController implements Serializable {
     }
 
     public Recipient getSelected() {
-        if (current == null) {
-            current = new Recipient();
-        }
         return current;
     }
 
@@ -210,6 +209,13 @@ public class RecipientController implements Serializable {
 
     public Recipient getRecipient(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+    
+    public void checkForInstance() throws IOException {
+        if (current == null) {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(UrlsPy.RECIPIENT_LIST.getUrl(false));
+        }
     }
 
     @FacesConverter(forClass = Recipient.class)
