@@ -236,7 +236,7 @@ public class ItemController implements Serializable {
     public void checkForPoll() throws IOException {
         if (poll == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect("/account/items/");
+            ec.redirect("/account/polls/");
         }
     }
 

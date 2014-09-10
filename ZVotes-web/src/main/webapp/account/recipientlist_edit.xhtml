@@ -14,6 +14,16 @@
         <h1 class="page-header">
             <h:outputText value="#{msg.EditRecipientList}"></h:outputText>
         </h1>
+        <h:form>
+            <div class="well">
+                <h:commandLink action="#{recipientListController.prepareEdit(recipientListController.selected)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False" /></h:commandLink>
+                <h:outputText value=" " />
+                <h:commandLink action="#{recipientController.prepareList(recipientListController.selected)}" class="btn btn-default"><h:outputText value="#{icons.recipients}" escape="False" /></h:commandLink>
+                <h:outputText value=" " />
+                <h:commandLink action="#{recipientListController.destroy(recipientListController.selected)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False" /></h:commandLink>
+            </div>
+        </h:form>
+        <br />
         <h:form styleClass="form-horizontal">
             <div class="form-group #{nameInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.Name}" for="title" styleClass="col-sm-3 control-label" />
@@ -28,6 +38,7 @@
                     <h:commandLink action="#{recipientListController.prepareList}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.RecipientListShowAll}" escape="False" /></h:commandLink>
                 </div>
             </div>
+            <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>
 </ui:composition>

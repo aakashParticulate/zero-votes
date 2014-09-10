@@ -12,7 +12,7 @@
     <ui:param name="navRecipientLists" value="active"/>
     <ui:define name="backend_content">        
         <h1 class="page-header">
-            <h:outputText value="#{msg.Recipients}"></h:outputText>
+            <h:form><h:commandLink action="#{recipientListController.prepareEdit(recipientController.recipientList)}"><h:outputText value="#{recipientController.recipientList.name}" /></h:commandLink> - <h:outputText value="#{msg.Recipients}"></h:outputText></h:form>
         </h1>
         <h:form styleClass="form-horizontal">
             <p><h:outputText escape="false" value="#{msg.ListEmpty}" rendered="#{recipientController.items.rowCount == 0}"/></p>

@@ -219,6 +219,10 @@ public class ParticipantController implements Serializable {
         return ejbFacade.find(id);
     }
 
+    public Poll getPoll() {
+        return this.poll;
+    }
+
     public void validateEmail(FacesContext context, UIComponent component, Object value) {
         String email = String.valueOf(value);
         String EMAIL_PATTERN
@@ -258,7 +262,7 @@ public class ParticipantController implements Serializable {
     public void checkForPoll() throws IOException {
         if (poll == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect("/account/participants/");
+            ec.redirect("/account/polls/");
         }
     }
 

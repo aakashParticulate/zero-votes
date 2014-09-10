@@ -12,7 +12,7 @@
     <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">        
         <h1 class="page-header">
-            <h:outputText value="#{msg.Items}"></h:outputText>
+            <h:form><h:commandLink action="#{pollController.prepareEdit(itemController.poll)}"><h:outputText value="#{itemController.poll.title}" /></h:commandLink> - <h:outputText value="#{msg.Items}"></h:outputText></h:form>
         </h1>
         <h:form styleClass="form-horizontal">
             <p><h:outputText escape="false" value="#{msg.ListEmpty}" rendered="#{itemController.items.rowCount == 0}"/></p>

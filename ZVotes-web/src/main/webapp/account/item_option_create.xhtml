@@ -12,7 +12,7 @@
     <ui:param name="navPolls" value="active"/>
     <ui:define name="backend_content">
         <h1 class="page-header">
-            <h:outputText value="#{msg.CreateItemOption}"></h:outputText>
+            <h:form><h:commandLink action="#{itemController.prepareEdit(itemOptionController.item)}"><h:outputText value="#{itemOptionController.item.title}" /></h:commandLink> - <h:outputText value="#{msg.CreateItemOption}"></h:outputText></h:form>
         </h1>
         <h:form styleClass="form-horizontal" role="form">
             <div class="form-group #{shortNameInput.valid ? '' : 'has-error'}">

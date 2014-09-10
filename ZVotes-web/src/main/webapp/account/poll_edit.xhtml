@@ -14,6 +14,25 @@
         <h1 class="page-header">
             <h:outputText value="#{msg.EditPoll}"></h:outputText>
         </h1>
+        <h:form>
+            <div class="well">
+                <h:commandLink action="#{votingController.prepareVoting(pollController.selected, null)}" target="_blank" class="btn btn-info"><h:outputText value="#{icons.preview}" escape="False"/></h:commandLink>
+                <h:outputText value=" " />
+                <h:commandLink action="#{organizerController.prepareList(pollController.selected)}" class="btn btn-default"><h:outputText value="#{icons.organizers}" escape="False"/></h:commandLink>
+                <h:outputText value=" " /> 
+                <h:commandLink action="#{participantController.prepareList(pollController.selected)}" class="btn btn-default"><h:outputText value="#{icons.participants}" escape="False"/></h:commandLink>
+                <h:outputText value=" " />
+                <h:commandLink action="#{itemController.prepareList(pollController.selected)}" class="btn btn-default"><h:outputText value="#{icons.questions}" escape="False"/></h:commandLink>
+                <h:outputText value=" " />                    
+                <h:commandLink action="#{pollController.publish(pollController.selected)}" rendered="${pollController.selected.pollState == 'PREPARING'}" class="btn btn-success"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
+                <h:commandLink action="NOTHING" rendered="${pollController.selected.pollState != 'PREPARING'}" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.publish}" escape="False"/></h:commandLink>
+                <h:outputText value=" " />
+                <h:link rendered="${pollController.selected.pollState == 'FINISHED'}" class="btn btn-success" outcome="/result.xhtml?poll=#{pollController.selected.id}&amp;previewToken=#{pollController.selected.previewToken}"><h:outputText value="#{icons.results}" escape="False"/></h:link>
+                <h:commandLink rendered="${pollController.selected.pollState != 'FINISHED'}" action="NOTHING" disabled="disabled" class="btn btn-success btn-disabled disabled"><h:outputText value="#{icons.results}" escape="False"/></h:commandLink>
+                <h:commandLink action="#{pollController.destroy(pollController.selected)}" class="btn btn-danger"><h:outputText value="#{icons.delete}" escape="False"/></h:commandLink>
+            </div>
+        </h:form>
+        <br />
         <h:form styleClass="form-horizontal" role="form" id="pollEditForm">
             <div class="form-group #{titleInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.Title}" for="title" styleClass="col-sm-3 control-label" />
@@ -102,6 +121,7 @@
                     <h:commandLink action="#{pollController.prepareList}" styleClass="btn btn-default"><h:outputText value="#{icons.list} #{msg.PollShowAll}" escape="False" /></h:commandLink>
                 </div>
             </div>
+            <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
     </ui:define>
 </ui:composition>

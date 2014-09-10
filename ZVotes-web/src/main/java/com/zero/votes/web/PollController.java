@@ -17,11 +17,9 @@ import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -48,8 +46,6 @@ public class PollController implements Serializable {
     private com.zero.votes.persistence.TokenFacade tokenFacade;
     @EJB
     private com.zero.votes.persistence.ItemFacade itemFacade;
-//    @EJB
-//    private ZVotesScheduler zVotesScheduler;
     
     private PaginationHelper pagination;
     
@@ -215,12 +211,6 @@ public class PollController implements Serializable {
         try {
             getFacade().edit(current);
             ZVotesUtils.addInternationalizedInfoMessage("PollUpdated");
-            // In Case of changing Enddate
-//            if (current.getPollState().equals(PollState.STARTED)) {
-//                HashMap<Date, Runnable> finishTask = new HashMap<>();
-//                finishTask.put(current.getEndDate(), new FinishPollJob(current));
-//                zVotesScheduler.addTask("FINISH_POLL_"+current.getId(), finishTask);
-//            }
             return UrlsPy.POLL_LIST.getUrl(true);
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");

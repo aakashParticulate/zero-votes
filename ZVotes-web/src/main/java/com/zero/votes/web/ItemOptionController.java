@@ -105,6 +105,7 @@ public class ItemOptionController implements Serializable {
 
     public String prepareEdit(ItemOption itemOption) {
         current = itemOption;
+        this.item = current.getItem();
         refresh();
         return UrlsPy.ITEM_OPTION_EDIT.getUrl(true);
     }
@@ -200,6 +201,10 @@ public class ItemOptionController implements Serializable {
 
     public ItemOption getItemOption(java.lang.Long id) {
         return ejbFacade.find(id);
+    }
+
+    public Item getItem() {
+        return this.item;
     }
     
     public void checkForInstance() throws IOException {
