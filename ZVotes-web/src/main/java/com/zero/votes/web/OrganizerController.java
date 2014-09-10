@@ -11,7 +11,6 @@ import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
@@ -100,7 +99,7 @@ public class OrganizerController implements Serializable {
             return prepareList(poll);
         }
 
-        Set<Organizer> poll_organizers = poll.getOrganizers();
+        List<Organizer> poll_organizers = poll.getOrganizers();
         poll_organizers.remove(organizer);
         poll.setOrganizers(poll_organizers);
         pollFacade.edit(poll);
@@ -121,12 +120,15 @@ public class OrganizerController implements Serializable {
     public String addOrganizer() {
         Organizer organizer = getFacade().find(Long.valueOf(organizerId));
         
-        Set<Organizer> poll_organizers = poll.getOrganizers();
-        poll_organizers.add(organizer);
-        poll.setOrganizers(poll_organizers);
-        pollFacade.edit(poll);
-        
-        ZVotesUtils.addInternationalizedInfoMessage("OrganizerAdded");
+        List<Organizer> poll_organizers = poll.getOrganizers();
+        if (!poll_organizers.contains(organizer)) {
+            poll_organizers.add(organizer);
+            poll.setOrganizers(poll_organizers);
+            pollFacade.edit(poll);
+            ZVotesUtils.addInternationalizedInfoMessage("OrganizerAdded");
+        } else {
+            ZVotesUtils.addInternationalizedInfoMessage("OrganizerAlreadyPresent");
+        }
         return prepareList(poll);
     }
 

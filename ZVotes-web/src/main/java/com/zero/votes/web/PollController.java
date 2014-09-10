@@ -190,10 +190,11 @@ public class PollController implements Serializable {
         UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
         Organizer current_organizer = userBean.getOrganizer();
 
-        Set<Organizer> organizers = current.getOrganizers();
-        organizers.add(current_organizer);
-        current.setOrganizers(organizers);
-
+        List<Organizer> organizers = current.getOrganizers();
+        if (!organizers.contains(current_organizer)) {
+            organizers.add(current_organizer);
+            current.setOrganizers(organizers);
+        }
         return UrlsPy.POLL_CREATE.getUrl(true);
     }
 

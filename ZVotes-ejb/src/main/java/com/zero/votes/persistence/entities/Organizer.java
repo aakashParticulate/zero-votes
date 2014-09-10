@@ -2,9 +2,9 @@ package com.zero.votes.persistence.entities;
 
 import com.zero.votes.ldap.LdapUser;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,14 +36,14 @@ public class Organizer implements Serializable {
 
     @ManyToMany(mappedBy = "organizers", fetch = FetchType.EAGER)
     @OrderBy("title ASC")
-    private Set<Poll> polls;
+    private List<Poll> polls;
 
     @OneToMany(mappedBy = "organizer", fetch = FetchType.EAGER)
-    private Set<RecipientList> recipientLists;
+    private List<RecipientList> recipientLists;
 
     public Organizer() {
-        polls = new HashSet<>();
-        recipientLists = new HashSet<>();
+        polls = new ArrayList<>();
+        recipientLists = new ArrayList<>();
     }
 
     public Long getId() {
@@ -94,19 +94,19 @@ public class Organizer implements Serializable {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public Set<Poll> getPolls() {
+    public List<Poll> getPolls() {
         return polls;
     }
 
-    public void setPolls(Set<Poll> polls) {
+    public void setPolls(List<Poll> polls) {
         this.polls = polls;
     }
 
-    public Set<RecipientList> getRecipientLists() {
+    public List<RecipientList> getRecipientLists() {
         return recipientLists;
     }
 
-    public void setRecipientLists(Set<RecipientList> recipientLists) {
+    public void setRecipientLists(List<RecipientList> recipientLists) {
         this.recipientLists = recipientLists;
     }
 

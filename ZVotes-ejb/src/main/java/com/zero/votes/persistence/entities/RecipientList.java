@@ -1,7 +1,8 @@
 package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,11 +33,15 @@ public class RecipientList implements Serializable {
 
     @OneToMany(mappedBy = "recipientList", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("email ASC")
-    private Set<Recipient> recipients;
+    private List<Recipient> recipients;
 
     @JoinColumn(name = "organizer")
     @ManyToOne(fetch = FetchType.EAGER)
     private Organizer organizer;
+
+    public RecipientList() {
+        this.recipients = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -54,11 +59,11 @@ public class RecipientList implements Serializable {
         this.name = name;
     }
 
-    public Set<Recipient> getRecipients() {
+    public List<Recipient> getRecipients() {
         return recipients;
     }
 
-    public void setRecipients(Set<Recipient> recipients) {
+    public void setRecipients(List<Recipient> recipients) {
         this.recipients = recipients;
     }
 

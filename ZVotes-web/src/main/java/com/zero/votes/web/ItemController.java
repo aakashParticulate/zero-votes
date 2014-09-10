@@ -11,8 +11,7 @@ import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -199,7 +198,7 @@ public class ItemController implements Serializable {
     
     public void optionTest(Item current) {
         if (current.getType().equals(ItemType.YES_NO)) {
-            Set<ItemOption> options = current.getOptions();
+            List<ItemOption> options = current.getOptions();
             if (options != null && !options.isEmpty()) {
                 for (ItemOption option: options) {
                     ejbOptionFacade.remove(option);

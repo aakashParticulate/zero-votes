@@ -1,7 +1,7 @@
 package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,12 +30,12 @@ public class Item implements Serializable {
     private Poll poll;
 
     @OneToMany(mappedBy = "item")
-    @OrderBy("id ASC")
-    private Set<Vote> votes;
+    @OrderBy
+    private List<Vote> votes;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)
-    @OrderBy("shortName ASC")
-    private Set<ItemOption> options;
+    @OrderBy
+    private List<ItemOption> options;
 
     public Long getId() {
         return id;
@@ -77,19 +77,19 @@ public class Item implements Serializable {
         this.poll = poll;
     }
 
-    public Set<Vote> getVotes() {
+    public List<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(Set<Vote> votes) {
+    public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }
 
-    public Set<ItemOption> getOptions() {
+    public List<ItemOption> getOptions() {
         return options;
     }
 
-    public void setOptions(Set<ItemOption> options) {
+    public void setOptions(List<ItemOption> options) {
         this.options = options;
     }
 

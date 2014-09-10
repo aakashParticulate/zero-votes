@@ -1,10 +1,10 @@
 package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -42,27 +42,27 @@ public class Poll implements Serializable {
     private boolean participationTracking;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @OrderBy("username ASC")
-    private Set<Organizer> organizers;
+    @OrderBy
+    private List<Organizer> organizers;
 
     @OneToMany(mappedBy = "poll", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    @OrderBy("title ASC")
-    private Set<Item> items;
+    @OrderBy
+    private List<Item> items;
 
     @OneToMany(mappedBy = "poll", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @OrderBy("email ASC")
-    private Set<Participant> participants;
+    @OrderBy
+    private List<Participant> participants;
 
     @OneToMany(mappedBy = "poll", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    @OrderBy("id ASC")
-    private Set<Token> tokens;
+    @OrderBy
+    private List<Token> tokens;
 
     public Poll() {
         this.pollState = PollState.PREPARING;
-        this.organizers = new HashSet<Organizer>();
-        this.items = new HashSet<Item>();
-        this.participants = new HashSet<Participant>();
-        this.tokens = new HashSet<Token>();
+        this.organizers = new ArrayList<Organizer>();
+        this.items = new ArrayList<Item>();
+        this.participants = new ArrayList<Participant>();
+        this.tokens = new ArrayList<Token>();
         this.previewToken = UUID.randomUUID().toString();
     }
 
@@ -124,35 +124,35 @@ public class Poll implements Serializable {
         this.participationTracking = participationTracking;
     }
 
-    public Set<Organizer> getOrganizers() {
+    public List<Organizer> getOrganizers() {
         return organizers;
     }
 
-    public void setOrganizers(Set<Organizer> organizers) {
+    public void setOrganizers(List<Organizer> organizers) {
         this.organizers = organizers;
     }
 
-    public Set<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Set<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    public Set<Participant> getParticipants() {
+    public List<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<Participant> participants) {
+    public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
 
-    public Set<Token> getTokens() {
+    public List<Token> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Set<Token> tokens) {
+    public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
     }
 
