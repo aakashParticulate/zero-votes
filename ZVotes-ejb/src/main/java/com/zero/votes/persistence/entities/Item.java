@@ -29,7 +29,7 @@ public class Item implements Serializable {
     @ManyToOne
     private Poll poll;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @OrderBy
     private List<Vote> votes;
 

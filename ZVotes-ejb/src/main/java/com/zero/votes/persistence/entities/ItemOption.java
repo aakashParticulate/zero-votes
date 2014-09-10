@@ -2,6 +2,7 @@ package com.zero.votes.persistence.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +30,7 @@ public class ItemOption implements Serializable {
     private String shortName;
     private String description;
 
-    @OneToMany(mappedBy = "itemOption")
+    @OneToMany(mappedBy = "itemOption", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @OrderBy
     private List<Vote> votes;
 

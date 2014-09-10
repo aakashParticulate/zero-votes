@@ -13,7 +13,7 @@
     <ui:define name="content">
         <div class="text-center">
             <h1 class="page-header">#{votingController.current.title}</h1>
-            <div class="col-xs-6 col-xs-offset-3">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                 <p class="text-left"><strong>#{msg.Description}:</strong></p>
                 <p class="text-left">#{votingController.current.description}</p>
             </div>
@@ -21,10 +21,10 @@
         <div class="row">
             <h:form styleClass="form-horizontal">
                 <c:forEach items="#{votingController.current.items}" var="item">
-                    <div class="col-xs-6 col-xs-offset-3">
+                    <div class="col-md-8 col-md-offset-2">
                         <h3>#{item.title}</h3>
                     </div>
-                    <div class="item col-xs-6 col-xs-offset-3" data-m="#{votingController.getMaxOptions(item)}">
+                    <div class="item col-md-8 col-md-offset-2" data-m="#{votingController.getMaxOptions(item)}">
                         <c:forEach items="#{item.options}" var="option">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="checkbox">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </c:forEach>
-                <div class="col-xs-6 col-xs-offset-3">
+                <div class="col-md-8 col-md-offset-2">
                     <br />
                     <h:commandLink action="#{votingController.submit}" styleClass="btn btn-primary"><h:outputText value="#{icons.submit} #{msg.Submit}" escape="False" /></h:commandLink>
                     <h:outputText value=" " />

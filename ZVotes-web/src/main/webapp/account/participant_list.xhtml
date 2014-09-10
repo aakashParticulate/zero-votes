@@ -27,6 +27,14 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
+                                <h:outputText value="#{msg.Participated}?"/>
+                            </f:facet>
+                            <h:outputText value="#{icons.yes}" rendered="#{item.poll.getPollState() == 'FINISHED' and item.poll.isParticipationTracking() and item.hasVoted()}" escape="false"/>
+                            <h:outputText value="#{icons.no}" rendered="#{item.poll.getPollState() == 'FINISHED' and item.poll.isParticipationTracking() and !item.hasVoted()}" escape="false"/>
+                            <h:outputText value="#{icons.questionMark}"  rendered="#{item.poll.getPollState() != 'FINISHED' or !item.poll.isParticipationTracking()}" escape="false"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{msg.AvailableActions}"/>
                             </f:facet>
                             <h:commandLink action="#{participantController.prepareEdit(item)}" class="btn btn-primary"><h:outputText value="#{icons.edit}" escape="False"/></h:commandLink>

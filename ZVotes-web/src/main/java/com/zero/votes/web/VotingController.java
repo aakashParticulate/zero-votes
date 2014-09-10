@@ -45,6 +45,8 @@ public class VotingController implements Serializable {
     private com.zero.votes.persistence.TokenFacade tokenFacade;
     @EJB
     private com.zero.votes.persistence.ItemOptionFacade itemOptionFacade;
+    @EJB
+    private com.zero.votes.persistence.ParticipantFacade participantFacade;
     @Inject
     private com.zero.votes.web.TokenController tokenController;
 
@@ -179,6 +181,10 @@ public class VotingController implements Serializable {
             abstentions.put(item.getId().toString(), Boolean.TRUE);
         }
         tokenController.markUsed(token);
+        if (current.isParticipationTracking()) {
+            token.getParticipant().setHasVoted(true);
+            participantFacade.edit(token.getParticipant());
+        }
         updatePollState();
         this.token = null;
         this.current = null;
