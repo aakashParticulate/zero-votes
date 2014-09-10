@@ -59,10 +59,10 @@ public class Poll implements Serializable {
 
     public Poll() {
         this.pollState = PollState.PREPARING;
-        this.organizers = new ArrayList<Organizer>();
-        this.items = new ArrayList<Item>();
-        this.participants = new ArrayList<Participant>();
-        this.tokens = new ArrayList<Token>();
+        this.organizers = new ArrayList<>();
+        this.items = new ArrayList<>();
+        this.participants = new ArrayList<>();
+        this.tokens = new ArrayList<>();
         this.previewToken = UUID.randomUUID().toString();
     }
 
