@@ -21,6 +21,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 @Named("votingController")
 @SessionScoped
@@ -41,6 +42,8 @@ public class VotingController implements Serializable {
     @EJB
     private com.zero.votes.persistence.VoteFacade voteFacade;
     @EJB
+    private com.zero.votes.persistence.TokenFacade tokenFacade;
+    @EJB
     private com.zero.votes.persistence.ItemOptionFacade itemOptionFacade;
     @Inject
     private com.zero.votes.web.TokenController tokenController;
@@ -51,17 +54,33 @@ public class VotingController implements Serializable {
     public String prepareVoting(Poll poll, Token token) {
         this.current = poll;
         this.token = token;
-        results = new HashMap<String, Object>();
-        abstentions = new HashMap<String, Object>();
-        freeTexts = new HashMap<String, Object>();
-        freeTextDescriptions = new HashMap<String, Object>();
+        results = new HashMap<>();
+        abstentions = new HashMap<>();
+        freeTexts = new HashMap<>();
+        freeTextDescriptions = new HashMap<>();
         for (Item item : current.getItems()) {
             abstentions.put(item.getId().toString(), Boolean.TRUE);
             for (ItemOption itemOption : item.getOptions()) {
                 results.put(itemOption.getId().toString(), Boolean.FALSE);
             }
         }
-        return UrlsPy.POLL.getUrl(true);
+        return getCurrentPollUrl();
+    }
+    
+    private String getCurrentPollUrl() {
+        String tokenId;
+        String currentId;
+        if (token != null) {
+            tokenId = token.getId().toString();
+        } else {
+            tokenId = "";
+        }
+        if (current != null) {
+            currentId = current.getId().toString();
+        } else {
+            currentId = "";
+        }
+        return UrlsPy.POLL.getUrl(false)+"?token="+tokenId+"&poll="+currentId;
     }
 
     public Poll getCurrent() {
@@ -87,11 +106,11 @@ public class VotingController implements Serializable {
     public String submit() {
         if (this.token == null) {
             ZVotesUtils.addInternationalizedWarnMessage("NoValidTokenActive");
-            return UrlsPy.POLL.getUrl();
+            return getCurrentPollUrl();
         }
         if (this.token.isUsed()) {
             ZVotesUtils.addInternationalizedWarnMessage("TokenAlreadyUsed");
-            return UrlsPy.POLL.getUrl();
+            return getCurrentPollUrl();
         }
         for (Item item : current.getItems()) {
             int votes = 0;
@@ -108,14 +127,14 @@ public class VotingController implements Serializable {
                     }
                     if (itemOptionFacade.countBy("shortName", freeTexts.get(freeTextId)) > 0) {
                         ZVotesUtils.addInternationalizedErrorMessage("ShortNameAlreadyUsed");
-                        return UrlsPy.POLL.getUrl();
+                        return getCurrentPollUrl();
                     }
                 }
             }
             if (votes > item.getM() && item.getType().equals(ItemType.M_OF_N)) {
-                return UrlsPy.POLL.getUrl();
+                return getCurrentPollUrl();
             } else if (votes > 1 && !item.getType().equals(ItemType.M_OF_N)) {
-                return UrlsPy.POLL.getUrl();
+                return getCurrentPollUrl();
             }
         }
         for (Item item : current.getItems()) {
@@ -163,8 +182,8 @@ public class VotingController implements Serializable {
         updatePollState();
         this.token = null;
         this.current = null;
-        freeTexts = new HashMap<String, Object>();
-        freeTextDescriptions = new HashMap<String, Object>();
+        freeTexts = new HashMap<>();
+        freeTextDescriptions = new HashMap<>();
         ZVotesUtils.addInternationalizedInfoMessage("Voted");
         return UrlsPy.HOME.getUrl(true);
     }
@@ -178,8 +197,8 @@ public class VotingController implements Serializable {
             abstentions.remove(item.getId().toString());
             abstentions.put(item.getId().toString(), Boolean.TRUE);
         }
-        freeTexts = new HashMap<String, Object>();
-        freeTextDescriptions = new HashMap<String, Object>();
+        freeTexts = new HashMap<>();
+        freeTextDescriptions = new HashMap<>();
         this.token = null;
         this.current = null;
         return UrlsPy.TOKEN.getUrl(true);
@@ -250,6 +269,17 @@ public class VotingController implements Serializable {
     }
     
     public void checkForInstance() throws IOException {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if (req.getParameter("token") != null && !req.getParameter("token").isEmpty()) {
+            token = tokenFacade.find(Long.valueOf(req.getParameter("token")));
+        } else {
+            token = null;
+        }
+        if (req.getParameter("poll") != null && !req.getParameter("poll").isEmpty()) {
+            current = pollFacade.find(Long.valueOf(req.getParameter("poll")));
+        } else {
+            current = null;
+        }
         if (current == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             ec.redirect("/token/");

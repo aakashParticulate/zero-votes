@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -61,22 +60,34 @@ public class ResultController implements Serializable {
     
     public HashMap<String, Object> getWinner(Item item) {
         ItemOption winner = null;
+        boolean hasWinner = false;
+        String winner_name;
         int winnerCount = 0;
         int voteCount = voteFacade.countBy("item", item);
         String[] fieldNamesAbstentions = {"item", "abstention"};
         Object[] valuesAbstentions = {item, true};
         int abstentionCount = voteFacade.countBy(fieldNamesAbstentions, valuesAbstentions);
         for (ItemOption itemOption: item.getOptions()) {
+            if (winner != null && itemOption.getVotes().size() == winner.getVotes().size()) {
+                hasWinner = false;
+            }
             if (winner == null || itemOption.getVotes().size() > winner.getVotes().size()) {
+                hasWinner = true;
                 winner = itemOption;
                 winnerCount = winner.getVotes().size();
             }
+        }
+        if (!hasWinner) {
+            winner_name = "-";
+            winnerCount = 0;
+        } else {
+            winner_name = winner.getShortName();
         }
         HashMap<String, Object> results = new HashMap<>();
         results.put("absolute", winnerCount > (voteCount/2));
         results.put("relative", winnerCount > ((voteCount-abstentionCount)/2));
         results.put("simple", winnerCount > (voteCount-abstentionCount-winnerCount));
-        results.put("winner", winner);
+        results.put("winner", winner_name);
         return results;
     }
     
