@@ -59,4 +59,30 @@ public class EMailer {
         }
         return true;
     }
+    
+    public boolean sendRemindMail(Poll poll, String recipientmail){
+        try {
+            Message msg = new MimeMessage(mailSession);
+            msg.setSubject(poll.getTitle()+" : reminder");
+            msg.setSentDate(new Date());
+            msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
+            
+            msg.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(recipientmail, false));
+            
+            FacesContext context = FacesContext.getCurrentInstance();
+            ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
+            String text = bundle.getString("RemindMail");
+            //title, start, end, number, URL, token
+            text = text.replace("$title$", poll.getTitle());
+            text = text.replace("$end$", poll.getEndDate().toString());
+            text = text.replace("$URL$", "http://www.zerovotes.de");
+            msg.setText(text);
+            Transport.send(msg);
+        } catch (MessagingException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
