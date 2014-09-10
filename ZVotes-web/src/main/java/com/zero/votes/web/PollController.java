@@ -17,6 +17,7 @@ import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -120,11 +121,17 @@ public class PollController implements Serializable {
         }
         for (Item item : poll.getItems()) {
             if (item.getOptions().size() < 2) {
-                ZVotesUtils.addInternationalizedErrorMessage("AnItemNeedsAtLeast2Options");
+                //replacing item's title
+                HashMap<String, String> replaceMap = new HashMap<>();
+                replaceMap.put("$item$", item.getTitle());
+                ZVotesUtils.addInternationalizedErrorMessage("AnItemNeedsAtLeast2Options", replaceMap);
+                
                 result = false;
             }
             if (item.getOptions().size() < item.getM()) {
-                ZVotesUtils.addInternationalizedErrorMessage("AnItemOptionsThanM");
+                HashMap<String, String> replaceMap = new HashMap<>();
+                replaceMap.put("$item$", item.getTitle());
+                ZVotesUtils.addInternationalizedErrorMessage("AnItemOptionsThanM", replaceMap);
                 result = false;
             }
             if (item.getType().equals(ItemType.YES_NO)) {
