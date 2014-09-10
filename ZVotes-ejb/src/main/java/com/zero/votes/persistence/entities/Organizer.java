@@ -130,7 +130,7 @@ public class Organizer implements Serializable {
 
     @Override
     public String toString() {
-        return username;
+        return "Organizer{" + "id=" + id + ", username=" + username + '}';
     }
 
     @Override

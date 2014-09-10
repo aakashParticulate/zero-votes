@@ -55,4 +55,9 @@ public class Vote implements Serializable {
         this.abstention = abstention;
     }
 
+    @Override
+    public String toString() {
+        return "Vote{" + "id=" + id + ", itemOption=" + itemOption + ", abstention=" + abstention + '}';
+    }
+
 }

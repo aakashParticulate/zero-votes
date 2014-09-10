@@ -72,7 +72,7 @@ public class RecipientList implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return "RecipientList{" + "id=" + id + ", name=" + name + ", organizer=" + organizer + '}';
     }
 
 }

@@ -78,7 +78,7 @@ public class ItemOption implements Serializable {
 
     @Override
     public String toString() {
-        return shortName;
+        return "ItemOption{" + "id=" + id + ", shortName=" + shortName + '}';
     }
 
 }

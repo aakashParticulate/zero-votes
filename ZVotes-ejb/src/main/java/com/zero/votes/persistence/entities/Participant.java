@@ -68,7 +68,7 @@ public class Participant implements Serializable {
 
     @Override
     public String toString() {
-        return email;
+        return "Participant{" + "id=" + id + ", email=" + email + ", poll=" + poll + '}';
     }
 
 }

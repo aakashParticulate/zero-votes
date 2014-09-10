@@ -53,7 +53,7 @@ public class Recipient implements Serializable {
 
     @Override
     public String toString() {
-        return email;
+        return "Recipient{" + "id=" + id + ", email=" + email + ", recipientList=" + recipientList + '}';
     }
 
 }

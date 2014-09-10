@@ -72,7 +72,7 @@ public class Token implements Serializable {
 
     @Override
     public String toString() {
-        return tokenString;
+        return "Token{" + "id=" + id + ", tokenString=" + tokenString + ", poll=" + poll + '}';
     }
 
 }

@@ -162,7 +162,7 @@ public class Poll implements Serializable {
 
     @Override
     public String toString() {
-        return title;
+        return "Poll{" + "id=" + id + ", title=" + title + '}';
     }
 
     @Override
