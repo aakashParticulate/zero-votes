@@ -2,13 +2,11 @@ package com.zero.votes.web.util;
 
 import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
-import com.zero.votes.persistence.entities.Token;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.faces.context.FacesContext;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
