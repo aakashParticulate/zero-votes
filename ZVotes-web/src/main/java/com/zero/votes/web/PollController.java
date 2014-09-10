@@ -72,7 +72,8 @@ public class PollController implements Serializable {
         if (validate(poll)) {
             poll.setPollState(PollState.PUBLISHED);
             getFacade().edit(poll);
-            taskManager.createFinishPollTask(current);
+            taskManager.createStartPollTask(poll, getFacade());
+            taskManager.createFinishPollTask(poll, getFacade());
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
                 while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {

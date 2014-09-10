@@ -3,16 +3,15 @@ package com.zero.votes.cronjobs;
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
-import javax.ejb.EJB;
 
 public class FinishPollTask implements Runnable {
-    private final Poll poll;
     
-    @EJB
+    private Poll poll;
     private PollFacade pollFacade;
 
-    public FinishPollTask(Poll poll) {
+    public FinishPollTask(Poll poll, PollFacade pollFacade) {
         this.poll = poll;
+        this.pollFacade = pollFacade;
     }
     
     @Override
