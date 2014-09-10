@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RedirectToHttpsFilter implements Filter {
-
+    
     @Override
     public void init(FilterConfig config) throws ServletException {
     }

@@ -2,6 +2,7 @@ package com.zero.votes.web;
 
 import com.zero.votes.beans.UrlsPy;
 import com.zero.votes.beans.UserBean;
+import com.zero.votes.cronjobs.TaskManager;
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemType;
@@ -47,6 +48,9 @@ public class PollController implements Serializable {
     @EJB
     private com.zero.votes.persistence.ItemFacade itemFacade;
     
+    @EJB
+    private TaskManager taskManager;
+    
     private PaginationHelper pagination;
     
     // Mail delivery
@@ -68,6 +72,7 @@ public class PollController implements Serializable {
         if (validate(poll)) {
             poll.setPollState(PollState.PUBLISHED);
             getFacade().edit(poll);
+            taskManager.createFinishPollTask(current);
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
                 while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {
@@ -358,6 +363,7 @@ public class PollController implements Serializable {
             return key;
         }
 
+        
         String getStringKey(java.lang.Long value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);

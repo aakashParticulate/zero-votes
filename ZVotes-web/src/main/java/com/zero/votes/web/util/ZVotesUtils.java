@@ -1,6 +1,5 @@
 package com.zero.votes.web.util;
 
-import java.time.Clock;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
