@@ -15,6 +15,12 @@ import javax.naming.directory.SearchResult;
 
 public class UnikoLdapLookup {
 
+    /**
+     * Looks up the user with id uid and returns a LdapUser-object
+     * with the data filled from uniko's ldap.
+     * @param uid
+     * @return 
+     */
     public static LdapUser lookupPerson(String uid) {
         LdapUser person = new LdapUser();
         person.setName(uid);
