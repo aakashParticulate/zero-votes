@@ -124,23 +124,22 @@ public class PollController implements Serializable {
             result = false;
         }
         for (Item item : poll.getItems()) {
-            if (item.getOptions().size() < 2) {
+            if (item.getType().equals(ItemType.YES_NO)) {
+                item.setOwnOptions(false);
+                itemFacade.edit(item);
+            }
+            if (item.getOptions().size() < 2 && !item.isOwnOptions()) {
                 //replacing item's title
                 HashMap<String, String> replaceMap = new HashMap<>();
                 replaceMap.put("$item$", item.getTitle());
                 ZVotesUtils.addInternationalizedErrorMessage("AnItemNeedsAtLeast2Options", replaceMap);
-                
                 result = false;
             }
-            if (item.getOptions().size() < item.getM()) {
+            if (item.getOptions().size() < item.getM() && !item.isOwnOptions()) {
                 HashMap<String, String> replaceMap = new HashMap<>();
                 replaceMap.put("$item$", item.getTitle());
                 ZVotesUtils.addInternationalizedErrorMessage("AnItemOptionsThanM", replaceMap);
                 result = false;
-            }
-            if (item.getType().equals(ItemType.YES_NO)) {
-                item.setOwnOptions(false);
-                itemFacade.edit(item);
             }
         }
         return result;
