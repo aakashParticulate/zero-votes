@@ -16,7 +16,6 @@ public class FinishPollTask implements Runnable {
     
     @Override
     public void run() {
-        System.out.println("YEAH!");
         poll.setPollState(PollState.FINISHED);
         pollFacade.edit(poll);
     }

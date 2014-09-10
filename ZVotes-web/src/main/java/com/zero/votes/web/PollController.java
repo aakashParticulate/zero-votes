@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -47,6 +48,8 @@ public class PollController implements Serializable {
     private com.zero.votes.persistence.TokenFacade tokenFacade;
     @EJB
     private com.zero.votes.persistence.ItemFacade itemFacade;
+    @EJB
+    private com.zero.votes.persistence.ParticipantFacade participantFacade;
     
     @EJB
     private TaskManager taskManager;
@@ -74,6 +77,7 @@ public class PollController implements Serializable {
             getFacade().edit(poll);
             taskManager.createStartPollTask(poll, getFacade());
             taskManager.createFinishPollTask(poll, getFacade());
+            Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
                 while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {
@@ -84,8 +88,14 @@ public class PollController implements Serializable {
                     token.setParticipant(participant);
                 }
                 tokenFacade.create(token);
-                eMailer.sendPublishMail(poll, token, participant.getEmail());
+                
+                participant.setToken(token);
+                participantFacade.edit(participant);
             }
+            if (poll.isParticipationTracking()) {
+                taskManager.createReminderMailTask(poll, eMailer, locale);
+            }
+            taskManager.createStartedMailTask(poll, eMailer, locale);
             ZVotesUtils.addInternationalizedInfoMessage("PollPublishedSuccessfully");
             return UrlsPy.POLL_LIST.getUrl(true);
         }

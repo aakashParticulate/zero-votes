@@ -66,6 +66,10 @@ public class Participant implements Serializable {
         this.token = token;
     }
 
+    public String getTokenString() {
+        return token.getTokenString();
+    }
+
     @Override
     public String toString() {
         return "Participant{" + "id=" + id + ", email=" + email + ", poll=" + poll + '}';

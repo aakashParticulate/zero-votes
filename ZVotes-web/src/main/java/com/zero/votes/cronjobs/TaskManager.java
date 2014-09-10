@@ -2,6 +2,8 @@ package com.zero.votes.cronjobs;
 
 import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Poll;
+import com.zero.votes.web.util.EMailer;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
@@ -37,6 +39,25 @@ public class TaskManager {
         
         DateTime now = new DateTime();
         Seconds deltaSeconds = Seconds.secondsBetween(now, new DateTime(poll.getEndDate()));
+
+        sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
+    }
+    
+    public void createStartedMailTask(Poll poll, EMailer eMailer, Locale locale) {
+        StartedMailTask task = new StartedMailTask(poll, eMailer, locale);
+        
+        DateTime now = new DateTime();
+        Seconds deltaSeconds = Seconds.secondsBetween(now, new DateTime(poll.getStartDate()));
+
+        sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
+    }
+    
+    public void createReminderMailTask(Poll poll, EMailer eMailer, Locale locale) {
+        ReminderMailTask task = new ReminderMailTask(poll, eMailer, locale);
+        
+        DateTime now = new DateTime();
+        DateTime remindDate = new DateTime(poll.getEndDate()).minusDays(1);
+        Seconds deltaSeconds = Seconds.secondsBetween(now, remindDate);
 
         sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
     }

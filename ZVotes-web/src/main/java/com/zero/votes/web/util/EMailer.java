@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.zero.votes.web.util;
 
+import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.Token;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -20,10 +16,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- *
- * @author Marcel
- */
 @Stateless
 public class EMailer {
 
@@ -31,26 +23,24 @@ public class EMailer {
     @Resource(lookup = "mail/uniko-mail")
     private Session mailSession;
 
-    public boolean sendPublishMail(Poll poll, Token token, String recipientmail) {
+    public boolean sendStartedMail(Poll poll, Participant participant, Locale locale) {
         try {
+            ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", locale);
+            
             Message msg = new MimeMessage(mailSession);
-            msg.setSubject(poll.getTitle()+" : published");
+            msg.setSubject(poll.getTitle());
             msg.setSentDate(new Date());
             msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(participant.getEmail(), false));
             
-            msg.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(recipientmail, false));
-            
-            FacesContext context = FacesContext.getCurrentInstance();
-            ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
-            String text = bundle.getString("PublishMail");
+            String text = bundle.getString("StartedMail");
             //title, start, end, number, URL, token
             text = text.replace("$title$", poll.getTitle());
             text = text.replace("$start$", poll.getStartDate().toString());
             text = text.replace("$end$", poll.getEndDate().toString());
             text = text.replace("$number$", Integer.toString(poll.getParticipants().size()));
-            text = text.replace("$URL$", "http://www.zerovotes.de");
-            text = text.replace("$token$", token.getTokenString());
+            text = text.replace("$URL$", "https://votes.zero.com");
+            text = text.replace("$token$", participant.getTokenString());
             msg.setText(text);
             Transport.send(msg);
         } catch (MessagingException ex) {
@@ -60,23 +50,21 @@ public class EMailer {
         return true;
     }
     
-    public boolean sendRemindMail(Poll poll, String recipientmail){
+    public boolean sendReminderMail(Poll poll, Participant participant, Locale locale){
         try {
+            ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", locale);
+            
             Message msg = new MimeMessage(mailSession);
-            msg.setSubject(poll.getTitle()+" : reminder");
+            msg.setSubject(bundle.getString("Reminder")+": "+poll.getTitle());
             msg.setSentDate(new Date());
             msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(participant.getEmail(), false));
             
-            msg.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(recipientmail, false));
-            
-            FacesContext context = FacesContext.getCurrentInstance();
-            ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
-            String text = bundle.getString("RemindMail");
+            String text = bundle.getString("ReminderMail");
             //title, start, end, number, URL, token
             text = text.replace("$title$", poll.getTitle());
             text = text.replace("$end$", poll.getEndDate().toString());
-            text = text.replace("$URL$", "http://www.zerovotes.de");
+            text = text.replace("$URL$", "https://votes.zero.com");
             msg.setText(text);
             Transport.send(msg);
         } catch (MessagingException ex) {
