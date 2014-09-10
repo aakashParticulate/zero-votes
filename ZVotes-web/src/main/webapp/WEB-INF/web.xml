@@ -41,17 +41,6 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>welcome</welcome-file>
-    </welcome-file-list>
-    <servlet>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <servlet-class>com.zero.votes.servlets.WelcomeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <url-pattern>/welcome</url-pattern>
-    </servlet-mapping>
     <error-page>
         <error-code>403</error-code>
         <location>/403.xhtml</location>

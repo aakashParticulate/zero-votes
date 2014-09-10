@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -176,10 +175,6 @@ public class PollController implements Serializable {
     public String prepareList() {
         recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
-    }
-
-    public String preparePreview(Poll poll) {
-        return "TODO";
     }
 
     public String prepareCreate() {
