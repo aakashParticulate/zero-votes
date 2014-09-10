@@ -102,16 +102,16 @@ when the same participants occur many times, a usual situation in university bod
 1. __Polls__
 
     1.1 The system must support electronic polls with one or more items. 
-		(Set)
+		(_Set_)
     
     1.2 .Each poll must have a title. The title has to be unique (scope is system). 
-		(Controller validated and Unique Fields)
+		(_Controller validated and Unique Fields_)
     
     1.3 Each poll must have a description. 
 		(It is displayed on the voting page, right below the poll name)
     
     1.4 Each poll must have a voting period (start and end date with time). 
-		(When a poll is published, it will be started at the start time via an asynchronous task. It will be also finished via such a task.)
+		(_When a poll is published, it will be started at the start time via an asynchronous task. It will be also finished via such a task._)
     
     1.5 Each poll must have at least one item.
 		(Tested before publishing)
@@ -378,30 +378,30 @@ well as the number of abstentions.
 		
 ## Glossary
 
-_A_...
+__A__...
 
 administrator : a user role in the system. Users with this role can create organizer accounts. 
 
 abstain (from voting) : Participants must have the option to abstain from voting (sich enthalten) for each item of a poll, or for a complete poll. When a participant chooses to abstain, her decision may influence the result of a poll, depending on the decision mode. When a participant chooses to abstain, her vote is taken into account when computing the voter participation value (Wahlbeteiligung). 
 
-_D_...
+__D__...
 
 decision mode : The decision mode of a poll can be one of three modes:
 absolute majority: an option is accepted if more than 50% of the participants voted for that option
 relative majority: an option is accepted if more than 50% of the votes indicate that option
 simple majority: an option is accepted if it has more votes than all others
 
-_I_...
+__I__...
 
 item (of a poll) : TODO
 
-_O_...
+__O__...
 
 option (of an item) : TODO
 
 organizer : TODO
 
-_P_...
+__P__...
 
 participant: TODO
 
@@ -409,11 +409,11 @@ participation tracking : TODO
 
 poll : TODO
 
-_T_...
+__T__...
 
 token : TODO
 
-_V_...
+__V__...
 
 void(vote) : same as abstain
 
