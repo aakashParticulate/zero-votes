@@ -92,6 +92,8 @@ public class PollController implements Serializable {
                 
                 // only link if participationTracking is enabled
                 if (poll.isParticipationTracking()) {
+                    token.setParticipant(participant);
+                    tokenFacade.edit(token);
                     participant.setToken(token);
                     participantFacade.edit(participant);
                 }
