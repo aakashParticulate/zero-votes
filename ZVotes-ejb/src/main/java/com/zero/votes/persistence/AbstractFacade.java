@@ -1,10 +1,7 @@
 package com.zero.votes.persistence;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToMany;
 import javax.persistence.NoResultException;
@@ -14,10 +11,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
 
 public abstract class AbstractFacade<T> {
 
@@ -29,11 +24,20 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
+    /**
+     * Creates the entity in the database
+     * @param entity 
+     */
     public void create(T entity) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         getEntityManager().persist(entity);
     }
 
+    /**
+     * Overwrites the entity in the database
+     * @param entity
+     * @return 
+     */
     public T edit(T entity) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         T result = getEntityManager().merge(entity);
@@ -41,16 +45,29 @@ public abstract class AbstractFacade<T> {
         return result;
     }
 
+    /**
+     * Removes the enity from the database
+     * @param entity 
+     */
     public void remove(T entity) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
+    /**
+     * Returns an entity of type T with the fitting id
+     * @param id
+     * @return 
+     */
     public T find(Object id) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         return getEntityManager().find(entityClass, id);
     }
 
+    /**
+     * Returns all entities of type T
+     * @return 
+     */
     public List<T> findAll() {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -58,6 +75,11 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    /**
+     * Return all entities of type T from range[0] to range[1]
+     * @param range  
+     * @return 
+     */
     public List<T> findRange(int[] range) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -68,6 +90,10 @@ public abstract class AbstractFacade<T> {
         return q.getResultList();
     }
 
+    /**
+     * Returns the number of entities of type T
+     * @return 
+     */
     public int count() {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -77,6 +103,13 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+     * Returns the number of entities, which contain an attribute
+     * fieldName := value.
+     * @param fieldName
+     * @param value
+     * @return 
+     */
     public int countBy(String fieldName, Object value) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -97,6 +130,13 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+     * Returns the number of entities, where for all indices n from the parameters
+     * fieldName[n] := values[n]
+     * @param fieldNames
+     * @param values
+     * @return 
+     */
     public int countBy(String[] fieldNames, Object[] values) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -121,6 +161,12 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    /**
+     * Returns an entity of type T, which contain an attribute fieldName := value
+     * @param fieldName
+     * @param value
+     * @return 
+     */
     public T findBy(String fieldName, Object value) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -145,6 +191,13 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Returns an entity of type T, where for all indices n from the method's parameters
+     * fieldName[n] := values[n]
+     * @param fieldNames
+     * @param values
+     * @return 
+     */
     public T findBy(String[] fieldNames, Object[] values) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -173,6 +226,12 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Returns all entities of type T with an attribute fieldName:=value
+     * @param fieldName
+     * @param value
+     * @return 
+     */
     public List<T> findAllBy(String fieldName, Object value) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -197,6 +256,13 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Returns all entities of type T, where for all indices n from the method's parameters
+     * fieldName[n] := values[n]
+     * @param fieldNames
+     * @param values
+     * @return 
+     */
     public List<T> findAllBy(String[] fieldNames, Object[] values) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -225,6 +291,14 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Returns all entities of type T from range[0] to range[1] 
+     * with an attribute fieldName:=value
+     * @param fieldName
+     * @param value
+     * @param range
+     * @return 
+     */
     public List<T> findRangeBy(String fieldName, Object value, int[] range) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -251,6 +325,14 @@ public abstract class AbstractFacade<T> {
         }
     }
 
+    /**
+     * Returns all entities of type T from range[0] to range[1], where for all indices n 
+     * from the method's parameters fieldName[n] := values[n]
+     * @param fieldNames
+     * @param values
+     * @param range
+     * @return 
+     */
     public List<T> findRangeBy(String[] fieldNames, Object[] values, int[] range) {
         if (fieldNames.length == values.length) {
             getEntityManager().getEntityManagerFactory().getCache().evictAll();

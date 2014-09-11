@@ -26,6 +26,14 @@ public class RecipientFacade extends AbstractFacade<Recipient> {
         super(Recipient.class);
     }
     
+    /**
+     * Returns all entities of type Recipient from range[0] to range[1]
+     * with an attribute fieldName:=value, ordered ascending by email.
+     * @param fieldName
+     * @param value
+     * @param range
+     * @return 
+     */
     public List<Recipient> findRangeByOrderByEmail(String fieldName, Object value, int[] range) {
         getEntityManager().getEntityManagerFactory().getCache().evictAll();
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -34,7 +42,7 @@ public class RecipientFacade extends AbstractFacade<Recipient> {
         cq.select(rt).where(cb.equal(rt.get(fieldName), value));
         cq.orderBy(cb.asc(rt.get("email")));
         TypedQuery<Recipient> q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
+        q.setMaxResults(range[1] - range[0]);
         q.setFirstResult(range[0]);
         try {
             return q.getResultList();
