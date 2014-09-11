@@ -34,7 +34,7 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
                 .addRule(Join.path("/poll/").to("/poll.xhtml"))
                 .addRule(Join.path("/result/{poll}/{previewToken}/").to("/result.xhtml?poll={poll}&previewToken={previewToken}"))
                 .addRule(Join.path("/token/").to("/token.xhtml"))
-                .addRule(Join.path("/token/{token}/").to("/token.xhtml?token={token}"))
+                .addRule(Join.path("/token/{token}").to("/token.xhtml?token={token}"))
 
                 .addRule(Join.path("/account/").to("/account/index.xhtml"))
                 .addRule(Join.path("/account/items/").to("/account/item_list.xhtml"))
