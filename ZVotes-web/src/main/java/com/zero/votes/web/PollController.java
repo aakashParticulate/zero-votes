@@ -98,7 +98,7 @@ public class PollController implements Serializable {
             }
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String url = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/";
-            if (poll.isParticipationTracking()) {
+            if (poll.isParticipationTracking() && poll.isReminderEmails()) {
                 taskManager.createReminderMailTask(poll, eMailer, locale, url);
             }
             taskManager.createStartedMailTask(poll, eMailer, locale, url);

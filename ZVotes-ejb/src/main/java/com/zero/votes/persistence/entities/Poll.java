@@ -40,6 +40,7 @@ public class Poll implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     private boolean participationTracking;
+    private boolean reminderEmails;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @OrderBy
@@ -158,6 +159,14 @@ public class Poll implements Serializable {
 
     public String getPreviewToken() {
         return previewToken;
+    }
+
+    public boolean isReminderEmails() {
+        return reminderEmails;
+    }
+
+    public void setReminderEmails(boolean reminderEmails) {
+        this.reminderEmails = reminderEmails;
     }
 
     @Override
