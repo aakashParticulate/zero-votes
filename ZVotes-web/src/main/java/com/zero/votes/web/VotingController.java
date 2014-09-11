@@ -127,7 +127,9 @@ public class VotingController implements Serializable {
                     if (results.get(freeTextId) == Boolean.TRUE) {
                         votes++;
                     }
-                    if (itemOptionFacade.countBy("shortName", freeTexts.get(freeTextId)) > 0) {
+                    String[] fieldNames = {"shortName", "item"};
+                    Object[] values = {freeTexts.get(freeTextId), item};
+                    if (itemOptionFacade.countBy(fieldNames, values) > 0) {
                         ZVotesUtils.addInternationalizedErrorMessage("ShortNameAlreadyUsed");
                         return getCurrentPollUrl();
                     }
