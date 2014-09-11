@@ -6,6 +6,7 @@ import com.zero.votes.persistence.ParticipantFacade;
 import com.zero.votes.persistence.entities.Organizer;
 import com.zero.votes.persistence.entities.Participant;
 import com.zero.votes.persistence.entities.Poll;
+import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.persistence.entities.Recipient;
 import com.zero.votes.persistence.entities.RecipientList;
 import com.zero.votes.web.util.JsfUtil;
@@ -132,19 +133,29 @@ public class ParticipantController implements Serializable {
     }
 
     public String prepareCreate() {
-        current = new Participant();
-        current.setPoll(poll);
-        return UrlsPy.PARTICIPANT_CREATE.getUrl(true);
+        if (poll.getPollState().equals(PollState.PREPARING)) {
+            current = new Participant();
+            current.setPoll(poll);
+            return UrlsPy.PARTICIPANT_CREATE.getUrl(true);
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(poll);
+        }
     }
 
     public String create() {
-        try {
-            getFacade().create(current);
-            ZVotesUtils.addInternationalizedInfoMessage("ParticipantCreated");
-            return prepareList(current.getPoll());
-        } catch (Exception e) {
-            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-            return null;
+        if (poll.getPollState().equals(PollState.PREPARING)) {
+            try {
+                getFacade().create(current);
+                ZVotesUtils.addInternationalizedInfoMessage("ParticipantCreated");
+                return prepareList(current.getPoll());
+            } catch (Exception e) {
+                ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+                return null;
+            }
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(poll);
         }
     }
 
@@ -155,14 +166,19 @@ public class ParticipantController implements Serializable {
     }
 
     public String update(Participant participant) {
-        current = participant;
-        try {
-            getFacade().edit(current);
-            ZVotesUtils.addInternationalizedInfoMessage("ParticipantUpdated");
+        if (poll.getPollState().equals(PollState.PREPARING)) {
+            current = participant;
+            try {
+                getFacade().edit(current);
+                ZVotesUtils.addInternationalizedInfoMessage("ParticipantUpdated");
+                return prepareList(poll);
+            } catch (Exception e) {
+                ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+                return null;
+            }
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
             return prepareList(poll);
-        } catch (Exception e) {
-            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-            return null;
         }
     }
 
@@ -201,7 +217,7 @@ public class ParticipantController implements Serializable {
 
     public String page(String page) {
         getPagination().setPage(Integer.valueOf(page));
-        return UrlsPy.RECIPIENT_LIST.getUrl(true);
+        return UrlsPy.PARTICIPANT_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

@@ -2,9 +2,7 @@ package com.zero.votes.web.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.faces.model.DataModel;
 
 public abstract class PaginationHelper {
@@ -29,11 +27,14 @@ public abstract class PaginationHelper {
     }
     
     public int getPage() {
+        if (page > getNumPages()) {
+            this.page = 0;
+        }
         return page;
     }
 
     public int getPageFirstItem() {
-        return page * pageSize;
+        return getPage() * pageSize;
     }
 
     public int getPageLastItem() {
@@ -49,7 +50,7 @@ public abstract class PaginationHelper {
     }
 
     public boolean isHasNextPage() {
-        return (page + 1) * pageSize + 1 <= getItemsCount();
+        return (getPage() + 1) * pageSize + 1 <= getItemsCount();
     }
 
     public void nextPage() {
@@ -81,7 +82,7 @@ public abstract class PaginationHelper {
         HashSet<Integer> entries = new HashSet<>();
 
         entries.add(0);
-        for (int i = page - offset; i <= page + offset; i++) {
+        for (int i = getPage() - offset; i <= getPage() + offset; i++) {
             if (i > 0 && i < getNumPages()) {
                 entries.add(i);
             }

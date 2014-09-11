@@ -150,7 +150,7 @@ public class OrganizerController implements Serializable {
 
     public String page(String page) {
         getPagination().setPage(Integer.valueOf(page));
-        return UrlsPy.RECIPIENT_LIST.getUrl(true);
+        return UrlsPy.ORGANIZER_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

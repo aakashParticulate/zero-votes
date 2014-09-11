@@ -5,6 +5,7 @@ import com.zero.votes.persistence.ItemOptionFacade;
 import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.ItemType;
+import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
@@ -57,47 +58,67 @@ public class ItemOptionController implements Serializable {
     }
 
     public String prepareCreate(Item item) {
-        this.item = item;
-        current = new ItemOption();
-        current.setItem(item);
-        return UrlsPy.ITEM_OPTION_CREATE.getUrl(true);
+        if (item.getPoll().getPollState().equals(PollState.PREPARING)) {
+            this.item = item;
+            current = new ItemOption();
+            current.setItem(item);
+            return UrlsPy.ITEM_OPTION_CREATE.getUrl(true);
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(item);
+        }
     }
 
     public String create() {
-        try {
-            if (this.item.getType().equals(ItemType.YES_NO)) {
-                ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
-            } else {
-                getFacade().create(current);
-                ZVotesUtils.addInternationalizedInfoMessage("ItemOptionCreated");
+        if (item.getPoll().getPollState().equals(PollState.PREPARING)) {
+            try {
+                if (this.item.getType().equals(ItemType.YES_NO)) {
+                    ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
+                } else {
+                    getFacade().create(current);
+                    ZVotesUtils.addInternationalizedInfoMessage("ItemOptionCreated");
+                }
+                return prepareList(item);
+            } catch (Exception e) {
+                ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+                return null;
             }
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
             return prepareList(item);
-        } catch (Exception e) {
-            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-            return null;
         }
     }
 
     public String prepareEdit(ItemOption itemOption) {
-        current = itemOption;
-        this.item = current.getItem();
-        refresh();
-        return UrlsPy.ITEM_OPTION_EDIT.getUrl(true);
+        if (itemOption.getItem().getPoll().getPollState().equals(PollState.PREPARING)) {
+            current = itemOption;
+            this.item = current.getItem();
+            refresh();
+            return UrlsPy.ITEM_OPTION_EDIT.getUrl(true);
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(itemOption.getItem());
+        }
     }
 
     public String update() {
-        try {
-            item = current.getItem();
-            if (item.getType().equals(ItemType.YES_NO)) {
-                ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
-            } else {
-                getFacade().edit(current);
-                ZVotesUtils.addInternationalizedInfoMessage("ItemOptionUpdated");
+        if (current.getItem().getPoll().getPollState().equals(PollState.PREPARING)) {
+            try {
+                item = current.getItem();
+                if (item.getType().equals(ItemType.YES_NO)) {
+                    ZVotesUtils.addInternationalizedErrorMessage("ItemIsYesNo");
+                } else {
+                    getFacade().edit(current);
+                    ZVotesUtils.addInternationalizedInfoMessage("ItemOptionUpdated");
+                }
+                return prepareList(item);
+            } catch (Exception e) {
+                ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+                return null;
             }
-            return prepareList(item);
-        } catch (Exception e) {
-            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-            return null;
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(current.getItem());
         }
     }
     

@@ -18,13 +18,17 @@
             <div class="form-group">
                 <h:outputLabel value="#{msg.Title}" for="title" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <h:inputText id="title" value="#{itemController.selected.title}" title="#{msg.Title}" styleClass="form-control" />
+                    <h:inputText id="title" value="#{itemController.selected.title}" rendered="#{itemController.poll.pollState == 'PREPARING'}" title="#{msg.Title}" styleClass="form-control" />
+                    <h:inputText id="title_readonly" value="#{itemController.selected.title}" rendered="#{itemController.poll.pollState != 'PREPARING'}" title="#{msg.Title}" readonly="true" styleClass="form-control" />
                 </div>
             </div>
             <div class="form-group">
                 <h:outputLabel value="#{msg.Type}" for="itemType" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <h:selectOneMenu id="itemType" value="#{itemController.selected.type}" valueChangeListener="#{itemController.processTypeChange}" styleClass="form-control">
+                    <h:selectOneMenu id="itemType" value="#{itemController.selected.type}" rendered="#{itemController.poll.pollState == 'PREPARING'}" valueChangeListener="#{itemController.processTypeChange}" styleClass="form-control">
+                        <f:selectItems value="#{itemController.availableItemTypes}" var="itemType" itemLabel="#{msg[itemType.label]}" itemValue="#{itemType}" />
+                    </h:selectOneMenu>
+                    <h:selectOneMenu id="itemType_readonly" value="#{itemController.selected.type}" rendered="#{itemController.poll.pollState != 'PREPARING'}" readonly="true" styleClass="form-control">
                         <f:selectItems value="#{itemController.availableItemTypes}" var="itemType" itemLabel="#{msg[itemType.label]}" itemValue="#{itemType}" />
                     </h:selectOneMenu>
                 </div>
@@ -32,14 +36,16 @@
             <div class="form-group #{mInput.valid ? '' : 'has-error'}">
                 <h:outputLabel value="#{msg.M}" for="m" styleClass="col-sm-3 control-label" />
                 <div class="col-sm-9">
-                    <h:inputText id="m" binding="#{mInput}" value="#{itemController.selected.m}" validator="#{itemController.validateM}" title="#{msg.M}" styleClass="form-control" required="true" requiredMessage="#{msg.MNotSet}" />
+                    <h:inputText id="m" binding="#{mInput}" value="#{itemController.selected.m}" rendered="#{itemController.poll.pollState == 'PREPARING'}" validator="#{itemController.validateM}" title="#{msg.M}" styleClass="form-control" required="true" requiredMessage="#{msg.MNotSet}" />
+                    <h:inputText id="m_readonly" value="#{itemController.selected.m}" rendered="#{itemController.poll.pollState != 'PREPARING'}" title="#{msg.M}" styleClass="form-control" readonly="true" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <div class="checkbox">
                         <label for="ownOptions">
-                            <h:selectBooleanCheckbox id="ownOptions" value="#{itemController.selected.ownOptions}" title="#{msg.OwnOptions}" />
+                            <h:selectBooleanCheckbox id="ownOptions" rendered="#{itemController.poll.pollState == 'PREPARING'}" value="#{itemController.selected.ownOptions}" title="#{msg.OwnOptions}" />
+                            <h:selectBooleanCheckbox id="ownOptions_readonly" rendered="#{itemController.poll.pollState != 'PREPARING'}" value="#{itemController.selected.ownOptions}" title="#{msg.OwnOptions}" readonly="true" onclick="return false" />
                             #{msg.OwnOptions}
                         </label>
                     </div>

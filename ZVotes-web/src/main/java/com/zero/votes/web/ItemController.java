@@ -6,6 +6,7 @@ import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.ItemType;
 import com.zero.votes.persistence.entities.Poll;
+import com.zero.votes.persistence.entities.PollState;
 import com.zero.votes.web.util.JsfUtil;
 import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
@@ -85,23 +86,33 @@ public class ItemController implements Serializable {
     }
     
     public String prepareCreate() {
-        current = new Item();
-        current.setPoll(poll);
-        return UrlsPy.ITEM_CREATE.getUrl(true);
+        if (poll.getPollState().equals(PollState.PREPARING)) {
+            current = new Item();
+            current.setPoll(poll);
+            return UrlsPy.ITEM_CREATE.getUrl(true);
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(poll);
+        }
     }
 
     public String create() {
-        try {
-            if (!current.getType().equals(ItemType.M_OF_N)) {
-                this.current.setM(1);
+        if (poll.getPollState().equals(PollState.PREPARING)) {
+            try {
+                if (!current.getType().equals(ItemType.M_OF_N)) {
+                    this.current.setM(1);
+                }
+                getFacade().create(current);
+                optionTest(current);
+                ZVotesUtils.addInternationalizedInfoMessage("ItemCreated");
+                return prepareList(current.getPoll());
+            } catch (Exception e) {
+                ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+                return null;
             }
-            getFacade().create(current);
-            optionTest(current);
-            ZVotesUtils.addInternationalizedInfoMessage("ItemCreated");
-            return prepareList(current.getPoll());
-        } catch (Exception e) {
-            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-            return null;
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(poll);
         }
     }
 
@@ -112,17 +123,22 @@ public class ItemController implements Serializable {
     }
 
     public String update() {
-        try {
-            if (!current.getType().equals(ItemType.M_OF_N)) {
-                this.current.setM(1);
+        if (poll.getPollState().equals(PollState.PREPARING)) {
+            try {
+                if (!current.getType().equals(ItemType.M_OF_N)) {
+                    this.current.setM(1);
+                }
+                getFacade().edit(current);
+                optionTest(current);
+                ZVotesUtils.addInternationalizedInfoMessage("ItemUpdated");
+                return prepareList(current.getPoll());
+            } catch (Exception e) {
+                ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
+                return null;
             }
-            getFacade().edit(current);
-            optionTest(current);
-            ZVotesUtils.addInternationalizedInfoMessage("ItemUpdated");
-            return prepareList(current.getPoll());
-        } catch (Exception e) {
-            ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
-            return null;
+        } else {
+            ZVotesUtils.addInternationalizedWarnMessage("PollAlreadyPublished");
+            return prepareList(poll);
         }
     }
 
@@ -173,7 +189,7 @@ public class ItemController implements Serializable {
 
     public String page(String page) {
         getPagination().setPage(Integer.valueOf(page));
-        return UrlsPy.RECIPIENT_LIST.getUrl(true);
+        return UrlsPy.ITEM_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
