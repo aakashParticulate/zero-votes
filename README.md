@@ -414,32 +414,32 @@ voter participation : The voter participation (Wahlbeteiligung) is the ratio of 
 
 ## Scenarios
 
-![Use Case diagram not working](/docs/UseCases.jpg "Use Cases")
+![Use Case diagram not working](docs/UseCases.jpg "Use Cases")
 
 ## Project structure
 
-![Components diagram not working](/docs/Components.jpg "Components")
+![Components diagram not working](docs/Components.jpg "Components")
 
 ## ZVotes-ejb
 
-![ejb pkg diagram not working](/docs/ZVotes-ejb-packages.jpg "ejb-packages")
+![ejb pkg diagram not working](docs/ZVotes-ejb-packages.jpg "ejb-packages")
 
-![ldapstructure diagram not working](/docs/ldapstructure.jpg "ldap-package")
+![ldapstructure diagram not working](docs/ldapstructure.jpg "ldap-package")
 
-![entities diagram not working](/docs/entities_structure.jpg "entities-package")
+![entities diagram not working](docs/entities_structure.jpg "entities-package")
 
-![facades diagram not working](/docs/facades_structure.jpg "facades-package")
+![facades diagram not working](docs/facades_structure.jpg "facades-package")
 
 ## ZVotes-web
 
-![web pkg diagram not working](/docs/ZVotes-web-packages.jpg "web-packages")
+![web pkg diagram not working](docs/ZVotes-web-packages.jpg "web-packages")
 
-![beans diagram not working](/docs/beans_structure.jpg "beans-package")
+![beans diagram not working](docs/beans_structure.jpg "beans-package")
 
-![cronjobs diagram not working](/docs/cronjobs_structure.jpg "cronjobs-package")
+![cronjobs diagram not working](docs/cronjobs_structure.jpg "cronjobs-package")
 
-![filters diagram not working](/docs/filters_structure.jpg "filters-package")
+![filters diagram not working](docs/filters_structure.jpg "filters-package")
 
-![listeners diagram not working](/docs/listeners_structure.jpg "listeners-package")
+![listeners diagram not working](docs/listeners_structure.jpg "listeners-package")
 
-![provider diagram not working](/docs/providers_structure.jpg "providers-package")
+![provider diagram not working](docs/providers_structure.jpg "providers-package")
