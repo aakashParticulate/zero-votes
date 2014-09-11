@@ -35,6 +35,7 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 @Named("pollController")
 @SessionScoped
@@ -84,18 +85,18 @@ public class PollController implements Serializable {
                     token = new Token();
                 }
                 token.setPoll(poll);
-                if (poll.isParticipationTracking()) {
-                    token.setParticipant(participant);
-                }
                 tokenFacade.create(token);
-                
-                participant.setToken(token);
-                participantFacade.edit(participant);
+                if (poll.isParticipationTracking()) {
+                    participant.setToken(token);
+                    participantFacade.edit(participant);
+                }
             }
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String url = request.getProtocol()+"://"+request.getServerName()+":"+request.getServerPort()+"/";
             if (poll.isParticipationTracking()) {
-                taskManager.createReminderMailTask(poll, eMailer, locale);
+                taskManager.createReminderMailTask(poll, eMailer, locale, url);
             }
-            taskManager.createStartedMailTask(poll, eMailer, locale);
+            taskManager.createStartedMailTask(poll, eMailer, locale, url);
             ZVotesUtils.addInternationalizedInfoMessage("PollPublishedSuccessfully");
             return UrlsPy.POLL_LIST.getUrl(true);
         }

@@ -10,17 +10,27 @@ public class StartedMailTask implements Runnable {
     private Poll poll;
     private EMailer eMailer;
     private Locale locale;
+    private String url;
 
-    public StartedMailTask(Poll poll, EMailer eMailer, Locale locale) {
+    public StartedMailTask(Poll poll, EMailer eMailer, Locale locale, String url) {
         this.poll = poll;
         this.eMailer = eMailer;
         this.locale = locale;
+        this.url = url;
     }
     
     @Override
     public void run() {
+        int i = 0;
         for(Participant participant: poll.getParticipants()) {
-            eMailer.sendStartedMail(poll, participant, locale);
+            String token;
+            if (poll.isParticipationTracking()) {
+                token = participant.getToken().getTokenString();
+            } else {
+                token = poll.getTokens().get(i).getTokenString();
+                i++;
+            }
+            eMailer.sendStartedMail(poll, participant, locale, url, token);
         }
     }
 

@@ -21,7 +21,7 @@ public class EMailer {
     @Resource(lookup = "mail/uniko-mail")
     private Session mailSession;
 
-    public boolean sendStartedMail(Poll poll, Participant participant, Locale locale) {
+    public boolean sendStartedMail(Poll poll, Participant participant, Locale locale, String url, String token) {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", locale);
             
@@ -37,8 +37,8 @@ public class EMailer {
             text = text.replace("$start$", poll.getStartDate().toString());
             text = text.replace("$end$", poll.getEndDate().toString());
             text = text.replace("$number$", Integer.toString(poll.getParticipants().size()));
-            text = text.replace("$URL$", "https://votes.zero.com");
-            text = text.replace("$token$", participant.getTokenString());
+            text = text.replace("$URL$", url);
+            text = text.replace("$token$", token);
             msg.setText(text);
             Transport.send(msg);
         } catch (MessagingException ex) {
@@ -48,7 +48,7 @@ public class EMailer {
         return true;
     }
     
-    public boolean sendReminderMail(Poll poll, Participant participant, Locale locale){
+    public boolean sendReminderMail(Poll poll, Participant participant, Locale locale, String url){
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", locale);
             
@@ -62,7 +62,7 @@ public class EMailer {
             //title, start, end, number, URL, token
             text = text.replace("$title$", poll.getTitle());
             text = text.replace("$end$", poll.getEndDate().toString());
-            text = text.replace("$URL$", "https://votes.zero.com");
+            text = text.replace("$URL$", url);
             msg.setText(text);
             Transport.send(msg);
         } catch (MessagingException ex) {

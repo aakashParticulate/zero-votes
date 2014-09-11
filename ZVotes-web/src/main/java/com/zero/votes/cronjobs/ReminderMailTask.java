@@ -10,17 +10,19 @@ public class ReminderMailTask implements Runnable {
     private Poll poll;
     private EMailer eMailer;
     private Locale locale;
+    private String url;
 
-    public ReminderMailTask(Poll poll, EMailer eMailer, Locale locale) {
+    public ReminderMailTask(Poll poll, EMailer eMailer, Locale locale, String url) {
         this.poll = poll;
         this.eMailer = eMailer;
         this.locale = locale;
+        this.url = url;
     }
     
     @Override
     public void run() {
         for(Participant participant: poll.getParticipants()) {
-            eMailer.sendReminderMail(poll, participant, locale);
+            eMailer.sendReminderMail(poll, participant, locale, url);
         }
     }
 

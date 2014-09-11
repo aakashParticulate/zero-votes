@@ -43,8 +43,8 @@ public class TaskManager {
         sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
     }
     
-    public void createStartedMailTask(Poll poll, EMailer eMailer, Locale locale) {
-        StartedMailTask task = new StartedMailTask(poll, eMailer, locale);
+    public void createStartedMailTask(Poll poll, EMailer eMailer, Locale locale, String url) {
+        StartedMailTask task = new StartedMailTask(poll, eMailer, locale, url);
         
         DateTime now = new DateTime();
         Seconds deltaSeconds = Seconds.secondsBetween(now, new DateTime(poll.getStartDate()));
@@ -52,8 +52,8 @@ public class TaskManager {
         sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
     }
     
-    public void createReminderMailTask(Poll poll, EMailer eMailer, Locale locale) {
-        ReminderMailTask task = new ReminderMailTask(poll, eMailer, locale);
+    public void createReminderMailTask(Poll poll, EMailer eMailer, Locale locale, String url) {
+        ReminderMailTask task = new ReminderMailTask(poll, eMailer, locale, url);
         
         DateTime now = new DateTime();
         DateTime remindDate = new DateTime(poll.getEndDate()).minusDays(1);
