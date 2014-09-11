@@ -73,12 +73,16 @@ public class PollController implements Serializable {
     }
     
     public String publish(Poll poll) {
+        // validate Poll to see if it's ready to get public
         if (validate(poll)) {
             poll.setPollState(PollState.PUBLISHED);
             getFacade().edit(poll);
+            // Start Tasks to set the Poll to state started and finished on the according dates
             taskManager.createStartPollTask(poll, getFacade());
             taskManager.createFinishPollTask(poll, getFacade());
             Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+            
+            // create token for every participant
             for(Participant participant: poll.getParticipants()) {
                 Token token = new Token();
                 while (tokenFacade.countBy("tokenString", token.getTokenString()) > 0) {
@@ -86,6 +90,8 @@ public class PollController implements Serializable {
                 }
                 token.setPoll(poll);
                 tokenFacade.create(token);
+                
+                // only link if participationTracking is enabled
                 if (poll.isParticipationTracking()) {
                     participant.setToken(token);
                     participantFacade.edit(participant);

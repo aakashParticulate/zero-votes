@@ -58,8 +58,11 @@ public class TaskManager {
         DateTime now = new DateTime();
         DateTime remindDate = new DateTime(poll.getEndDate()).minusDays(1);
         Seconds deltaSeconds = Seconds.secondsBetween(now, remindDate);
-
-        sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
+        
+        // only send reminder emails if remind date is at least one day in the future
+        if (deltaSeconds.getSeconds() > 86400) {
+            sExecService.schedule(task, deltaSeconds.getSeconds(), TimeUnit.SECONDS);
+        }
     }
 
 }

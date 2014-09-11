@@ -11,7 +11,9 @@ import javax.servlet.http.HttpSession;
 public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 4864684684864L;
-
+    
+    // Only a logout method is needed, login is handled via security-constraints
+    // and a LDAP realm.
     public String doLogout() {
 
         FacesContext context = FacesContext.getCurrentInstance();

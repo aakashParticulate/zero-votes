@@ -28,7 +28,6 @@ public class EMailer {
             Message msg = new MimeMessage(mailSession);
             msg.setSubject(poll.getTitle());
             msg.setSentDate(new Date());
-            msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(participant.getEmail(), false));
             
             String text = bundle.getString("StartedMail");
@@ -55,7 +54,6 @@ public class EMailer {
             Message msg = new MimeMessage(mailSession);
             msg.setSubject(bundle.getString("Reminder")+": "+poll.getTitle());
             msg.setSentDate(new Date());
-            msg.setReplyTo(InternetAddress.parse("heinz@uni-koblenz.de", false));
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(participant.getEmail(), false));
             
             String text = bundle.getString("ReminderMail");
