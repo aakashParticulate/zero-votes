@@ -149,7 +149,7 @@ A graphical representation of the results, e.g. as a bar chart or pie chart, wou
 4. __Administrators__
 
     4.1 The system must support an administrator role.
-        (_The system provides an administrator role._)
+        (_The system provides an administrator role. The first user, which logs in to the system, is the administrator_)
 
     4.2 Administrators must have the ability to delete polls (including all votes) from the system.
         (_The administrator has the ability to delete polls._)
