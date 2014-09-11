@@ -42,7 +42,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PollController implements Serializable {
 
     private Poll current;
-    private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.PollFacade ejbFacade;
     @EJB
@@ -195,7 +194,6 @@ public class PollController implements Serializable {
     }
 
     public String prepareList() {
-        recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
@@ -247,7 +245,6 @@ public class PollController implements Serializable {
         current = poll;
         performDestroy();
         recreatePagination();
-        recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
@@ -264,29 +261,22 @@ public class PollController implements Serializable {
         return getPagination().createPageDataModel();
     }
 
-    private void recreateModel() {
-        items = null;
-    }
-
     private void recreatePagination() {
         pagination = null;
     }
 
     public String next() {
         getPagination().nextPage();
-        recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
-        recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 
     public String page(String page) {
         getPagination().setPage(Integer.valueOf(page));
-        recreateModel();
         return UrlsPy.POLL_LIST.getUrl(true);
     }
 

@@ -36,7 +36,6 @@ public class ParticipantController implements Serializable {
 
     private Participant current;
     private Poll poll;
-    private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.ParticipantFacade ejbFacade;
     @EJB
@@ -98,7 +97,6 @@ public class ParticipantController implements Serializable {
 
     public String prepareList(Poll poll) {
         this.poll = poll;
-        recreateModel();
         return UrlsPy.PARTICIPANT_LIST.getUrl(true);
     }
 
@@ -188,24 +186,22 @@ public class ParticipantController implements Serializable {
         return getPagination().createPageDataModel();
     }
 
-    private void recreateModel() {
-        items = null;
-    }
-
     private void recreatePagination() {
         pagination = null;
     }
-
     public String next() {
         getPagination().nextPage();
-        recreateModel();
-        return "List";
+        return UrlsPy.PARTICIPANT_LIST.getUrl();
     }
 
     public String previous() {
         getPagination().previousPage();
-        recreateModel();
-        return "List";
+        return UrlsPy.PARTICIPANT_LIST.getUrl();
+    }
+
+    public String page(String page) {
+        getPagination().setPage(Integer.valueOf(page));
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

@@ -35,7 +35,6 @@ public class OrganizerController implements Serializable {
     private com.zero.votes.persistence.PollFacade pollFacade;
     private PaginationHelper pagination;
     private Poll poll;
-    private DataModel items = null;
     @ManagedProperty(value="#{param.organizerId}")
     private String organizerId;
 
@@ -136,24 +135,22 @@ public class OrganizerController implements Serializable {
         return getPagination().createPageDataModel();
     }
 
-    private void recreateModel() {
-        items = null;
-    }
-
     private void recreatePagination() {
         pagination = null;
     }
-
     public String next() {
         getPagination().nextPage();
-        recreateModel();
         return UrlsPy.ORGANIZER_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
-        recreateModel();
         return UrlsPy.ORGANIZER_LIST.getUrl(true);
+    }
+
+    public String page(String page) {
+        getPagination().setPage(Integer.valueOf(page));
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

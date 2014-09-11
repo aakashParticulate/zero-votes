@@ -31,7 +31,6 @@ import javax.faces.validator.ValidatorException;
 public class RecipientListController implements Serializable {
 
     private RecipientList current;
-    private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.RecipientListFacade ejbFacade;
     private PaginationHelper pagination;
@@ -79,7 +78,6 @@ public class RecipientListController implements Serializable {
     }
 
     public String prepareList() {
-        recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
@@ -127,7 +125,6 @@ public class RecipientListController implements Serializable {
         current = recipientList;
         performDestroy();
         recreatePagination();
-        recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
@@ -144,29 +141,22 @@ public class RecipientListController implements Serializable {
         return getPagination().createPageDataModel();
     }
 
-    private void recreateModel() {
-        items = null;
-    }
-
     private void recreatePagination() {
         pagination = null;
     }
 
     public String next() {
         getPagination().nextPage();
-        recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
-        recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 
     public String page(String page) {
         getPagination().setPage(Integer.valueOf(page));
-        recreateModel();
         return UrlsPy.RECIPIENTLIST_LIST.getUrl(true);
     }
 

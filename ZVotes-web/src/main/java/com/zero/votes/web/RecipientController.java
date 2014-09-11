@@ -30,7 +30,6 @@ import javax.inject.Named;
 public class RecipientController implements Serializable {
 
     private Recipient current;
-    private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.RecipientFacade ejbFacade;
     private RecipientList recipientList;
@@ -89,7 +88,6 @@ public class RecipientController implements Serializable {
 
     public String prepareList(RecipientList recipientList) {
         this.recipientList = recipientList;
-        recreateModel();
         recreatePagination();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
@@ -158,7 +156,6 @@ public class RecipientController implements Serializable {
         current = recipient;
         performDestroy();
         recreatePagination();
-        recreateModel();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
@@ -175,29 +172,22 @@ public class RecipientController implements Serializable {
         return getPagination().createPageDataModel();
     }
 
-    private void recreateModel() {
-        items = null;
-    }
-
     private void recreatePagination() {
         pagination = null;
     }
 
     public String next() {
         getPagination().nextPage();
-        recreateModel();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
-        recreateModel();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public String page(String page) {
         getPagination().setPage(Integer.valueOf(page));
-        recreateModel();
         return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 

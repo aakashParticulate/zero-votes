@@ -6,7 +6,6 @@ import com.zero.votes.persistence.entities.Item;
 import com.zero.votes.persistence.entities.ItemOption;
 import com.zero.votes.persistence.entities.ItemType;
 import com.zero.votes.web.util.JsfUtil;
-import com.zero.votes.web.util.PaginationHelper;
 import com.zero.votes.web.util.ZVotesUtils;
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,8 +18,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
@@ -31,13 +28,11 @@ import javax.inject.Named;
 public class ItemOptionController implements Serializable {
 
     private ItemOption current;
-    private DataModel items = null;
     private Item item;
     @EJB
     private com.zero.votes.persistence.ItemOptionFacade ejbFacade;
     @Inject
     private com.zero.votes.web.ItemController itemController;
-    private PaginationHelper pagination;
 
     public ItemOptionController() {
     }
@@ -56,28 +51,8 @@ public class ItemOptionController implements Serializable {
             current = updated_current;
         }
     }
-
-    public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper(10) {
-
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
-        }
-        return pagination;
-    }
-
     public String prepareList(Item item) {
         this.item = item;
-        recreateModel();
         return itemController.prepareEdit(item);
     }
 
@@ -152,8 +127,6 @@ public class ItemOptionController implements Serializable {
         } else {
             current = itemOption;
             performDestroy();
-            recreatePagination();
-            recreateModel();
         }
         return prepareList(item);
     }
@@ -165,30 +138,6 @@ public class ItemOptionController implements Serializable {
         } catch (Exception e) {
             ZVotesUtils.addInternationalizedErrorMessage("PersistenceErrorOccured");
         }
-    }
-
-    public DataModel getItems() {
-        return getPagination().createPageDataModel();
-    }
-
-    private void recreateModel() {
-        items = null;
-    }
-
-    private void recreatePagination() {
-        pagination = null;
-    }
-
-    public String next() {
-        getPagination().nextPage();
-        recreateModel();
-        return "List";
-    }
-
-    public String previous() {
-        getPagination().previousPage();
-        recreateModel();
-        return "List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

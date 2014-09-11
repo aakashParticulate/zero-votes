@@ -32,7 +32,6 @@ import javax.inject.Named;
 public class ItemController implements Serializable {
 
     private Item current;
-    private DataModel items = null;
     @EJB
     private com.zero.votes.persistence.ItemFacade ejbFacade;
     @EJB
@@ -82,7 +81,6 @@ public class ItemController implements Serializable {
 
     public String prepareList(Poll poll) {
         this.poll = poll;
-        recreateModel();
         return UrlsPy.ITEM_LIST.getUrl(true);
     }
     
@@ -132,7 +130,6 @@ public class ItemController implements Serializable {
         current = item;
         performDestroy();
         recreatePagination();
-        recreateModel();
         return UrlsPy.ITEM_LIST.getUrl(true);
     }
 
@@ -159,25 +156,24 @@ public class ItemController implements Serializable {
     public DataModel getItems() {
         return getPagination().createPageDataModel();
     }
-
-    private void recreateModel() {
-        items = null;
-    }
-
+    
     private void recreatePagination() {
         pagination = null;
     }
 
     public String next() {
         getPagination().nextPage();
-        recreateModel();
         return UrlsPy.ITEM_LIST.getUrl(true);
     }
 
     public String previous() {
         getPagination().previousPage();
-        recreateModel();
         return UrlsPy.ITEM_LIST.getUrl(true);
+    }
+
+    public String page(String page) {
+        getPagination().setPage(Integer.valueOf(page));
+        return UrlsPy.RECIPIENT_LIST.getUrl(true);
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
