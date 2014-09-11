@@ -63,6 +63,9 @@ public class DashboardController implements Serializable {
         return tokenFacade.countBy(fieldNames, values);
     }
 
+    /**
+     * Returns the current organizer.
+     */
     public Organizer refreshCurrentOrganizer() {
         FacesContext context = FacesContext.getCurrentInstance();
         UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);

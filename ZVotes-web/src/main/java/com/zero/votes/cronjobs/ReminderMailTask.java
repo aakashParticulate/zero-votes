@@ -5,6 +5,9 @@ import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.EMailer;
 import java.util.Locale;
 
+/**
+ * This task offers functionality to send a reminder mail.
+ */
 public class ReminderMailTask implements Runnable {
     
     private Poll poll;

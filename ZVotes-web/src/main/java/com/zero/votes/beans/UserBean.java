@@ -11,6 +11,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+/**
+ * Offers access to the current user
+ */
 @ManagedBean(name = "userBean")
 @SessionScoped
 public class UserBean implements Serializable {
@@ -22,6 +25,11 @@ public class UserBean implements Serializable {
     private LdapUser user;
     private Organizer organizer;
 
+    /**
+     * If user hasn't been set, a user is returned from ldapLogic with the id
+     * used for login. Else it returns user.
+     * @return 
+     */
     public LdapUser getUser() {
         if (user == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -41,6 +49,11 @@ public class UserBean implements Serializable {
         return this.getOrganizer().isAdmin();
     }
 
+    /**
+     * If organizer hasn't been set, an organizer is returned from ldapLogic with
+     * the id used for login. Else it returns organizer.
+     * @return 
+     */
     public Organizer getOrganizer() {
         if (organizer == null) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

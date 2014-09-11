@@ -7,16 +7,10 @@
 package com.zero.votes.persistence;
 
 import com.zero.votes.persistence.entities.Item;
-import com.zero.votes.persistence.entities.Organizer;
-import java.util.List;
-import javax.ejb.embeddable.EJBContainer;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**

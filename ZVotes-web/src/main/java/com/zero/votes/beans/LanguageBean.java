@@ -10,6 +10,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+/**
+ * Manages the locales, which offer multilanguage support
+ */
 @ManagedBean(name = "language")
 @SessionScoped
 public class LanguageBean implements Serializable {

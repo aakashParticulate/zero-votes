@@ -1,6 +1,10 @@
 package com.zero.votes.beans;
 
-public enum UrlsPy { // in memory of the awesome django urls routing
+/**
+ * It's the collection of urls to all navigable places of the website.
+ * in memory of the awesome django urls routing
+ */
+public enum UrlsPy {
 
     HOME("index.xhtml"),
     LOGIN("login.xhtml"),

@@ -72,6 +72,12 @@ public class AdminController implements Serializable {
         return getFacade().findAllBy("admin", 0);
     }
 
+    /**
+     * Revoking admin-rights of admin only if admin is not the current user
+     * himself.
+     * @param admin
+     * @return 
+     */
     public String remove(Organizer admin) {
         FacesContext context = FacesContext.getCurrentInstance();
         UserBean userBean = (UserBean) context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
@@ -94,6 +100,10 @@ public class AdminController implements Serializable {
         return UrlsPy.ADMIN_ADD.getUrl(true);
     }
     
+    /**
+     * Grants admin rights to the user with id = adminid.
+     * @return 
+     */
     public String addAdmin() {
         Organizer admin = getFacade().find(Long.valueOf(adminId));
         admin.setAdmin(true);

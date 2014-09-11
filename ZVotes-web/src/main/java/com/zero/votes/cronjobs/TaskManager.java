@@ -13,6 +13,10 @@ import javax.enterprise.concurrent.ManagedScheduledExecutorService;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
+/**
+ * Creates and manages tasks, which have to be scheduled and executed
+ * in sExecService.
+ */
 @Startup
 @Singleton
 public class TaskManager {

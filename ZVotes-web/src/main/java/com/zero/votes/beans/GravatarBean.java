@@ -6,6 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+/**
+ * Builds the gravatar icon made from one's email-address
+ */
 @ManagedBean
 @ApplicationScoped
 public class GravatarBean {

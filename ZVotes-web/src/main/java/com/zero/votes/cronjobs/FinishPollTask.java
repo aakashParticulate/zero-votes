@@ -4,6 +4,9 @@ import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 
+/**
+ * This task offers functionality to set a Poll to FINISHED
+ */
 public class FinishPollTask implements Runnable {
     
     private Poll poll;

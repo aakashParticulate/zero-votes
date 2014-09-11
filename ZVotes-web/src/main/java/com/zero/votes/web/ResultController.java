@@ -95,6 +95,11 @@ public class ResultController implements Serializable {
         return current.getTokens().size();
     }
     
+    /**
+     * Takes the current poll + preview token and decides, wether the results
+     * are displayed or not.
+     * @throws IOException 
+     */
     public void checkForInstance() throws IOException {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Long pollId = Long.valueOf((String) req.getParameter("poll"));

@@ -22,6 +22,15 @@ public class AdminFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
+    /**
+     * Filters the request concerning, what's defined in chain.
+     * In this case the user gets 404, if he isn't an admin.
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException 
+     */
     @Override
      public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;

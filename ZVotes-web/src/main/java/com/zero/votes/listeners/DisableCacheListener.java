@@ -17,6 +17,10 @@ public class DisableCacheListener implements PhaseListener
     {
     }
  
+    /**
+     * Sends the header in order to tell the browser to disable caching
+     * @param event 
+     */
     public void beforePhase(PhaseEvent event)
     {
         FacesContext facesContext = event.getFacesContext();

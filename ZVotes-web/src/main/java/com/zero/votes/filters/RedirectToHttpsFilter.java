@@ -16,6 +16,14 @@ public class RedirectToHttpsFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
+    /**
+     * Redirecting the user from http to https
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException 
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {

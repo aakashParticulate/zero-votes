@@ -21,6 +21,16 @@ public class EMailer {
     @Resource(lookup = "mail/uniko-mail")
     private Session mailSession;
 
+    /**
+     * Sends an information mail to the participant's email, that the poll has
+     * been started.
+     * @param poll
+     * @param participant
+     * @param locale
+     * @param url
+     * @param token
+     * @return 
+     */
     public boolean sendStartedMail(Poll poll, Participant participant, Locale locale, String url, String token) {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", locale);
@@ -47,6 +57,14 @@ public class EMailer {
         return true;
     }
     
+    /**
+     * Sends a mail to the participant in order to remind him of voting.
+     * @param poll
+     * @param participant
+     * @param locale
+     * @param url
+     * @return 
+     */
     public boolean sendReminderMail(Poll poll, Participant participant, Locale locale, String url){
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", locale);

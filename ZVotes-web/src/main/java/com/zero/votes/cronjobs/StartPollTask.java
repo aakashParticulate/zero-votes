@@ -4,6 +4,9 @@ import com.zero.votes.persistence.PollFacade;
 import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.persistence.entities.PollState;
 
+/**
+ * This task offers functionality to set a poll to STARTED.
+ */
 public class StartPollTask implements Runnable {
     
     private Poll poll;

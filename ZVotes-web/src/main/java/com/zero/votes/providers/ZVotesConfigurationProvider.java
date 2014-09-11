@@ -20,6 +20,11 @@ public class ZVotesConfigurationProvider extends HttpConfigurationProvider {
         return 10;
     }
 
+    /**
+     * Prettifying URLs
+     * @param context
+     * @return 
+     */
     @Override
     public Configuration getConfiguration(final ServletContext context) {
         return ConfigurationBuilder.begin()

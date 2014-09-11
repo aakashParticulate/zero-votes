@@ -7,8 +7,17 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Handles further msg-boxes for error- and information-msgs
+ */
 public class ZVotesUtils {
 
+    /**
+     * Adds a message with a box display dependent of the messageType with the
+     * message messageString.
+     * @param messageType
+     * @param messageString 
+     */
     public static void addInternationalizedMessage(Severity messageType, String messageString) {
         FacesContext context = FacesContext.getCurrentInstance();
         ResourceBundle bundle = ResourceBundle.getBundle("com.zero.votes.Locale", context.getViewRoot().getLocale());
@@ -17,6 +26,13 @@ public class ZVotesUtils {
         context.addMessage(null, msg);
     }
     
+    /**
+     * Adds a message with a box display dependent of the messageType with the
+     * message messageString. Also replaces all variables marked with $var$
+     * with corresponding values from replaceMap.
+     * @param messageType
+     * @param messageString 
+     */
     public static void addInternationalizedMessage(Severity messageType, String messageString, Map<String, String> replaceMap) {
         
         FacesContext context = FacesContext.getCurrentInstance();

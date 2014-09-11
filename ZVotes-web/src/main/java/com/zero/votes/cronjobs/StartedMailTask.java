@@ -5,6 +5,10 @@ import com.zero.votes.persistence.entities.Poll;
 import com.zero.votes.web.util.EMailer;
 import java.util.Locale;
 
+/**
+ * This task offers the functionality to send an information mail,
+ * that a poll has been started.
+ */
 public class StartedMailTask implements Runnable {
     
     private Poll poll;

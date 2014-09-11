@@ -122,6 +122,10 @@ public class ItemController implements Serializable {
         return UrlsPy.ITEM_EDIT.getUrl(true);
     }
 
+    /**
+     * If the item's type is not M_OF_N, M is set to 1. Updates the item
+     * in database.
+     */
     public String update() {
         if (poll.getPollState().equals(PollState.PREPARING)) {
             try {
@@ -208,6 +212,11 @@ public class ItemController implements Serializable {
         return ItemType.values();
     }
     
+    /**
+     * If the item type is YES_NO, then answer possibilities are set
+     * to yes and no.
+     * @param current 
+     */
     public void optionTest(Item current) {
         if (current.getType().equals(ItemType.YES_NO)) {
             List<ItemOption> options = current.getOptions();
@@ -229,6 +238,10 @@ public class ItemController implements Serializable {
         }
     }
     
+    /**
+     * If item type is changed and the new type isn't M_OF_N, M is set to 1
+     * @param e 
+     */
     public void processTypeChange(ValueChangeEvent e) {
         ItemType itemType = (ItemType) e.getNewValue();
         current.setType(itemType);

@@ -6,14 +6,20 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Only a logout method is needed, login is handled via security-constraints
+ * and a LDAP realm.
+ */
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 4864684684864L;
     
-    // Only a logout method is needed, login is handled via security-constraints
-    // and a LDAP realm.
+    /**
+     * Invalides the user's session and sends him back to the index page.
+     * @return 
+     */
     public String doLogout() {
 
         FacesContext context = FacesContext.getCurrentInstance();
