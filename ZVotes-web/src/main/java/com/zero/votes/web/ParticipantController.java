@@ -152,6 +152,7 @@ public class ParticipantController implements Serializable {
 
     public String prepareEdit(Participant participant) {
         current = participant;
+        refresh();
         return UrlsPy.PARTICIPANT_EDIT.getUrl(true);
     }
 

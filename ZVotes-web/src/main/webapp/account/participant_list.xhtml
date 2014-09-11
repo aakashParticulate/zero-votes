@@ -44,6 +44,9 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
+            <ui:include src="/WEB-INF/templates/pagination.xhtml">
+                <ui:param name="controller" value="#{participantController}" />
+            </ui:include>
             <h:commandLink action="#{participantController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateParticipant}" escape="False" /></h:commandLink>
             <h:outputText value=" " />
             <h:commandLink action="#{participantController.prepareImport}" styleClass="btn btn-success"><h:outputText value="#{icons.import} #{msg.ImportRecipientList}" escape="False" /></h:commandLink>

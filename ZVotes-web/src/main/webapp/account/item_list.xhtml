@@ -36,6 +36,9 @@
                     </h:dataTable>
                 </div>
             </h:panelGroup>
+            <ui:include src="/WEB-INF/templates/pagination.xhtml">
+                <ui:param name="controller" value="#{itemController}" />
+            </ui:include>
             <h:commandLink action="#{itemController.prepareCreate}" styleClass="btn btn-primary"><h:outputText value="#{icons.create} #{msg.CreateItem}" escape="False" /></h:commandLink>
             <ui:include src="/WEB-INF/templates/delete_modal.xhtml" />
         </h:form>
